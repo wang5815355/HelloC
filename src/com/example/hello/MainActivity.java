@@ -1,15 +1,22 @@
 package com.example.hello;
 
+import com.example.base.BaseUi;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseUi {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        //判断当前用户是否登录
+        this.forward(IndexActivity.class);
+        //控件对象初始化，及记住密码
+        
     }
 
 
