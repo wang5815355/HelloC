@@ -1,9 +1,9 @@
 package com.example.hello;
 
+import com.example.base.BaseAuth;
 import com.example.base.BaseUi;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.Menu;
 
 public class MainActivity extends BaseUi {
@@ -14,7 +14,9 @@ public class MainActivity extends BaseUi {
         setContentView(R.layout.activity_main);
         
         //判断当前用户是否登录
-        this.forward(IndexActivity.class);
+        if(BaseAuth.isLogin()){//若登录则跳转
+        	this.forward(IndexActivity.class);
+        }
         //控件对象初始化，及记住密码
         
     }

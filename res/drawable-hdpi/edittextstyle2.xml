@@ -3,7 +3,7 @@
 <!-- 连框颜色值 -->
 <item> 
       <shape> 
-              <solid android:color="#c0ffffff" /> 
+              <solid android:color="#90ffffff" /> 
               <corners    
 		          android:topLeftRadius="0dp"  
 		          android:topRightRadius="0dp"
@@ -12,7 +12,7 @@
       </shape> 
 </item> 
 <!-- 主体背景颜色值 -->
-<item android:top="2dp" android:bottom="2dp" android:right="2dp" android:left="2dp"> 
+<item android:top="1dp" android:bottom="1dp" android:right="1dp" android:left="1dp"> 
      <shape> 
            <solid android:color="#66a9ef" />
            
