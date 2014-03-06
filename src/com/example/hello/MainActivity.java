@@ -48,25 +48,6 @@ public class MainActivity extends BaseUi {
        
     }
     
-    /**
-     * 登录处理
-     * @author wangkai
-     */
-    private void doTaskLogin() {
-		app.setLong(System.currentTimeMillis());
-		if (editText.length() > 0 && editPass.length() > 0) {
-			HashMap<String, String> urlParams = new HashMap<String, String>();
-			urlParams.put("name", editText.getText().toString());//账号
-			urlParams.put("pass", editPass.getText().toString());//密码
-			
-			try {
-				this.doTaskAsync(C.task.login, C.api.login, urlParams);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
-	}
     
 
     @Override
