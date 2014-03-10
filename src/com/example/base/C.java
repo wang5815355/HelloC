@@ -12,7 +12,7 @@ public final class C {
 	}
 	
 	public static final class api {
-		public static final String base				= "http://192.168.1.2:8001";
+		public static final String base				= "http://www.hello008.com";//应用后台域名
 		public static final String index			= "/index/index";
 		public static final String login			= "/index/login";
 		public static final String logout			= "/index/logout";
