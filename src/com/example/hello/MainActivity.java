@@ -5,13 +5,18 @@ import java.util.Map;
 
 import org.apache.http.protocol.HTTP;
 
+import com.example.base.BaseMessage;
 import com.example.base.C;
 import com.example.base.BaseAuth;
 import com.example.base.BaseUi;
 import com.example.base.BaseApp;
+import com.example.model.Customer;
 import com.example.util.AppClient;
+import com.example.util.AppUtil;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +29,7 @@ public class MainActivity extends BaseUi {
 	private EditText editPass;//登录密码
 	private Button logButton;//登录按钮
 	private String logResult;//登录验证返回字符串
+	BaseMessage str;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +50,6 @@ public class MainActivity extends BaseUi {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Toast toast = Toast.makeText(MainActivity.this,"你好",Toast.LENGTH_SHORT);
 				//获取当前用户登录账号以及密码
 				String username = editText.getText().toString();
 				String password = editPass.getText().toString();
@@ -52,41 +57,52 @@ public class MainActivity extends BaseUi {
 				HashMap<String, String> map = new HashMap<String, String>();
 				map.put("username",username );
 				map.put("password",password);
-				
-				AppClient client = new AppClient("/Public/register",HTTP.UTF_8,1);//客户端初始化
-				try {
-					logResult = client.post(map);
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				AnsyTry anys=new AnsyTry(map);
+				anys.execute();
 			}
 		});
         
-      //登录按钮点击事件
-//       OnClickListener onClickListener = new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				switch(v.getId()){
-//					case R.id.logbutton:
-//						
-//						
-//					break;
-//				}
-//			}
-//       };
-       
-       
     }
     
-    
+    class AnsyTry extends AsyncTask<String, HashMap<String, String>, Boolean>{
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+   	 HashMap<String, String> hmap = null;
+      
+       public AnsyTry(HashMap<String, String> hmap) {
+           super();
+           this.hmap = hmap;
+       }
+
+       @Override
+       protected Boolean doInBackground(String... params) {
+           // TODO Auto-generated method stub
+       	AppClient client = new AppClient("/Public/register");//客户端初始化
+			try {
+				logResult = client.post(hmap);
+				BaseMessage str = AppUtil.getMessage(logResult);
+				str.getResult();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+           return true;
+       }
+
+       @Override
+       protected void onPostExecute(Boolean result) {
+       	Toast.makeText(MainActivity.this,logResult,Toast.LENGTH_SHORT).show();
+       }
+
+       @Override
+       protected void onPreExecute() {
+           // TODO Auto-generated method stub\
+           System.out.println("pretExecute------");
+           super.onPreExecute();
+       }
+
+       protected void onProgressUpdate(Integer... values) {
+           // TODO Auto-generated method stub
+       }
+
+    } 
     
 }

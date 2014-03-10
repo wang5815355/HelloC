@@ -120,6 +120,7 @@ public class AppClient {
 			// send post request
 			HttpResponse httpResponse = httpClient.execute(httpPost);
 			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				Log.w("AppClient.post.result", "222");
 				String httpResult = resultFilter(httpResponse.getEntity());
 				Log.w("AppClient.post.result", httpResult);
 				return httpResult;
