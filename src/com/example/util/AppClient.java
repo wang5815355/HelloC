@@ -145,6 +145,11 @@ public class AppClient {
 		return httpGet;
 	}
 	
+	/**
+	 * 数据通道压缩 gzip
+	 * @param httpPost
+	 * @return
+	 */
 	private HttpPost headerFilter (HttpPost httpPost) {
 		switch (this.compress) {
 			case CS_GZIP:
