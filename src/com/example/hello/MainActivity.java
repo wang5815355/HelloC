@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.protocol.HTTP;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import com.example.base.BaseMessage;
 import com.example.base.C;
@@ -67,6 +70,8 @@ public class MainActivity extends BaseUi {
     class AnsyTry extends AsyncTask<String, HashMap<String, String>, Boolean>{
 
    	 HashMap<String, String> hmap = null;
+   	 JSONObject jo;
+   	 JSONTokener jsonParser;
       
        public AnsyTry(HashMap<String, String> hmap) {
            super();
@@ -79,8 +84,11 @@ public class MainActivity extends BaseUi {
        	AppClient client = new AppClient("/Public/register");//客户端初始化
 			try {
 				logResult = client.post(hmap);
-				BaseMessage str = AppUtil.getMessage(logResult);
-				str.getResult();
+				//json解析
+				jsonParser = new JSONTokener(logResult);  
+				jo = (JSONObject) jsonParser.nextValue();
+//				BaseMessage str = AppUtil.getMessage(logResult);
+//				str.getResult();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -89,7 +97,14 @@ public class MainActivity extends BaseUi {
 
        @Override
        protected void onPostExecute(Boolean result) {
-       	Toast.makeText(MainActivity.this,logResult,Toast.LENGTH_SHORT).show();
+    	String info = null;
+		try {
+			info = jo.getString("info");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       	Toast.makeText(MainActivity.this,info,Toast.LENGTH_SHORT).show();
        }
 
        @Override
