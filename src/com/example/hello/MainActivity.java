@@ -98,13 +98,21 @@ public class MainActivity extends BaseUi {
        @Override
        protected void onPostExecute(Boolean result) {
     	String info = null;
+    	String status = null;
 		try {
 			info = jo.getString("info");
+			status = jo.getString("status");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-       	Toast.makeText(MainActivity.this,info,Toast.LENGTH_SHORT).show();
+		
+		if(status != "3"){//当登录不成功
+			Toast.makeText(MainActivity.this,info,Toast.LENGTH_SHORT).show();
+		}else{
+			
+		}
+		
        }
 
        @Override
