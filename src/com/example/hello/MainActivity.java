@@ -17,8 +17,11 @@ import com.example.model.Customer;
 import com.example.util.AppClient;
 import com.example.util.AppUtil;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,20 +42,34 @@ public class MainActivity extends BaseUi {
 	private String logResult;//登录验证返回字符串
 	BaseMessage str;
 	
+	static private MainActivity main = null;
+	
+	static public MainActivity getInstance () {
+		if (MainActivity.main == null) {
+			MainActivity.main = new MainActivity();
+		}
+		return MainActivity.main;
+	}
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);//设置模板界面
-        
-        //判断当前用户是否登录
-        if(BaseAuth.isLogin()){//若登录则跳转
-        	this.forward(IndexActivity.class);
-        }
-        
+        SharedPreferences setting;
         //控件对象初始化，及记住密码
         editText = (EditText) this.findViewById(R.id.editText1);//登陆账号
         editPass = (EditText) this.findViewById(R.id.editText2);//登录密码
         logButton = (Button) this.findViewById(R.id.logbutton);
+        
+        //判断当前用户是否登录
+        setting = getPreferences(Context.MODE_PRIVATE);
+        Boolean islogin = setting.getBoolean("islogin",false);
+        if(BaseAuth.isLogin() || islogin){//若登录则跳转
+        	this.forward(IndexActivity.class);
+        }
+        
+        editText.setText(setting.getString("username", ""));
+        editPass.setText(setting.getString("password", ""));
         
         logButton.setOnClickListener(new OnClickListener() {
 			
@@ -101,6 +118,7 @@ public class MainActivity extends BaseUi {
    	 JSONObject jo;
    	 JSONTokener jsonParser;
    	 Dialog dialog;
+   	 SharedPreferences setting;
       
        public AnsyTry(HashMap<String, String> hmap,Dialog dialog) {
            super();
@@ -127,6 +145,7 @@ public class MainActivity extends BaseUi {
            return dialog;
        }
 
+       @SuppressLint("CommitPrefEdits")
        @Override
        protected void onPostExecute(Dialog dialog) {
     	String info = null;
@@ -141,9 +160,17 @@ public class MainActivity extends BaseUi {
 		
 		if(status.equals("3")){//当登录成功
 			BaseAuth.setLogin(true);
-			new MainActivity().forward(IndexActivity.class);
+			setting = getPreferences(Context.MODE_PRIVATE);
+			SharedPreferences.Editor editor = setting.edit();
+			editor.putBoolean("islogin", true);
+			editor.putString("username",hmap.get("username"));
+			editor.putString("password",hmap.get("password"));
+			editor.commit(); 
+			
+			MainActivity.this.forward(IndexActivity.class);
 			Toast.makeText(MainActivity.this,status,Toast.LENGTH_SHORT).show();
 		}else{//登录不成功
+			BaseAuth.setLogin(true);
 			dialog.cancel();
 			Toast.makeText(MainActivity.this,info,Toast.LENGTH_SHORT).show();
 		}
