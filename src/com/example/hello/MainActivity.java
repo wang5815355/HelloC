@@ -17,12 +17,17 @@ import com.example.model.Customer;
 import com.example.util.AppClient;
 import com.example.util.AppUtil;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -43,6 +48,7 @@ public class MainActivity extends BaseUi {
         if(BaseAuth.isLogin()){//若登录则跳转
         	this.forward(IndexActivity.class);
         }
+        
         //控件对象初始化，及记住密码
         editText = (EditText) this.findViewById(R.id.editText1);//登陆账号
         editPass = (EditText) this.findViewById(R.id.editText2);//登录密码
@@ -60,43 +66,69 @@ public class MainActivity extends BaseUi {
 				HashMap<String, String> map = new HashMap<String, String>();
 				map.put("username",username );
 				map.put("password",password);
-				AnsyTry anys=new AnsyTry(map);
+				
+				//创建遮罩dialog
+				Dialog dialog  = new Dialog(MainActivity.this, R.style.mydialog);
+				dialog.setContentView(R.layout.main_dialog);  
+				LayoutParams lay = dialog.getWindow().getAttributes();  
+				setParams(lay);//设置遮罩参数  
+				dialog.show();
+				
+				AnsyTry anys=new AnsyTry(map,dialog);
 				anys.execute();
 			}
+			
+			/**
+		     * 设置遮罩dialog样式
+		     * @author wangkai
+		     * */
+		    private void setParams(LayoutParams lay) {  
+		    	 DisplayMetrics dm = new DisplayMetrics();  
+		    	 getWindowManager().getDefaultDisplay().getMetrics(dm);  
+		    	 Rect rect = new Rect();  
+		    	 View view = getWindow().getDecorView();  
+		    	 view.getWindowVisibleDisplayFrame(rect);  
+		    	 lay.height = dm.heightPixels - rect.top;  
+		    	 lay.width = dm.widthPixels;  
+		     }  
+	
 		});
         
     }
     
-    class AnsyTry extends AsyncTask<String, HashMap<String, String>, Boolean>{
-
+    class AnsyTry extends AsyncTask<String, HashMap<String, String>, Dialog>{
    	 HashMap<String, String> hmap = null;
    	 JSONObject jo;
    	 JSONTokener jsonParser;
+   	 Dialog dialog;
       
-       public AnsyTry(HashMap<String, String> hmap) {
+       public AnsyTry(HashMap<String, String> hmap,Dialog dialog) {
            super();
            this.hmap = hmap;
+           this.dialog = dialog;
        }
-
+       
        @Override
-       protected Boolean doInBackground(String... params) {
+       protected Dialog doInBackground(String... params) {
            // TODO Auto-generated method stub
        	AppClient client = new AppClient("/Public/register");//客户端初始化
 			try {
 				logResult = client.post(hmap);
+				
 				//json解析
 				jsonParser = new JSONTokener(logResult);  
 				jo = (JSONObject) jsonParser.nextValue();
 //				BaseMessage str = AppUtil.getMessage(logResult);
 //				str.getResult();
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-           return true;
+           return dialog;
        }
 
        @Override
-       protected void onPostExecute(Boolean result) {
+       protected void onPostExecute(Dialog dialog) {
     	String info = null;
     	String status = null;
 		try {
@@ -107,10 +139,13 @@ public class MainActivity extends BaseUi {
 			e.printStackTrace();
 		}
 		
-		if(status != "3"){//当登录不成功
+		if(status.equals("3")){//当登录成功
+			BaseAuth.setLogin(true);
+			new MainActivity().forward(IndexActivity.class);
+			Toast.makeText(MainActivity.this,status,Toast.LENGTH_SHORT).show();
+		}else{//登录不成功
+			dialog.cancel();
 			Toast.makeText(MainActivity.this,info,Toast.LENGTH_SHORT).show();
-		}else{
-			
 		}
 		
        }
