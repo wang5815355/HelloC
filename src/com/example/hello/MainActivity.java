@@ -16,6 +16,7 @@ import com.example.base.BaseApp;
 import com.example.model.Customer;
 import com.example.util.AppClient;
 import com.example.util.AppUtil;
+import com.example.util.HttpUtil;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -60,11 +61,16 @@ public class MainActivity extends BaseUi {
         editText = (EditText) this.findViewById(R.id.editText1);//登陆账号
         editPass = (EditText) this.findViewById(R.id.editText2);//登录密码
         logButton = (Button) this.findViewById(R.id.logbutton);
+        final BaseApp baseApp = (BaseApp) this.getApplicationContext();
         
         //判断当前用户是否登录
-        setting = getPreferences(Context.MODE_PRIVATE);
+        setting = getPreferences(Context.MODE_APPEND);
+		SharedPreferences.Editor editor = setting.edit();
+        editor.putBoolean("islogin",false);
+        BaseAuth.setLogin(false);
         Boolean islogin = setting.getBoolean("islogin",false);
-        if(BaseAuth.isLogin() || islogin){//若登录则跳转
+        editor.commit();
+        if(BaseAuth.isLogin() != false || islogin != false){//若登录则跳转
         	this.forward(IndexActivity.class);
         }
         
@@ -75,13 +81,19 @@ public class MainActivity extends BaseUi {
 			
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
+				//判断网络连接状态
+				Integer netType = HttpUtil.getNetType(MainActivity.this);
+				if(netType == HttpUtil.NONET_INT){//网络未连接
+					Toast.makeText(MainActivity.this,"网络未连接,请查看",Toast.LENGTH_SHORT).show();
+					return;
+				}
+				
 				//获取当前用户登录账号以及密码
 				String username = editText.getText().toString();
 				String password = editPass.getText().toString();
 				
 				HashMap<String, String> map = new HashMap<String, String>();
-				map.put("username",username );
+				map.put("username",username);
 				map.put("password",password);
 				
 				//创建遮罩dialog
@@ -150,9 +162,11 @@ public class MainActivity extends BaseUi {
        protected void onPostExecute(Dialog dialog) {
     	String info = null;
     	String status = null;
+    	String sid = null;
 		try {
 			info = jo.getString("info");
 			status = jo.getString("status");
+			sid = jo.getString("sid");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -167,8 +181,10 @@ public class MainActivity extends BaseUi {
 			editor.putString("password",hmap.get("password"));
 			editor.commit(); 
 			
+			Customer customer = Customer.getInstance();
+			customer.setSid(sid);//设置sessionid
 			MainActivity.this.forward(IndexActivity.class);
-			Toast.makeText(MainActivity.this,status,Toast.LENGTH_SHORT).show();
+//			Toast.makeText(MainActivity.this,status,Toast.LENGTH_SHORT).show();
 		}else{//登录不成功
 			BaseAuth.setLogin(true);
 			dialog.cancel();

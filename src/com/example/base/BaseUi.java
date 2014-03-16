@@ -3,6 +3,7 @@ package com.example.base;
 import com.example.base.BaseApp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 
 public class BaseUi extends Activity{
@@ -16,6 +17,7 @@ public class BaseUi extends Activity{
 		this.finish();
 	}
 	
-	
-	
+	public Context getContext () {
+		return this;
+	}
 }

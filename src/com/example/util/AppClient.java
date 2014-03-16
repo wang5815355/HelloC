@@ -102,6 +102,13 @@ public class AppClient {
 	public String post (HashMap urlParams) throws Exception {
 		try {
 			HttpPost httpPost = headerFilter(new HttpPost(this.apiUrl));
+			
+			//发送SessionId
+			String PHPSESSID = AppUtil.getSessionId();
+			if(PHPSESSID != null){
+				httpPost.setHeader("Cookie", "PHPSESSID=" + PHPSESSID);
+			}
+			
 			List<NameValuePair> postParams = new ArrayList<NameValuePair>();
 			// get post parameters
 			Iterator it = urlParams.entrySet().iterator();
