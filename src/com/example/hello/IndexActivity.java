@@ -20,6 +20,7 @@ import com.example.base.*;
 import com.example.hello.MainActivity.AnsyTry;
 import com.example.model.Customer;
 import com.example.util.AppClient;
+import com.example.util.JsonParser;
 
 public class IndexActivity extends Activity{
 	private String friendResult;//返回好友信息
@@ -44,10 +45,11 @@ public class IndexActivity extends Activity{
 	    }
 	    
 	    class AnsyTry extends AsyncTask<String, HashMap<String, String>, String>{
-	      	 JSONObject jo;
-	      	 JSONTokener jsonParser;
-	      	 SharedPreferences setting;
-	      	 HashMap<String, String> map;
+	      	  JSONObject jo;
+	      	  JSONTokener jsonParser;
+	      	  SharedPreferences setting;
+	      	  HashMap<String, String> map;
+	      	  
 	         
 	          public AnsyTry(HashMap<String, String> map) {
 	              super();
@@ -62,8 +64,7 @@ public class IndexActivity extends Activity{
 	   				friendResult = client.post(map);
 	   				
 	   				//json解析
-	   				jsonParser = new JSONTokener(friendResult);  
-	   				jo = (JSONObject) jsonParser.nextValue();
+	   				friendResult = JsonParser.parseJsonList(friendResult);
 //	   				BaseMessage str = AppUtil.getMessage(logResult);
 //	   				str.getResult();
 	   				
