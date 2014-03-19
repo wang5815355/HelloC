@@ -1,6 +1,8 @@
 package com.example.hello;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,7 +15,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.example.base.*;
@@ -44,7 +49,7 @@ public class IndexActivity extends Activity{
 	        return true;
 	    }
 	    
-	    class AnsyTry extends AsyncTask<String, HashMap<String, String>, String>{
+	    class AnsyTry extends AsyncTask<String, HashMap<String, String>, List<Map<String, Object>>>{
 	      	  JSONObject jo;
 	      	  JSONTokener jsonParser;
 	      	  SharedPreferences setting;
@@ -57,32 +62,39 @@ public class IndexActivity extends Activity{
 	          }
 	          
 	          @Override
-	          protected String doInBackground(String... params) {
+	          /**
+	           * 网络耗时操作
+	           */
+	          protected List<Map<String, Object>> doInBackground(String... params) {
 	              // TODO Auto-generated method stub
-	          	AppClient client = new AppClient("/Index/queryMyFriend");//客户端初始化
-	   			try {
-	   				friendResult = client.post(map);
-	   				
-	   				//json解析
-	   				friendResult = JsonParser.parseJsonList(friendResult);
-//	   				BaseMessage str = AppUtil.getMessage(logResult);
-//	   				str.getResult();
-	   				
-	   			} catch (Exception e) {
-	   				e.printStackTrace();
-	   			}
-	              return "1";
+		        	List<Map<String, Object>> friends = null;
+		          	AppClient client = new AppClient("/Index/queryMyFriend");//客户端初始化
+		   			try {
+		   				//网络请求
+		   				friendResult = client.post(map);
+		   				//Json解析
+		   				friends = JsonParser.parseJsonList(friendResult);
+		   			} catch (Exception e) {
+		   				e.printStackTrace();
+		   			}
+		              return friends;
 	          }
 
 	          @SuppressLint("CommitPrefEdits")
 	          @Override
-	          protected void onPostExecute(String str) {
-		       	String info = null;
-		       	String status = null;
-		       	String sid = null;
-		       	
-		   		
-		   		Toast.makeText(IndexActivity.this,friendResult,Toast.LENGTH_LONG).show();
+	          /**
+	           * 执行ui变更操作
+	           */
+	          protected void onPostExecute(List<Map<String, Object>> friends) {
+	        	    //创建Simpleadapter
+	   				SimpleAdapter sadapter = new SimpleAdapter( IndexActivity.this,
+	   														   friends, 
+	   														   R.layout.index, 
+	   														   new String[]{"uname","uphone"},
+	   														   new int[]{R.id.uname,R.id.uphone}) ;
+	   				ListView list = (ListView) findViewById(R.id.friendlist);
+	   				list.setAdapter(sadapter);
+//		   		    Toast.makeText(IndexActivity.this,friendResult,Toast.LENGTH_LONG).show();
 		      }
 	
 		          @Override

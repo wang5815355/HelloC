@@ -1,7 +1,9 @@
 package com.example.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -10,20 +12,24 @@ import org.json.JSONObject;
 import com.example.model.Friend;
 
 public class JsonParser {
-	//解析多条JSON数据
-	public static List parseJsonList(String json){
-		String s = null;
-		List<Friend> friends = new ArrayList<Friend>(); //好友姓名集合
-		Friend friend = null;
+	
+	//查询当前登录用户好友数据 json解析
+	public static List<Map<String, Object>> parseJsonList(String json){
+		String uname = null;//好友名称
+		String uphone = null;//好友手机号码
+		List<Map<String, Object>> friends = null;
 		
 		try {
 				JSONArray jsa = new JSONObject(json).getJSONArray("info");
-				
+				friends = new ArrayList<Map<String,Object>>();
 				for(int i = 0; i<jsa.length();i++){
-					//创建好友对象
-					
 					JSONObject jso = (JSONObject)jsa.opt(i);
-					s = jso.getString("uname1");
+					uname = jso.getString("uname1");
+					uphone = jso.getString("uphonenumber1");
+					Map<String, Object> friend = new HashMap<String, Object>();
+					friend.put("uname",uname);
+					friend.put("uphone",uphone);
+					friends.add(friend);
 				}
 		} catch (JSONException e) {
 			e.printStackTrace();
