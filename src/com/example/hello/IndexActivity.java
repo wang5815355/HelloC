@@ -13,12 +13,16 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.SimpleAdapter.ViewBinder;
 import android.widget.Toast;
 
 import com.example.base.*;
@@ -95,6 +99,22 @@ public class IndexActivity extends Activity{
 	   				ListView list = (ListView) findViewById(R.id.friendlist);
 	   				list.setAdapter(sadapter);
 //		   		    Toast.makeText(IndexActivity.this,friendResult,Toast.LENGTH_LONG).show();
+	   				
+	   				//simpleadapter 处理加载网络图片问题
+	   				sadapter.setViewBinder(new ViewBinder() {    
+                        public boolean setViewValue(  
+                                            View view,   
+                                            Object data,    
+                                         String textRepresentation) {    
+                            //判断是否为我们要处理的对象    
+                            if(view instanceof ImageView  && data instanceof Bitmap){    
+                                ImageView iv = (ImageView) view;    
+                                iv.setImageBitmap((Bitmap) data);    
+                                return true;    
+                            }else    
+                            return false;    
+                        }    
+                    });    
 		      }
 	
 		          @Override
