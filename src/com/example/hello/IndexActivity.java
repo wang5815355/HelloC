@@ -108,8 +108,8 @@ public class IndexActivity extends Activity{
                                          String textRepresentation) {    
                             //判断是否为我们要处理的对象    
                             if(view instanceof ImageView  && data instanceof Bitmap){    
-                                ImageView iv = (ImageView) view;    
-                                iv.setImageBitmap((Bitmap) data);    
+                                ImageView iv = (ImageView) view ;    
+                                iv.setImageBitmap((Bitmap) data) ;    
                                 return true;    
                             }else    
                             return false;    
