@@ -94,8 +94,8 @@ public class IndexActivity extends Activity{
 	   				SimpleAdapter sadapter = new SimpleAdapter( IndexActivity.this,
 	   														   friends, 
 	   														   R.layout.index, 
-	   														   new String[]{"uname","uphone"},
-	   														   new int[]{R.id.uname,R.id.uphone}) ;
+	   														   new String[]{"faceimg","uname","uphone"},
+	   														   new int[]{R.id.faceimg,R.id.uname,R.id.uphone});
 	   				ListView list = (ListView) findViewById(R.id.friendlist);
 	   				list.setAdapter(sadapter);
 //		   		    Toast.makeText(IndexActivity.this,friendResult,Toast.LENGTH_LONG).show();
@@ -111,7 +111,7 @@ public class IndexActivity extends Activity{
                                 ImageView iv = (ImageView) view ;    
                                 iv.setImageBitmap((Bitmap) data) ;    
                                 return true;    
-                            }else    
+                            }else 
                             return false;    
                         }    
                     });    

@@ -7,5 +7,6 @@
     <string name="loginbutton">登 录</string>
     <string name="account">邮箱账号</string>
     <string name="password">登录密码</string>
+    <string name="faceDescription">好友头像</string>
 
 </resources>
