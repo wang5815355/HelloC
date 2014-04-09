@@ -79,6 +79,9 @@ public class BaseUi extends Activity{
 		handler.sendMessage(m);
 	}
 	
+	public void setHandler (BaseHandler handler) {
+		this.handler = handler;
+	}
 	
 	public Context getContext () {
 		return this;
