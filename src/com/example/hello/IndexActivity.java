@@ -8,34 +8,29 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.Menu;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.SimpleAdapter.ViewBinder;
 import android.widget.Toast;
 
 import com.example.base.BaseHandler;
 import com.example.base.BaseTask;
 import com.example.base.BaseUi;
+import com.example.list.FriendList;
 import com.example.util.AppClient;
 import com.example.util.JsonParser;
 
 public class IndexActivity extends BaseUi{
 	private String friendResult;//返回好友信息
-	private SimpleAdapter sadapter;
+//	private SimpleAdapter sadapter;
+	private FriendList friendList;
 	
 	 @Override
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.index);
-	        // set handler
-			this.setHandler(new IndexHandler(this));
 	        
 	        HashMap<String, String> map = new HashMap<String, String>();
 	        map.put("pagenum","1");
@@ -46,7 +41,6 @@ public class IndexActivity extends BaseUi{
 
 	    @Override
 	    public boolean onCreateOptionsMenu(Menu menu) {
-	        // Inflate the menu; this adds items to the action bar if it is present.
 	        getMenuInflater().inflate(R.menu.main, menu);
 	        return true;
 	    }
@@ -75,7 +69,6 @@ public class IndexActivity extends BaseUi{
 		   				friendResult = client.post(map);
 		   				//JSON 解析
 		   				friends = JsonParser.parseJsonList(friendResult);
-		   				loadImage("");
 		   				for (Map<String, Object> friend : friends) {
 							loadImage("http://www.hello008.com/Public/Uploads/"+(String)friend.get("faceimgurl"));
 						}
@@ -90,31 +83,12 @@ public class IndexActivity extends BaseUi{
 	           * 执行ui变更操作
 	           */
 	          protected void onPostExecute(List<Map<String, Object>> friends) {
-	        	    //创建 Simpleadapter
-	   				sadapter = new SimpleAdapter( IndexActivity.this,
-	   														   friends, 
-	   														   R.layout.index, 
-	   														   new String[]{"faceimg","uname","uphone"},
-	   														   new int[]{R.id.faceimg,R.id.uname,R.id.uphone});
+	        	    //自定义adapter
+	        	  	friendList = new FriendList(IndexActivity.this, friends);
 	   				ListView list = (ListView) findViewById(R.id.friendlist);
-	   				list.setAdapter(sadapter);
+	   				list.setAdapter(friendList);
 //		   		    Toast.makeText(IndexActivity.this,friendResult,Toast.LENGTH_LONG).show();
-	   				
-	   				//Simpleadapter 处理加载网络图片问题
-	   				sadapter.setViewBinder(new ViewBinder() {    
-                        public boolean setViewValue(  
-                                            View view,   
-                                            Object data,    
-                                         String textRepresentation) {    
-                            //判断是否为我们要处理的对象    
-                            if(view instanceof ImageView  && data instanceof Bitmap){    
-                                ImageView iv = (ImageView) view ;    
-                                iv.setImageBitmap((Bitmap) data) ;    
-                                return true;    
-                            }else 
-                            return false;    
-                        }    
-                    }); 
+	   				IndexActivity.this.setHandler(new IndexHandler(IndexActivity.this, friendList));
 	   				
 		      }
 	
@@ -129,10 +103,17 @@ public class IndexActivity extends BaseUi{
 		          }
 
 	       } 
-	    
+	  
+	  /**
+	   * 图片异步下砸成功后更新ui 
+	   */
 	  private class IndexHandler extends BaseHandler {
-			public IndexHandler(BaseUi ui) {
+//		  	SimpleAdapter sadapter;
+		  	private FriendList friendList;
+		  	
+			public IndexHandler(BaseUi ui,FriendList friendList) {
 				super(ui);
+				this.friendList = friendList;
 			}
 			@Override
 			public void handleMessage(Message msg) {
@@ -140,12 +121,11 @@ public class IndexActivity extends BaseUi{
 				try {
 					switch (msg.what) {
 						case BaseTask.LOAD_IMAGE:
-							sadapter.notifyDataSetChanged();
-							break;
+							friendList.notifyDataSetChanged();
+						break;
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
-					Toast.makeText(IndexActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
+					Toast.makeText(IndexActivity.this,e.toString(),Toast.LENGTH_LONG).show();
 				}
 			}
 		}

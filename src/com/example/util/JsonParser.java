@@ -8,10 +8,6 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.graphics.Bitmap;
-
-import com.example.util.AppCache;
 import com.example.base.BaseUi;
 
 public class JsonParser extends BaseUi{
@@ -24,7 +20,7 @@ public class JsonParser extends BaseUi{
 		String uname = null;//好友名称
 		String uphone = null;//好友手机号码
 		String faceimgurl = null;//好友头像图片URL
-		Bitmap faceimg = null;
+//		Bitmap faceimg = null;
 		List<Map<String, Object>> friends = null;
 		
 		try {
@@ -37,11 +33,10 @@ public class JsonParser extends BaseUi{
 					faceimgurl = jso.getString("faceimage1");
 					
 					//异步加载好友头像图片
-//					jp.loadImage("http://www.hello008.com/Public/Uploads/"+faceimgurl);
-					faceimg =  AppCache.getImage("http://www.hello008.com/Public/Uploads/"+faceimgurl);
+//					faceimg =  AppCache.getImage("http://www.hello008.com/Public/Uploads/"+faceimgurl);
 					
 					Map<String, Object> friend = new HashMap<String, Object>();
-					friend.put("faceimg",faceimg);
+//					friend.put("faceimg",faceimg);
 					friend.put("faceimgurl",faceimgurl);
 					friend.put("uname",uname);
 					friend.put("uphone",uphone);
