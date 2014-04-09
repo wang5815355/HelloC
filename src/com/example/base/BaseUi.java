@@ -20,6 +20,17 @@ public class BaseUi extends Activity{
 	private Context context;
 	protected BaseHandler handler;
 	
+	/** Called when the activity is first created. */
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		// async task handler
+		this.handler = new BaseHandler(this);
+		// init task pool
+		this.taskPool = new BaseTaskPool(this);
+		// init application
+		this.app = (BaseApp) this.getApplicationContext();
+	}
 	
 	public void forward(Class<?> classobj){
 		Intent intent = new Intent();

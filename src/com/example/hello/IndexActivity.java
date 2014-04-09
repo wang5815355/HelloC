@@ -31,7 +31,7 @@ import com.example.model.Customer;
 import com.example.util.AppClient;
 import com.example.util.JsonParser;
 
-public class IndexActivity extends Activity{
+public class IndexActivity extends BaseUi{
 	private String friendResult;//返回好友信息
 	
 	 @Override
@@ -76,31 +76,30 @@ public class IndexActivity extends Activity{
 		   			try {
 		   				//网络请求
 		   				friendResult = client.post(map);
-		   				//Json解析
-		   				friends = JsonParser.parseJsonList(friendResult);
+		   				//JSON 解析
+		   				friends = new JsonParser().parseJsonList(friendResult);
 		   			} catch (Exception e) {
 		   				e.printStackTrace();
 		   			}
 		              return friends;
 	          }
 
-	          @SuppressLint("CommitPrefEdits")
 	          @Override
 	          /**
 	           * 执行ui变更操作
 	           */
 	          protected void onPostExecute(List<Map<String, Object>> friends) {
-	        	    //创建Simpleadapter
+	        	    //创建 Simpleadapter
 	   				SimpleAdapter sadapter = new SimpleAdapter( IndexActivity.this,
 	   														   friends, 
 	   														   R.layout.index, 
 	   														   new String[]{"faceimg","uname","uphone"},
 	   														   new int[]{R.id.faceimg,R.id.uname,R.id.uphone});
 	   				ListView list = (ListView) findViewById(R.id.friendlist);
-	   				list.setAdapter(sadapter);
+	   				
 //		   		    Toast.makeText(IndexActivity.this,friendResult,Toast.LENGTH_LONG).show();
 	   				
-	   				//simpleadapter 处理加载网络图片问题
+	   				//Simpleadapter 处理加载网络图片问题
 	   				sadapter.setViewBinder(new ViewBinder() {    
                         public boolean setViewValue(  
                                             View view,   
@@ -114,7 +113,9 @@ public class IndexActivity extends Activity{
                             }else 
                             return false;    
                         }    
-                    });    
+                    }); 
+	   				
+	   				list.setAdapter(sadapter);
 		      }
 	
 		          @Override
