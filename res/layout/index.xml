@@ -2,11 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="#fdf8f8f8" >
     
 	<ListView android:id="@+id/friendlist"
 	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"/>
+	    android:layout_height="match_parent"
+	    android:divider="@drawable/divider"
+	    android:dividerHeight="0.5dip"
+	    android:cacheColorHint="@android:color/transparent"
+	    android:headerDividersEnabled = "true"
+	    android:footerDividersEnabled = "true"
+	    />
+	
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="horizontal"
+	    android:background="@drawable/frienditemselect" >
 		
 		<ImageView 
 		    android:id="@+id/faceimg"
@@ -16,6 +29,7 @@
 		    android:scaleType="centerCrop"
 		    android:focusable="false"
 		    android:contentDescription="@string/faceDescription"/>
+		
 	    <TextView android:id="@+id/uname"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
@@ -27,4 +41,7 @@
 	        android:layout_height="wrap_content"
 	        android:gravity="center_vertical"
 	        />
+	 </LinearLayout>
+	 
+	
 </LinearLayout>
