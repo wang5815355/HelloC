@@ -55,7 +55,7 @@ public class FriendList extends BaseAdapter{
 	public View getView(int p, View v, ViewGroup vg) {
 		FriendListItem friendItem = null;
 		if (v == null) {
-			v = inflater.inflate(R.layout.index, null);
+			v = inflater.inflate(R.layout.friendlist, null);
 		}else {
 			friendItem = (FriendListItem) v.getTag();
 		}
