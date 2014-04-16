@@ -21,6 +21,7 @@ import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
@@ -67,10 +68,12 @@ public class AppClient {
 		}
 		// set client timeout
 		httpParams = new BasicHttpParams();
-		HttpConnectionParams.setConnectionTimeout(httpParams, timeoutConnection);
-		HttpConnectionParams.setSoTimeout(httpParams, timeoutSocket);
+//		HttpConnectionParams.setConnectionTimeout(httpParams, 1);
+//		HttpConnectionParams.setSoTimeout(httpParams, 1);
 		// init client
 		httpClient = new DefaultHttpClient(httpParams);
+		httpClient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, timeoutConnection); 
+		httpClient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, timeoutSocket);
 	}
 	
 	public void useWap () {
@@ -135,7 +138,8 @@ public class AppClient {
 				return null;
 			}
 		} catch (ConnectTimeoutException e) {
-			throw new Exception(C.err.network);
+			Log.w("AppClient.post.result", C.err.network);
+			return C.err.network;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

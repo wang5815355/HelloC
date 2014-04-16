@@ -21,6 +21,7 @@ import com.example.util.HttpUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
@@ -131,6 +132,7 @@ public class MainActivity extends BaseUi {
    	 JSONTokener jsonParser;
    	 Dialog dialog;
    	 SharedPreferences setting;
+   	 private ProgressDialog progress;
       
        public AnsyTry(HashMap<String, String> hmap,Dialog dialog) {
            super();
@@ -144,12 +146,14 @@ public class MainActivity extends BaseUi {
        	AppClient client = new AppClient("/Public/register");//客户端初始化
 			try {
 				logResult = client.post(hmap);
-				
-				//json解析
-				jsonParser = new JSONTokener(logResult);  
-				jo = (JSONObject) jsonParser.nextValue();
-//				BaseMessage str = AppUtil.getMessage(logResult);
-//				str.getResult();
+				if(!(logResult.equals("网络错误") || logResult == null)){
+					//json解析
+					jsonParser = new JSONTokener(logResult);  
+					jo = (JSONObject) jsonParser.nextValue();
+				}else{
+					jo = new JSONObject().put("status","-1");
+					jo.put("info","网络错误");
+				}
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -173,6 +177,7 @@ public class MainActivity extends BaseUi {
 		}
 		
 		if(status.equals("3")){//当登录成功
+			dialog.dismiss();
 			BaseAuth.setLogin(true);
 			setting = getPreferences(Context.MODE_PRIVATE);
 			SharedPreferences.Editor editor = setting.edit();
@@ -187,6 +192,7 @@ public class MainActivity extends BaseUi {
 //			Toast.makeText(MainActivity.this,status,Toast.LENGTH_SHORT).show();
 		}else{//登录不成功
 			BaseAuth.setLogin(true);
+			progress.dismiss();
 			dialog.cancel();
 			Toast.makeText(MainActivity.this,info,Toast.LENGTH_SHORT).show();
 		}
@@ -196,7 +202,7 @@ public class MainActivity extends BaseUi {
        @Override
        protected void onPreExecute() {
            // TODO Auto-generated method stub\
-           System.out.println("pretExecute------");
+    	   progress = ProgressDialog.show(MainActivity.this, null, "正在登录…");
            super.onPreExecute();
        }
 

@@ -90,6 +90,7 @@ containing a value of this type.
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
         public static final int faceDescription=0x7f060006;
+        public static final int loadDescription=0x7f060007;
         public static final int loginbutton=0x7f060003;
         public static final int password=0x7f060005;
         public static final int title=0x7f060002;

@@ -8,5 +8,6 @@
     <string name="account">邮箱账号</string>
     <string name="password">登录密码</string>
     <string name="faceDescription">好友头像</string>
+    <string name="loadDescription">加载进度条</string>
 
 </resources>
