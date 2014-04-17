@@ -17,6 +17,7 @@ public class JsonParser extends BaseUi{
 	 * @author wangkai
 	 */
 	public static List<Map<String, Object>> parseJsonList(String json){
+		String id = null;//id
 		String uname = null;//好友名称
 		String uphone = null;//好友手机号码
 		String faceimgurl = null;//好友头像图片URL
@@ -28,6 +29,7 @@ public class JsonParser extends BaseUi{
 				friends = new ArrayList<Map<String,Object>>();
 				for(int i = 0; i<jsa.length();i++){
 					JSONObject jso = (JSONObject)jsa.opt(i);
+					id = jso.getString("id");
 					uname = jso.getString("uname1");
 					uphone = jso.getString("uphonenumber1");
 					faceimgurl = jso.getString("faceimage1");
@@ -37,6 +39,7 @@ public class JsonParser extends BaseUi{
 					
 					Map<String, Object> friend = new HashMap<String, Object>();
 //					friend.put("faceimg",faceimg);
+					friend.put("id",id);
 					friend.put("faceimgurl",faceimgurl);
 					friend.put("uname",uname);
 					friend.put("uphone",uphone);

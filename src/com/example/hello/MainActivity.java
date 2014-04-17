@@ -1,35 +1,28 @@
 package com.example.hello;
 
+import java.net.ContentHandler;
 import java.util.HashMap;
-import java.util.Map;
 
-import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import com.example.base.BaseMessage;
-import com.example.base.C;
 import com.example.base.BaseAuth;
 import com.example.base.BaseUi;
-import com.example.base.BaseApp;
 import com.example.model.Customer;
 import com.example.util.AppClient;
-import com.example.util.AppUtil;
 import com.example.util.HttpUtil;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
+//import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -62,21 +55,24 @@ public class MainActivity extends BaseUi {
         editText = (EditText) this.findViewById(R.id.editText1);//登陆账号
         editPass = (EditText) this.findViewById(R.id.editText2);//登录密码
         logButton = (Button) this.findViewById(R.id.logbutton);
-        final BaseApp baseApp = (BaseApp) this.getApplicationContext();
         
         //判断当前用户是否登录
         setting = getPreferences(Context.MODE_APPEND);
-		SharedPreferences.Editor editor = setting.edit();
-        editor.putBoolean("islogin",false);
+        
+//		SharedPreferences.Editor editor = setting.edit();
+//      editor.putBoolean("islogin",false);
+//      editor.commit();
+        
         BaseAuth.setLogin(false);
         Boolean islogin = setting.getBoolean("islogin",false);
-        editor.commit();
         if(BaseAuth.isLogin() != false || islogin != false){//若登录则跳转
         	this.forward(IndexActivity.class);
         }
         
-        editText.setText(setting.getString("username", ""));
-        editPass.setText(setting.getString("password", ""));
+        editText.setText(setting.getString("username",""));
+        editPass.setText(setting.getString("password",""));
+        editText.setSelection(setting.getString("username","").length());
+        editPass.setSelection(setting.getString("password","").length());
         
         logButton.setOnClickListener(new OnClickListener() {
 			
@@ -132,7 +128,7 @@ public class MainActivity extends BaseUi {
    	 JSONTokener jsonParser;
    	 Dialog dialog;
    	 SharedPreferences setting;
-   	 private ProgressDialog progress;
+//   	 private ProgressDialog progress;
       
        public AnsyTry(HashMap<String, String> hmap,Dialog dialog) {
            super();
@@ -142,7 +138,6 @@ public class MainActivity extends BaseUi {
        
        @Override
        protected Dialog doInBackground(String... params) {
-           // TODO Auto-generated method stub
        	AppClient client = new AppClient("/Public/register");//客户端初始化
 			try {
 				logResult = client.post(hmap);
@@ -167,14 +162,25 @@ public class MainActivity extends BaseUi {
     	String info = null;
     	String status = null;
     	String sid = null;
-		try {
-			info = jo.getString("info");
-			status = jo.getString("status");
-			sid = jo.getString("sid");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	
+    	if(jo != null){
+    		try {
+    			info = jo.getString("info");
+    			status = jo.getString("status");
+    			sid = jo.getString("sid");
+    		} catch (JSONException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	}else{
+    		try {
+				jo = new JSONObject().put("status","-1");
+				jo.put("info","网络错误");
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+    	}
+		
 		
 		if(status.equals("3")){//当登录成功
 			dialog.dismiss();
@@ -192,7 +198,7 @@ public class MainActivity extends BaseUi {
 //			Toast.makeText(MainActivity.this,status,Toast.LENGTH_SHORT).show();
 		}else{//登录不成功
 			BaseAuth.setLogin(true);
-			progress.dismiss();
+//			progress.dismiss();
 			dialog.cancel();
 			Toast.makeText(MainActivity.this,info,Toast.LENGTH_SHORT).show();
 		}
@@ -202,7 +208,7 @@ public class MainActivity extends BaseUi {
        @Override
        protected void onPreExecute() {
            // TODO Auto-generated method stub\
-    	   progress = ProgressDialog.show(MainActivity.this, null, "正在登录…");
+//    	   progress = ProgressDialog.show(MainActivity.this, null, "正在登录…");
            super.onPreExecute();
        }
 

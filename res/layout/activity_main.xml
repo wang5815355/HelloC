@@ -28,6 +28,7 @@
         android:singleLine="true"
         android:hint="@string/account"
         android:textSize="18sp"
+        android:textStyle="bold"
         android:textColorHint="#90ffffff"
         android:textColor="#99eff7">
 
@@ -46,6 +47,7 @@
         android:singleLine="true"
         android:hint="@string/password"
         android:textSize="18sp"
+        android:textStyle="bold"
         android:textColorHint="#90ffffff"
         android:textColor="#99eff7"/>
 
