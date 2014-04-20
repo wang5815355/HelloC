@@ -8,10 +8,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public abstract class BaseSqlite {
 
-	private static final String DB_NAME = "demos.db";
+	private static final String DB_NAME = "hello.db";
 	private static final int DB_VERSION = 1;
 	
 	private DbHelper dbh = null;
@@ -59,16 +60,23 @@ public abstract class BaseSqlite {
 		ArrayList<ArrayList<String>> rList = new ArrayList<ArrayList<String>>();
 		try {
 			db = dbh.getReadableDatabase();
-			cursor = db.query(tableName(), tableColumns(), where, params, null, null, null);
+			cursor = db.query(tableName(),tableColumns(),where,params,null,null,null);
+			ArrayList<String> rRow = null;
 			while (cursor.moveToNext()) {
-				int i = cursor.getColumnCount();
-				ArrayList<String> rRow = new ArrayList<String>();
-				while (i >= 0) {
-					rRow.add(i, cursor.getString(i));
-				}
+				rRow = new ArrayList<String>();
+				String id = cursor.getString(cursor.getColumnIndex("id"));
+		        String uname = cursor.getString(cursor.getColumnIndex("uname"));
+		        String faceimgurl = cursor.getString(cursor.getColumnIndex("faceimage"));
+		        String uphone = cursor.getString(cursor.getColumnIndex("uphone"));
+		        rRow.add(0, id);
+		        rRow.add(1, uname);
+		        rRow.add(2, faceimgurl);
+		        rRow.add(3, uphone);
 				rList.add(rRow);
 			}
+			
 		} catch (Exception e) {
+			Log.w("sqllite",e.getMessage());
 			e.printStackTrace();
 		} finally {
 			cursor.close();

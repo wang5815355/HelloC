@@ -1,6 +1,9 @@
 package com.example.sqlite;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.example.base.BaseSqlite;
 import com.example.model.Friend;
@@ -17,12 +20,13 @@ public class FriendSqlite extends BaseSqlite {
 
 	@Override
 	protected String tableName() {
-		return "Friends";
+		return "friends";
 	}
 
 	@Override
 	protected String[] tableColumns() {
 		String[] columns = {
+			"tid",
 			Friend.COL_ID , 
 			Friend.COL_UNAME ,
 			Friend.COL_FACEIMAGE ,
@@ -34,10 +38,11 @@ public class FriendSqlite extends BaseSqlite {
 	@Override
 	protected String createSql() {
 		return "CREATE TABLE " + tableName() + " (" +
-			Friend.COL_ID + " INTEGER PRIMARY KEY, " +
+			"tid" + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+			Friend.COL_ID + " TEXT, " +
 			Friend.COL_UNAME + " TEXT, " +
 			Friend.COL_FACEIMAGE + " TEXT, " +
-			Friend.COL_UPHONE + " TEXT, " +
+			Friend.COL_UPHONE + " TEXT" +
 			");";
 	}
 
@@ -70,23 +75,24 @@ public class FriendSqlite extends BaseSqlite {
 		return false;
 	}
 
-	public ArrayList<Friend> getAllFriends () {
-		ArrayList<Friend> friendList = new ArrayList<Friend>();
+	public List<Map<String, Object>> getAllFriends () {
+		List<Map<String, Object>> friends = null;
 		try {
-			ArrayList<ArrayList<String>> rList = this.query(null, null);
-			int rCount = rList.size();
-			for (int i = 0; i < rCount; i++) {
-				ArrayList<String> rRow = rList.get(i);
-				Friend friend = new Friend();
-				friend.setId(rRow.get(0));
-				friend.setUname(rRow.get(1));
-				friend.setFaceimage(rRow.get(2));
-				friend.setUphone(rRow.get(3));
-				friendList.add(friend);
-			}
+				ArrayList<ArrayList<String>> rList = this.query(null, null);
+				friends = new ArrayList<Map<String,Object>>();
+				int rCount = rList.size();
+				for (int i = 0; i < rCount; i++) {
+					ArrayList<String> rRow = rList.get(i);
+					Map<String, Object> friendO = new HashMap<String, Object>();
+					friendO.put("id",rRow.get(0));
+					friendO.put("uname",rRow.get(1));
+					friendO.put("faceimgurl",rRow.get(2));
+					friendO.put("uphone",rRow.get(3));
+					friends.add(friendO);
+				}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return friendList;
+		return friends;
 	}
 }

@@ -1,5 +1,6 @@
 package com.example.hello;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,13 +20,17 @@ import com.example.base.BaseHandler;
 import com.example.base.BaseTask;
 import com.example.base.BaseUi;
 import com.example.list.FriendList;
+import com.example.model.Friend;
+import com.example.sqlite.FriendSqlite;
 import com.example.util.AppClient;
+import com.example.util.HttpUtil;
 import com.example.util.JsonParser;
 
 public class IndexActivity extends BaseUi{
 	private String friendResult;//返回好友信息
 //	private SimpleAdapter sadapter;
 	private FriendList friendList;
+	private FriendSqlite friendSqlite;
 	
 	 @Override
 	    protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +68,45 @@ public class IndexActivity extends BaseUi{
 	           */
 	          protected List<Map<String, Object>> doInBackground(String... params) {
 		        	List<Map<String, Object>> friends = null;
+		        	Friend friendO = null;
 		          	AppClient client = new AppClient("/Index/queryMyFriend");//客户端初始化
-		   			try {
-		   				//网络请求
-		   				friendResult = client.post(map);
-		   				//JSON 解析
-		   				friends = JsonParser.parseJsonList(friendResult);
-		   				for (Map<String, Object> friend : friends) {
-							loadImage("http://www.hello008.com/Public/Uploads/"+(String)friend.get("faceimgurl"));
-						}
-		   			} catch (Exception e) {
-		   				e.printStackTrace();
-		   			}
+		          	friendSqlite = new FriendSqlite(IndexActivity.this);
+		          	
+		          	//判断网络连接状态
+		          	Integer netType = HttpUtil.getNetType(IndexActivity.this);
+					if(netType != HttpUtil.NONET_INT){//网络连接正常
+						try {
+				   				//网络请求
+				   				friendResult = client.post(map);
+				   				//JSON 解析
+				   				friends = JsonParser.parseJsonList(friendResult);
+				   				if(friends == null){
+				   					friends = friendSqlite.getAllFriends();
+				   				}
+				   				for (Map<String, Object> friend : friends) {
+				   					friendO = new Friend();
+				   					friendO.setFaceimage((String)friend.get("faceimgurl"));
+				   					friendO.setId((String)friend.get("id"));
+				   					friendO.setUname((String)friend.get("uname"));
+				   					friendO.setUphone((String)friend.get("uphone"));
+				   					//将数据存数sqllit中
+				   					friendSqlite.updateFriend(friendO);
+									loadImage("http://www.hello008.com/Public/Uploads/"+(String)friend.get("faceimgurl"));
+								}
+			   				
+			   			} catch (Exception e) {
+			   				e.printStackTrace();
+			   			}
+						
+					}else{
+						 //网络连接断开时从sqllite中取出信息
+						 friends = friendSqlite.getAllFriends();
+						 for (Map<String, Object> friend : friends) {
+								loadImage("http://www.hello008.com/Public/Uploads/"+(String)friend.get("faceimgurl"));
+						 }
+					}
+		          	
+		   			
 		              return friends;
 	          }
 
