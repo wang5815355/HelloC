@@ -21,10 +21,12 @@ import com.example.base.BaseTask;
 import com.example.base.BaseUi;
 import com.example.list.FriendList;
 import com.example.model.Friend;
+import com.example.service.PollingService;
 import com.example.sqlite.FriendSqlite;
 import com.example.util.AppClient;
 import com.example.util.HttpUtil;
 import com.example.util.JsonParser;
+import com.example.util.PollingUtils;
 
 public class IndexActivity extends BaseUi{
 	private String friendResult;//返回好友信息
@@ -33,17 +35,19 @@ public class IndexActivity extends BaseUi{
 	private FriendSqlite friendSqlite;
 	
 	 @Override
-	    protected void onCreate(Bundle savedInstanceState) {
-	        super.onCreate(savedInstanceState);
-	        setContentView(R.layout.index);
+	 protected void onCreate(Bundle savedInstanceState) {
+	      super.onCreate(savedInstanceState);
+	      setContentView(R.layout.index);
 	        
-	        HashMap<String, String> map = new HashMap<String, String>();
-	        map.put("pagenum","1");
-	        AnsyTry anys=new AnsyTry(map);
-			anys.execute();
-	    }
-
-
+	      HashMap<String, String> map = new HashMap<String, String>();
+	      map.put("pagenum","1");
+	      AnsyTry anys=new AnsyTry(map);
+	      anys.execute();
+			
+		  //启动轮询service
+	      PollingUtils.startPollingService(this, 5, PollingService.class, PollingService.ACTION);
+	  }
+	 
 	    @Override
 	    public boolean onCreateOptionsMenu(Menu menu) {
 	        getMenuInflater().inflate(R.menu.main, menu);

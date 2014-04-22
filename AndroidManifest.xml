@@ -30,6 +30,14 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.hello.IndexActivity"></activity>
+        
+        <service android:name="com.example.service.PollingService"
+            	 android:exported="false"> 
+        	<intent-filter> 
+                <action android:name="com.exzample.service.PollingService" />  
+                <category android:name="android.intent.category.default" /> 
+       	 	</intent-filter> 
+		</service>
     </application>
 
 </manifest>

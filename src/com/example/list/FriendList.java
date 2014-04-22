@@ -50,6 +50,10 @@ public class FriendList extends BaseAdapter{
 		// TODO Auto-generated method stub
 		return arg0;
 	}
+	
+	public void setFriendList(List<Map<String, Object>> friends){
+		this.friends = friends;
+	}
 
 	@Override
 	public View getView(int p, View v, ViewGroup vg) {
