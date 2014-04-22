@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.base.BaseHandler;
 import com.example.hello.IndexActivity;
 import com.example.hello.R;
 import com.example.model.Friend;
+import com.example.sqlite.FriendSqlite;
 import com.example.util.AppClient;
 import com.example.util.HttpUtil;
 import com.example.util.JsonParser;
@@ -15,7 +17,9 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Message;
 
 public class PollingService extends Service {
 	 
@@ -23,6 +27,7 @@ public class PollingService extends Service {
      
     private Notification mNotification;
     private NotificationManager mManager;
+    private BaseHandler basehandler;
  
     @Override
     public IBinder onBind(Intent intent) {
@@ -70,9 +75,11 @@ public class PollingService extends Service {
     private List<Map<String, Object>> indexPost(){
     	List<Map<String, Object>> friends = null;
     	String friendResult = null;
+    	Friend friendO = null;
     	AppClient client = new AppClient("/Index/queryMyFriend");//客户端初始化
     	HashMap<String, String> map = new HashMap<String, String>();
 	    map.put("pagenum","1");
+	    FriendSqlite friendSqlite = new FriendSqlite(PollingService.this);
 	    
     	//判断网络连接状态
       	Integer netType = HttpUtil.getNetType(getApplicationContext());
@@ -82,6 +89,17 @@ public class PollingService extends Service {
    				friendResult = client.post(map);
    				//JSON 解析
    				friends = JsonParser.parseJsonList(friendResult);
+   				int what = "" 
+   				for (Map<String, Object> friend : friends) {
+   					friendO = new Friend();
+   					friendO.setFaceimage((String)friend.get("faceimgurl"));
+   					friendO.setId((String)friend.get("id"));
+   					friendO.setUname((String)friend.get("uname"));
+   					friendO.setUphone((String)friend.get("uphone"));
+   					//将数据存数sqllit中
+   					friendSqlite.updateFriend(friendO);
+					loadImage("http://www.hello008.com/Public/Uploads/"+(String)friend.get("faceimgurl"));
+				}
     		}catch (Exception e) {
     			e.printStackTrace();
     		}
@@ -90,6 +108,13 @@ public class PollingService extends Service {
     	
     	return friends;
     }
+    
+    public void sendMessage (int what) {
+		Bundle b = new Bundle();
+		Message m = new Message();
+		m.what = what;
+		m.setData(b);
+	}
  
     /**
      * Polling thread

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.SystemClock;
 
 public class PollingUtils {
-	 
     //开启轮询服务
     public static void startPollingService(Context context, int seconds, Class<?> cls,String action) {
         //获取AlarmManager系统服务
