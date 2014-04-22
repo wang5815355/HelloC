@@ -1,6 +1,5 @@
 package com.example.hello;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,10 +7,15 @@ import java.util.Map;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -34,6 +38,21 @@ public class IndexActivity extends BaseUi{
 	private FriendList friendList;
 	private FriendSqlite friendSqlite;
 	
+	private BroadcastReceiver br = new BroadcastReceiver() {
+			List<Map<String, Object>> friends;
+			@Override
+				public void onReceive(Context context, Intent intent) {
+					// TODO Auto-generated method stub
+					Log.w("polling", "ceshi1");
+					friendSqlite = new FriendSqlite(IndexActivity.this);
+					friends = friendSqlite.getAllFriends();
+					if(friendList!=null){
+						friendList.setFriendList(friends);
+						friendList.notifyDataSetChanged();
+					}
+				}
+		};
+	
 	 @Override
 	 protected void onCreate(Bundle savedInstanceState) {
 	      super.onCreate(savedInstanceState);
@@ -45,7 +64,9 @@ public class IndexActivity extends BaseUi{
 	      anys.execute();
 			
 		  //启动轮询service
-	      PollingUtils.startPollingService(this, 5, PollingService.class, PollingService.ACTION);
+	      PollingUtils.startPollingService(this, 15, PollingService.class, PollingService.ACTION);
+	      //接收器的动态注册，Action必须与Service中的Action一致
+	      registerReceiver(br, new IntentFilter("ACTION_MY"));
 	  }
 	 
 	    @Override
@@ -125,6 +146,7 @@ public class IndexActivity extends BaseUi{
 	   				list.setAdapter(friendList);
 //		   		    Toast.makeText(IndexActivity.this,friendResult,Toast.LENGTH_LONG).show();
 	   				IndexActivity.this.setHandler(new IndexHandler(IndexActivity.this, friendList));
+	   				IndexActivity.this.friendList = friendList;
 	   				
 		      }
 	
@@ -158,7 +180,7 @@ public class IndexActivity extends BaseUi{
 					switch (msg.what) {
 						case BaseTask.LOAD_IMAGE:
 							friendList.notifyDataSetChanged();
-						break;
+							break;
 					}
 				} catch (Exception e) {
 					Toast.makeText(IndexActivity.this,e.toString(),Toast.LENGTH_LONG).show();

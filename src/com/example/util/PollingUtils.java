@@ -24,7 +24,7 @@ public class PollingUtils {
          
         //使用AlarmManger的setRepeating方法设置定期执行的时间间隔（seconds秒）和需要执行的Service
         manager.setRepeating(AlarmManager.ELAPSED_REALTIME, triggerAtTime,
-                seconds * 1000, pendingIntent);
+        		seconds*1000, pendingIntent);
     }
  
     //停止轮询服务

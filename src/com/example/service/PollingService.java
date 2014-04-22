@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.base.BaseHandler;
+import com.example.base.BaseTask;
+import com.example.base.BaseUi;
 import com.example.hello.IndexActivity;
 import com.example.hello.R;
 import com.example.model.Friend;
@@ -20,6 +22,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
+import android.util.Log;
 
 public class PollingService extends Service {
 	 
@@ -27,7 +30,7 @@ public class PollingService extends Service {
      
     private Notification mNotification;
     private NotificationManager mManager;
-    private BaseHandler basehandler;
+    BaseUi baseui = new BaseUi();
  
     @Override
     public IBinder onBind(Intent intent) {
@@ -72,24 +75,24 @@ public class PollingService extends Service {
      * @author wangKai
      * @return 
      */
-    private List<Map<String, Object>> indexPost(){
+    private void indexPost(){
     	List<Map<String, Object>> friends = null;
     	String friendResult = null;
     	Friend friendO = null;
     	AppClient client = new AppClient("/Index/queryMyFriend");//客户端初始化
     	HashMap<String, String> map = new HashMap<String, String>();
 	    map.put("pagenum","1");
-	    FriendSqlite friendSqlite = new FriendSqlite(PollingService.this);
+	    FriendSqlite friendSqlite = new FriendSqlite(getApplicationContext());
 	    
     	//判断网络连接状态
       	Integer netType = HttpUtil.getNetType(getApplicationContext());
-    	if(netType != HttpUtil.NONET_INT){//网络连接正常
+    	if(netType != HttpUtil.NONET_INT){//网络连接正常app
+    		Log.w("polling", "ceshi3");
     		try {
    				//网络请求
    				friendResult = client.post(map);
    				//JSON 解析
    				friends = JsonParser.parseJsonList(friendResult);
-   				int what = "" 
    				for (Map<String, Object> friend : friends) {
    					friendO = new Friend();
    					friendO.setFaceimage((String)friend.get("faceimgurl"));
@@ -98,23 +101,20 @@ public class PollingService extends Service {
    					friendO.setUphone((String)friend.get("uphone"));
    					//将数据存数sqllit中
    					friendSqlite.updateFriend(friendO);
-					loadImage("http://www.hello008.com/Public/Uploads/"+(String)friend.get("faceimgurl"));
 				}
+   				//发送广播
+   				Intent intent=new Intent();
+   				intent.setAction("ACTION_MY");
+   				sendBroadcast(intent);
+   				
     		}catch (Exception e) {
+    			Log.w("polling",e.toString());
     			e.printStackTrace();
     		}
     		
     	}
-    	
-    	return friends;
     }
     
-    public void sendMessage (int what) {
-		Bundle b = new Bundle();
-		Message m = new Message();
-		m.what = what;
-		m.setData(b);
-	}
  
     /**
      * Polling thread
@@ -125,7 +125,7 @@ public class PollingService extends Service {
     class PollingThread extends Thread {
         @Override
         public void run() {
-        	List<Map<String, Object>> friends = indexPost();
+        	indexPost();
         }
     }
      

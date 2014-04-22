@@ -1,6 +1,5 @@
 package com.example.hello;
 
-import java.net.ContentHandler;
 import java.util.HashMap;
 
 import org.json.JSONException;
