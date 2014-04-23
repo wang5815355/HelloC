@@ -4,32 +4,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.example.base.BaseHandler;
-import com.example.base.BaseTask;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import com.example.base.BaseUi;
-import com.example.hello.IndexActivity;
-import com.example.hello.R;
+import com.example.model.Customer;
 import com.example.model.Friend;
 import com.example.sqlite.FriendSqlite;
 import com.example.util.AppClient;
 import com.example.util.HttpUtil;
 import com.example.util.JsonParser;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.content.SharedPreferences;
 import android.os.IBinder;
-import android.os.Message;
 import android.util.Log;
 
 public class PollingService extends Service {
 	 
     public static final String ACTION = "com.exzample.service.PollingService";
      
-    private Notification mNotification;
-    private NotificationManager mManager;
+//    private Notification mNotification;
+//    private NotificationManager mManager;
     BaseUi baseui = new BaseUi();
  
     @Override
@@ -93,15 +92,57 @@ public class PollingService extends Service {
    				friendResult = client.post(map);
    				//JSON 解析
    				friends = JsonParser.parseJsonList(friendResult);
-   				for (Map<String, Object> friend : friends) {
-   					friendO = new Friend();
-   					friendO.setFaceimage((String)friend.get("faceimgurl"));
-   					friendO.setId((String)friend.get("id"));
-   					friendO.setUname((String)friend.get("uname"));
-   					friendO.setUphone((String)friend.get("uphone"));
-   					//将数据存数sqllit中
-   					friendSqlite.updateFriend(friendO);
-				}
+   				
+   				if(friends == null){//重新登录
+   					JSONObject jo;
+   					client = new AppClient("/Public/register");//客户端初始化
+   					//获取当前用户登录账号以及密码
+   					SharedPreferences setting ;
+   					setting = getSharedPreferences("MainActivity", Context.MODE_PRIVATE);
+   					String username = setting.getString("username","");
+   					String password = setting.getString("password","");
+   					
+   					map.put("username",username);
+   					map.put("password",password);
+	   				String logResult = client.post(map);
+	   				if(!(logResult.equals("网络错误") || logResult == null)){
+						//json解析
+	   					JSONTokener jsonParser = new JSONTokener(logResult);  
+						jo = (JSONObject) jsonParser.nextValue();
+					}else{
+						jo = new JSONObject().put("status","-1");
+						jo.put("info","网络错误");
+					}
+	   				
+	   				if(jo != null){
+	   		    		try {
+	   		    			String sid = jo.getString("sid");
+	   		    			Customer customer = Customer.getInstance();
+	   		    			customer.setSid(sid);//设置sessionid
+	   		    		} catch (JSONException e) {
+	   		    			e.printStackTrace();
+	   		    		}
+	   		    	}else{
+	   		    		try {
+	   						jo = new JSONObject().put("status","-1");
+	   						jo.put("info","网络错误");
+	   					} catch (JSONException e) {
+	   						e.printStackTrace();
+	   					}
+	   		    	}
+   				}else{
+   					
+   					for (Map<String, Object> friend : friends) {
+   	   					friendO = new Friend();
+   	   					friendO.setFaceimage((String)friend.get("faceimgurl"));
+   	   					friendO.setId((String)friend.get("id"));
+   	   					friendO.setUname((String)friend.get("uname"));
+   	   					friendO.setUphone((String)friend.get("uphone"));
+   	   					//将数据存数sqllit中
+   	   					friendSqlite.updateFriend(friendO);
+   					}
+   				}
+   				
    				//发送广播
    				Intent intent=new Intent();
    				intent.setAction("ACTION_MY");

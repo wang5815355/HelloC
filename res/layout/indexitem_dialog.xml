@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical" android:layout_margin="10dip">
+   
+	 <TextView android:id="@+id/index_item_dialog_text" 
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:textColor="#FFFFFF" android:text="" android:gravity="center" 
+	        android:layout_weight="3"/>
+	 
+	 <LinearLayout 
+	     android:layout_width="wrap_content"
+	     android:layout_height="wrap_content"
+	     android:orientation="vertical">
+	     
+	 </LinearLayout>
+
+ 
+</LinearLayout>
