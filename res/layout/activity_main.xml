@@ -27,9 +27,9 @@
         android:paddingLeft="15sp"
         android:singleLine="true"
         android:hint="@string/account"
-        android:textSize="18sp"
+        android:textSize="17sp"
         android:textStyle="bold"
-        android:textColorHint="#90ffffff"
+        android:textColorHint="#bbffffff"
         android:textColor="#99eff7">
 
         <requestFocus />
@@ -46,9 +46,9 @@
         android:paddingLeft="15sp"
         android:singleLine="true"
         android:hint="@string/password"
-        android:textSize="18sp"
+        android:textSize="17sp"
         android:textStyle="bold"
-        android:textColorHint="#90ffffff"
+        android:textColorHint="#bbffffff"
         android:textColor="#99eff7"/>
 
     <Button

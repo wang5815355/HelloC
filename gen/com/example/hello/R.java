@@ -97,17 +97,17 @@ containing a value of this type.
     }
     public static final class id {
         public static final int action_settings=0x7f090012;
-        public static final int cs_main_dialog_text=0x7f09000a;
+        public static final int cs_main_dialog_text=0x7f090010;
         public static final int editText1=0x7f090001;
         public static final int editText2=0x7f090002;
         public static final int faceimg=0x7f090005;
         public static final int friendlist=0x7f090004;
-        public static final int index_item_dialog_faceimg=0x7f09000d;
-        public static final int index_item_dialog_ll=0x7f09000b;
-        public static final int index_item_dialog_name=0x7f09000f;
-        public static final int index_item_dialog_phone=0x7f09000e;
-        public static final int index_item_dialog_text=0x7f09000c;
-        public static final int index_item_dialog_text2=0x7f090010;
+        public static final int index_item_dialog_faceimg=0x7f09000c;
+        public static final int index_item_dialog_ll=0x7f09000a;
+        public static final int index_item_dialog_name=0x7f09000e;
+        public static final int index_item_dialog_phone=0x7f09000d;
+        public static final int index_item_dialog_text=0x7f09000b;
+        public static final int index_item_dialog_text2=0x7f09000f;
         public static final int logbutton=0x7f090003;
         public static final int progressBar1=0x7f090011;
         public static final int textView1=0x7f090000;
@@ -131,6 +131,7 @@ containing a value of this type.
         public static final int account=0x7f060004;
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
+        public static final int back=0x7f060009;
         public static final int call=0x7f060008;
         public static final int faceDescription=0x7f060006;
         public static final int loadDescription=0x7f060007;

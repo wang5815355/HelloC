@@ -10,5 +10,6 @@
     <string name="faceDescription">好友头像</string>
     <string name="loadDescription">加载进度条</string>
     <string name="call">呼 叫</string>
+    <string name="back">背景图片</string>
 
 </resources>

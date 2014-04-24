@@ -22,7 +22,7 @@
         <item name="android:windowIsTranslucent">true</item>  
         <item name="android:windowNoTitle">true</item>  
         <item name="android:backgroundDimEnabled">false</item>  
-        <item name="android:windowBackground">@color/trancelucent</item>  
+        <item name="android:windowBackground">@color/trancelucent</item> 
 	</style> 
 	
 	<style name="AppThemeBack" parent="android:Theme.Light.NoTitleBar">  

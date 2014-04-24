@@ -18,7 +18,7 @@ import android.widget.TextView;
 public class FriendList extends BaseAdapter{
 	private BaseUi ui;
 	private LayoutInflater inflater;
-	private List<Map<String, Object>> friends;
+	private List<Map<String, Object>> friends = null;
 	
 	public final class FriendListItem {
 		public ImageView faceimg;

@@ -13,7 +13,7 @@
 	     android:layout_width="fill_parent"
 	     android:layout_height="wrap_content"
 	     android:textColor="#FFFFFF" android:text="" android:gravity="center" 
-	     android:layout_weight="0.5"/>
+	     android:layout_weight="1.1"/>
 	 
 	 <LinearLayout 
 	     android:layout_width="match_parent"
@@ -26,15 +26,15 @@
 	      <LinearLayout 
 		     android:layout_width="match_parent"
 		     android:layout_height="wrap_content"
-		     android:layout_weight="5"
+		     android:layout_weight="4"
 		     android:orientation="vertical"
 		     android:background="@color/tran"
 		     android:gravity="center">
 		     
 		    <com.example.util.RoundImageView 
 				android:id="@+id/index_item_dialog_faceimg"
-				android:layout_width="160dip"
-				android:layout_height="160dip"
+				android:layout_width="156dip"
+				android:layout_height="156dip"
 				android:scaleType="centerCrop"
 				android:focusable="false"
 				android:padding="5dip"
@@ -81,8 +81,9 @@
 	  <TextView android:id="@+id/index_item_dialog_text2" 
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
+	        android:text=""
 	        android:textColor="#FFFFFF"  android:gravity="center" 
-	        android:layout_weight="3"/>
+	        android:layout_weight="5.5"/>
 
  
 </LinearLayout>

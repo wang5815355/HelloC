@@ -93,7 +93,7 @@ public class PollingService extends Service {
    				//JSON 解析
    				friends = JsonParser.parseJsonList(friendResult);
    				
-   				if(friends == null){//重新登录
+   				if(friends.size() == 0){//重新登录
    					JSONObject jo;
    					client = new AppClient("/Public/register");//客户端初始化
    					//获取当前用户登录账号以及密码

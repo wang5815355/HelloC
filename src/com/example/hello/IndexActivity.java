@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -45,10 +46,10 @@ import com.example.util.JsonParser;
 import com.example.util.PollingUtils;
 
 public class IndexActivity extends BaseUi{
-	private String friendResult;//返回好友信息
+	private String friendResult = null;//返回好友信息
 //	private SimpleAdapter sadapter;
-	private FriendList friendList;
-	private FriendSqlite friendSqlite;
+	private FriendList friendList = null;
+	private FriendSqlite friendSqlite = null;
 	
 	//接收广播 当用户数据更新时
 	private BroadcastReceiver br = new BroadcastReceiver() {
@@ -69,7 +70,6 @@ public class IndexActivity extends BaseUi{
 	 protected void onCreate(Bundle savedInstanceState) {
 	      super.onCreate(savedInstanceState);
 	      setContentView(R.layout.index);
-	      List<Map<String, Object>> friends = null;
 	      
 	      //创建加载dialog
 		  Dialog dialogLoad  = new Dialog(IndexActivity.this, R.style.mydialog);
@@ -82,11 +82,16 @@ public class IndexActivity extends BaseUi{
 		  map.put("pagenum","1");
 		  AnsyTry anys=new AnsyTry(map,dialogLoad);
 		  anys.execute();
-			
-		  //启动轮询service
-	      PollingUtils.startPollingService(this, 6, PollingService.class, PollingService.ACTION);
-	      //接收器的动态注册，Action必须与Service中的Action一致
+		  
+		  //接收器的动态注册，Action必须与Service中的Action一致
 	      registerReceiver(br, new IntentFilter("ACTION_MY"));
+		  new Handler().postDelayed(new Runnable(){  
+			     public void run() {  
+			    	 //启动轮询service
+				      PollingUtils.startPollingService(IndexActivity.this, 6, PollingService.class, PollingService.ACTION);
+			     }  
+			}, 500);
+		 
 	  }
 	 
 	/**
@@ -100,7 +105,6 @@ public class IndexActivity extends BaseUi{
 			list.setAdapter(friendList);
 //		    Toast.makeText(IndexActivity.this,friendResult,Toast.LENGTH_LONG).show();
 			this.setHandler(new IndexHandler(this, friendList));
-			this.friendList = friendList;
 			
 			//设置listviewitem监听器
 			list.setOnItemClickListener(new OnItemClickListener() {
@@ -210,23 +214,25 @@ public class IndexActivity extends BaseUi{
 						try {
 								friends = friendSqlite.getAllFriends();
 				   				
-				   				if(friends == null){
+				   				if(friends.size() == 0){
 				   					//网络请求
 					   				friendResult = client.post(map);
 					   				//JSON 解析
 					   				friends = JsonParser.parseJsonList(friendResult);
+					   				
+					   				for (Map<String, Object> friend : friends) {
+					   					friendO = new Friend();
+					   					friendO.setFaceimage((String)friend.get("faceimgurl"));
+					   					friendO.setId((String)friend.get("id"));
+					   					friendO.setUname((String)friend.get("uname"));
+					   					friendO.setUphone((String)friend.get("uphone"));
+					   					//将数据存数sqllit中
+					   					friendSqlite.updateFriend(friendO);
+					   					Log.w("friends", friendO.toString());
+										loadImage("http://www.hello008.com/Public/Uploads/"+(String)friend.get("faceimgurl"));
+									}
 				   				}
-				   				for (Map<String, Object> friend : friends) {
-				   					friendO = new Friend();
-				   					friendO.setFaceimage((String)friend.get("faceimgurl"));
-				   					friendO.setId((String)friend.get("id"));
-				   					friendO.setUname((String)friend.get("uname"));
-				   					friendO.setUphone((String)friend.get("uphone"));
-				   					//将数据存数sqllit中
-				   					friendSqlite.updateFriend(friendO);
-									loadImage("http://www.hello008.com/Public/Uploads/"+(String)friend.get("faceimgurl"));
-								}
-			   				
+				   				
 			   			} catch (Exception e) {
 			   				e.printStackTrace();
 			   			}
@@ -239,7 +245,6 @@ public class IndexActivity extends BaseUi{
 						 }
 					}
 		          	
-		   			
 		              return friends;
 	          }
 
@@ -248,6 +253,8 @@ public class IndexActivity extends BaseUi{
 	           * 执行ui变更操作
 	           */
 	          protected void onPostExecute(final List<Map<String, Object>> friends) {
+	        	  Log.w("friends",friends.toString());
+	        	  
 	        	    //自定义adapter
 	        	  	friendList = new FriendList(IndexActivity.this, friends);
 	   				ListView list = (ListView) findViewById(R.id.friendlist);
@@ -272,6 +279,8 @@ public class IndexActivity extends BaseUi{
 							indexDiaName = (TextView) dialog.findViewById(R.id.index_item_dialog_name);
 							faceImgView = (ImageView) dialog.findViewById(R.id.index_item_dialog_faceimg);
 							
+							Log.w("friends",friends.toString());
+							
 							indexDiaPhone.setText((String)friends.get((int)arg3).get("uphone"));
 							indexDiaName.setText((String)friends.get((int)arg3).get("uname"));
 							String faceimgurl = (String)friends.get((int)arg3).get("faceimgurl");
@@ -285,7 +294,11 @@ public class IndexActivity extends BaseUi{
 						}
 	   				});
 	   				
-	   				dialogLoad.dismiss();
+	   			  new Handler().postDelayed(new Runnable(){  
+	   			     public void run() {  
+	   			    	dialogLoad.dismiss(); 
+	   			     }  
+	   			  }, 1500); 
 	   				
 		      }
 	
