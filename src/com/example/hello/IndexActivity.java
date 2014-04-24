@@ -71,26 +71,17 @@ public class IndexActivity extends BaseUi{
 	      setContentView(R.layout.index);
 	      List<Map<String, Object>> friends = null;
 	      
-	      //从数据库中查询好友列表
-	      friendSqlite = new FriendSqlite(IndexActivity.this);
-	      friends = friendSqlite.getAllFriends();
-	      if(friends == null){//当数据库中值为空时（首次登陆）启动异步线程下载数据
-	    	  //创建加载dialog
-			  Dialog dialogLoad  = new Dialog(IndexActivity.this, R.style.mydialog);
-			  dialogLoad.setContentView(R.layout.index_load);
-			  LayoutParams layLoad = dialogLoad.getWindow().getAttributes();  
-			  setParams(layLoad);//设置遮罩参数  
-			  dialogLoad.show();
-			  Log.w("polling","异步执行");
+	      //创建加载dialog
+		  Dialog dialogLoad  = new Dialog(IndexActivity.this, R.style.mydialog);
+		  dialogLoad.setContentView(R.layout.index_load);
+		  LayoutParams layLoad = dialogLoad.getWindow().getAttributes();  
+		  setParams(layLoad);//设置遮罩参数  
+		  dialogLoad.show();
 	    	  
-	    	  HashMap<String, String> map = new HashMap<String, String>();
-		      map.put("pagenum","1");
-		      AnsyTry anys=new AnsyTry(map,dialogLoad);
-		      anys.execute();
-	      }else{//适配listView
-	    	  Log.w("polling","查询数据库");
-	    	  changeListView(friends);
-	      }
+	      HashMap<String, String> map = new HashMap<String, String>();
+		  map.put("pagenum","1");
+		  AnsyTry anys=new AnsyTry(map,dialogLoad);
+		  anys.execute();
 			
 		  //启动轮询service
 	      PollingUtils.startPollingService(this, 6, PollingService.class, PollingService.ACTION);
@@ -264,7 +255,6 @@ public class IndexActivity extends BaseUi{
 //		   		    Toast.makeText(IndexActivity.this,friendResult,Toast.LENGTH_LONG).show();
 	   				IndexActivity.this.setHandler(new IndexHandler(IndexActivity.this, friendList));
 	   				IndexActivity.this.friendList = friendList;
-	   				dialogLoad.dismiss();
 	   				
 	   				//设置listviewitem监听器
 	   				list.setOnItemClickListener(new OnItemClickListener() {
@@ -294,6 +284,8 @@ public class IndexActivity extends BaseUi{
 							dialog.show();
 						}
 	   				});
+	   				
+	   				dialogLoad.dismiss();
 	   				
 		      }
 	
