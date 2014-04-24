@@ -8,4 +8,7 @@
     <color name="wight">#ffffffff</color>
     <color name="gray">#eeeeee</color>  
     <color name="blue2">#ff4497df</color>
+    <color name="blue_tran">#ce4497df</color>
+    <color name="tran">#00000000</color>
+    <color name="white">#ddffffff</color>
 </resources>

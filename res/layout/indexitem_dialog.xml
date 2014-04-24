@@ -1,22 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout 
   xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"  
+  xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"  
+  android:id="@+id/index_item_dialog_ll" 
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"
-  android:orientation="vertical" android:layout_margin="10dip">
+  android:orientation="vertical" android:layout_margin="16dip">
    
-	 <TextView android:id="@+id/index_item_dialog_text" 
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:textColor="#FFFFFF" android:text="" android:gravity="center" 
-	        android:layout_weight="3"/>
+	 <TextView 
+	     android:id="@+id/index_item_dialog_text" 
+	     android:layout_width="fill_parent"
+	     android:layout_height="wrap_content"
+	     android:textColor="#FFFFFF" android:text="" android:gravity="center" 
+	     android:layout_weight="0.5"/>
 	 
 	 <LinearLayout 
-	     android:layout_width="wrap_content"
+	     android:layout_width="match_parent"
 	     android:layout_height="wrap_content"
-	     android:orientation="vertical">
+	     android:orientation="vertical"
+	     android:background="@color/blue_tran"
+	     android:gravity="center_vertical"
+	     android:layout_weight="4">
+	     
+	      <LinearLayout 
+		     android:layout_width="match_parent"
+		     android:layout_height="wrap_content"
+		     android:layout_weight="5"
+		     android:orientation="vertical"
+		     android:background="@color/tran"
+		     android:gravity="center">
+		     
+		    <com.example.util.RoundImageView 
+				android:id="@+id/index_item_dialog_faceimg"
+				android:layout_width="160dip"
+				android:layout_height="160dip"
+				android:scaleType="centerCrop"
+				android:focusable="false"
+				android:padding="5dip"
+				android:gravity="center" 
+				imagecontrol:roundedimageview_border_thickness="4dip"
+				imagecontrol:roundedimageview_border_outside_color="@color/white"
+				imagecontrol:roundedimageview_border_inside_color="@color/white"
+				android:contentDescription="@string/faceDescription"/>
+				  
+		     <TextView 
+		        android:id="@+id/index_item_dialog_phone" 
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:textColor="#99ffffff" android:gravity="center" 
+		        android:layout_marginTop="15dip"
+		        android:textStyle="bold"
+		        android:textSize="18sp"/>
+	      
+		      <TextView 
+		        android:id="@+id/index_item_dialog_name" 
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:textColor="#77ffffff" android:gravity="center" 
+		        android:textStyle="bold"
+		        android:textSize="15sp"/>
+		      
+	      </LinearLayout>
+	      
+	      <Button
+	        android:id="@+id/logbutton"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:text="@string/call"
+	        android:background="@drawable/logbtnselect"
+	        android:textColor="#77cff5"
+	        android:textStyle="bold"
+	        android:textSize="17sp"
+	        android:layout_marginTop="15sp"
+	        android:layout_margin="10dip"/>
 	     
 	 </LinearLayout>
+	 
+	  <TextView android:id="@+id/index_item_dialog_text2" 
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:textColor="#FFFFFF"  android:gravity="center" 
+	        android:layout_weight="3"/>
 
  
 </LinearLayout>

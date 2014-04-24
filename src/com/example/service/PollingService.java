@@ -131,13 +131,14 @@ public class PollingService extends Service {
 	   					}
 	   		    	}
    				}else{
-   					
+   					BaseUi baseUi = new BaseUi();
    					for (Map<String, Object> friend : friends) {
    	   					friendO = new Friend();
    	   					friendO.setFaceimage((String)friend.get("faceimgurl"));
    	   					friendO.setId((String)friend.get("id"));
    	   					friendO.setUname((String)friend.get("uname"));
    	   					friendO.setUphone((String)friend.get("uphone"));
+   	   					baseUi.loadImage("http://www.hello008.com/Public/Uploads/"+(String)friend.get("faceimgurl"));
    	   					//将数据存数sqllit中
    	   					friendSqlite.updateFriend(friendO);
    					}

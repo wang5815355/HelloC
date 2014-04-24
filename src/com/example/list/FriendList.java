@@ -52,6 +52,7 @@ public class FriendList extends BaseAdapter{
 	}
 	
 	public void setFriendList(List<Map<String, Object>> friends){
+		this.friends = null;
 		this.friends = friends;
 	}
 

@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,7 +26,9 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.base.BaseHandler;
@@ -35,6 +38,7 @@ import com.example.list.FriendList;
 import com.example.model.Friend;
 import com.example.service.PollingService;
 import com.example.sqlite.FriendSqlite;
+import com.example.util.AppCache;
 import com.example.util.AppClient;
 import com.example.util.HttpUtil;
 import com.example.util.JsonParser;
@@ -51,8 +55,7 @@ public class IndexActivity extends BaseUi{
 			List<Map<String, Object>> friends;
 			@Override
 				public void onReceive(Context context, Intent intent) {
-					// TODO Auto-generated method stub
-					Log.w("polling", "ceshi1");
+					Log.w("polling", "接收广播");
 					friendSqlite = new FriendSqlite(IndexActivity.this);
 					friends = friendSqlite.getAllFriends();
 					if(friendList!=null){
@@ -66,17 +69,77 @@ public class IndexActivity extends BaseUi{
 	 protected void onCreate(Bundle savedInstanceState) {
 	      super.onCreate(savedInstanceState);
 	      setContentView(R.layout.index);
-	        
-	      HashMap<String, String> map = new HashMap<String, String>();
-	      map.put("pagenum","1");
-	      AnsyTry anys=new AnsyTry(map);
-	      anys.execute();
+	      List<Map<String, Object>> friends = null;
+	      
+	      //从数据库中查询好友列表
+	      friendSqlite = new FriendSqlite(IndexActivity.this);
+	      friends = friendSqlite.getAllFriends();
+	      if(friends == null){//当数据库中值为空时（首次登陆）启动异步线程下载数据
+	    	  //创建加载dialog
+			  Dialog dialogLoad  = new Dialog(IndexActivity.this, R.style.mydialog);
+			  dialogLoad.setContentView(R.layout.index_load);
+			  LayoutParams layLoad = dialogLoad.getWindow().getAttributes();  
+			  setParams(layLoad);//设置遮罩参数  
+			  dialogLoad.show();
+			  Log.w("polling","异步执行");
+	    	  
+	    	  HashMap<String, String> map = new HashMap<String, String>();
+		      map.put("pagenum","1");
+		      AnsyTry anys=new AnsyTry(map,dialogLoad);
+		      anys.execute();
+	      }else{//适配listView
+	    	  Log.w("polling","查询数据库");
+	    	  changeListView(friends);
+	      }
 			
 		  //启动轮询service
 	      PollingUtils.startPollingService(this, 6, PollingService.class, PollingService.ACTION);
 	      //接收器的动态注册，Action必须与Service中的Action一致
 	      registerReceiver(br, new IntentFilter("ACTION_MY"));
 	  }
+	 
+	/**
+	 * 变更listview
+	 * @author wangkai
+	 */
+	protected void changeListView(final List<Map<String, Object>> friends){
+			//自定义adapter
+	  		friendList = new FriendList(IndexActivity.this, friends);
+			ListView list = (ListView) findViewById(R.id.friendlist);
+			list.setAdapter(friendList);
+//		    Toast.makeText(IndexActivity.this,friendResult,Toast.LENGTH_LONG).show();
+			this.setHandler(new IndexHandler(this, friendList));
+			this.friendList = friendList;
+			
+			//设置listviewitem监听器
+			list.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				TextView indexDiaPhone = null;
+				TextView indexDiaName = null;
+				ImageView faceImgView = null;
+				
+				//创建遮罩dialog
+				Dialog dialog  = new Dialog(IndexActivity.this, R.style.mydialog);
+				dialog.setContentView(R.layout.indexitem_dialog);  
+				indexDiaPhone = (TextView) dialog.findViewById(R.id.index_item_dialog_phone); 
+				indexDiaName = (TextView) dialog.findViewById(R.id.index_item_dialog_name);
+				faceImgView = (ImageView) dialog.findViewById(R.id.index_item_dialog_faceimg);
+				
+				indexDiaPhone.setText((String)friends.get((int)arg3).get("uphone"));
+				indexDiaName.setText((String)friends.get((int)arg3).get("uname"));
+				String faceimgurl = (String)friends.get((int)arg3).get("faceimgurl");
+				
+				Bitmap faceimgbit = AppCache.getImage("http://www.hello008.com/Public/Uploads/"+faceimgurl);
+				faceImgView.setImageBitmap(faceimgbit);
+				
+				LayoutParams lay = dialog.getWindow().getAttributes();  
+				setParams(lay);//设置遮罩参数  
+				dialog.show();
+			}
+			});
+	}
 	 
 	 	
 	 
@@ -121,10 +184,10 @@ public class IndexActivity extends BaseUi{
     	 DisplayMetrics dm = new DisplayMetrics();  
     	 getWindowManager().getDefaultDisplay().getMetrics(dm);  
     	 Rect rect = new Rect();  
-    	 View view = getWindow().getDecorView();  
-    	 view.getWindowVisibleDisplayFrame(rect);  
     	 lay.height = dm.heightPixels - rect.top;  
     	 lay.width = dm.widthPixels;  
+    	 View view = getWindow().getDecorView();  
+    	 view.getWindowVisibleDisplayFrame(rect);  
      }  
 	    
 	    class AnsyTry extends AsyncTask<String, HashMap<String, String>, List<Map<String, Object>>>{
@@ -132,11 +195,12 @@ public class IndexActivity extends BaseUi{
 	      	  JSONTokener jsonParser;
 	      	  SharedPreferences setting;
 	      	  HashMap<String, String> map;
-	      	  
+	      	  Dialog dialogLoad;
 	         
-	          public AnsyTry(HashMap<String, String> map) {
+	          public AnsyTry(HashMap<String, String> map,Dialog dialogLoad) {
 	              super();
 	              this.map = map;
+	              this.dialogLoad = dialogLoad;
 	          }
 	          
 	          @Override
@@ -153,12 +217,13 @@ public class IndexActivity extends BaseUi{
 		          	Integer netType = HttpUtil.getNetType(IndexActivity.this);
 					if(netType != HttpUtil.NONET_INT){//网络连接正常
 						try {
-				   				//网络请求
-				   				friendResult = client.post(map);
-				   				//JSON 解析
-				   				friends = JsonParser.parseJsonList(friendResult);
+								friends = friendSqlite.getAllFriends();
+				   				
 				   				if(friends == null){
-				   					friends = friendSqlite.getAllFriends();
+				   					//网络请求
+					   				friendResult = client.post(map);
+					   				//JSON 解析
+					   				friends = JsonParser.parseJsonList(friendResult);
 				   				}
 				   				for (Map<String, Object> friend : friends) {
 				   					friendO = new Friend();
@@ -191,7 +256,7 @@ public class IndexActivity extends BaseUi{
 	          /**
 	           * 执行ui变更操作
 	           */
-	          protected void onPostExecute(List<Map<String, Object>> friends) {
+	          protected void onPostExecute(final List<Map<String, Object>> friends) {
 	        	    //自定义adapter
 	        	  	friendList = new FriendList(IndexActivity.this, friends);
 	   				ListView list = (ListView) findViewById(R.id.friendlist);
@@ -199,15 +264,31 @@ public class IndexActivity extends BaseUi{
 //		   		    Toast.makeText(IndexActivity.this,friendResult,Toast.LENGTH_LONG).show();
 	   				IndexActivity.this.setHandler(new IndexHandler(IndexActivity.this, friendList));
 	   				IndexActivity.this.friendList = friendList;
+	   				dialogLoad.dismiss();
 	   				
 	   				//设置listviewitem监听器
 	   				list.setOnItemClickListener(new OnItemClickListener() {
 						@Override
 						public void onItemClick(AdapterView<?> arg0, View arg1,
 								int arg2, long arg3) {
+							TextView indexDiaPhone = null;
+							TextView indexDiaName = null;
+							ImageView faceImgView = null;
+							
 							//创建遮罩dialog
 							Dialog dialog  = new Dialog(IndexActivity.this, R.style.mydialog);
 							dialog.setContentView(R.layout.indexitem_dialog);  
+							indexDiaPhone = (TextView) dialog.findViewById(R.id.index_item_dialog_phone); 
+							indexDiaName = (TextView) dialog.findViewById(R.id.index_item_dialog_name);
+							faceImgView = (ImageView) dialog.findViewById(R.id.index_item_dialog_faceimg);
+							
+							indexDiaPhone.setText((String)friends.get((int)arg3).get("uphone"));
+							indexDiaName.setText((String)friends.get((int)arg3).get("uname"));
+							String faceimgurl = (String)friends.get((int)arg3).get("faceimgurl");
+							
+							Bitmap faceimgbit = AppCache.getImage("http://www.hello008.com/Public/Uploads/"+faceimgurl);
+							faceImgView.setImageBitmap(faceimgbit);
+							
 							LayoutParams lay = dialog.getWindow().getAttributes();  
 							setParams(lay);//设置遮罩参数  
 							dialog.show();

@@ -20,7 +20,7 @@ public class RoundAngelImageView extends ImageView {
     private Paint paint; 
     private int roundWidth = 10; 
     private int roundHeight = 10; 
-    private Paint paint2; 
+    private Paint paint2;  
  
     public RoundAngelImageView(Context context, AttributeSet attrs, int defStyle) { 
         super(context, attrs, defStyle); 
@@ -38,7 +38,6 @@ public class RoundAngelImageView extends ImageView {
     } 
      
     private void init(Context context, AttributeSet attrs) { 
-         
         if(attrs != null) {    
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundAngelImageView);  
             roundWidth= a.getDimensionPixelSize(R.styleable.RoundAngelImageView_roundWidth, roundWidth); 
