@@ -64,7 +64,7 @@
 	      </LinearLayout>
 	      
 	      <Button
-	        android:id="@+id/logbutton"
+	        android:id="@+id/callbutton"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="1"

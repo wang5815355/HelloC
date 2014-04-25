@@ -15,6 +15,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,9 +25,11 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -267,7 +270,7 @@ public class IndexActivity extends BaseUi{
 	   				list.setOnItemClickListener(new OnItemClickListener() {
 						@Override
 						public void onItemClick(AdapterView<?> arg0, View arg1,
-								int arg2, long arg3) {
+								int arg2, final long arg3) {
 							TextView indexDiaPhone = null;
 							TextView indexDiaName = null;
 							ImageView faceImgView = null;
@@ -278,15 +281,27 @@ public class IndexActivity extends BaseUi{
 							indexDiaPhone = (TextView) dialog.findViewById(R.id.index_item_dialog_phone); 
 							indexDiaName = (TextView) dialog.findViewById(R.id.index_item_dialog_name);
 							faceImgView = (ImageView) dialog.findViewById(R.id.index_item_dialog_faceimg);
+							Button callBtn = (Button)dialog.findViewById(R.id.callbutton);
 							
 							Log.w("friends",friends.toString());
 							
 							indexDiaPhone.setText((String)friends.get((int)arg3).get("uphone"));
 							indexDiaName.setText((String)friends.get((int)arg3).get("uname"));
 							String faceimgurl = (String)friends.get((int)arg3).get("faceimgurl");
-							
 							Bitmap faceimgbit = AppCache.getImage("http://www.hello008.com/Public/Uploads/"+faceimgurl);
 							faceImgView.setImageBitmap(faceimgbit);
+							
+							//设置拨号按钮事件
+							callBtn.setOnClickListener(new OnClickListener() {
+								@Override
+								public void onClick(View arg0) {
+									//调用系统的拨号服务实现电话拨打功能
+						            //封装一个拨打电话的intent，并且将电话号码包装成一个Uri对象传入
+						            Intent intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+(String)friends.get((int)arg3).get("uphone")));
+						            IndexActivity.this.startActivity(intent);//内部类
+						            dialogLoad.dismiss(); 
+								}
+							});
 							
 							LayoutParams lay = dialog.getWindow().getAttributes();  
 							setParams(lay);//设置遮罩参数  

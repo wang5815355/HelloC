@@ -96,8 +96,9 @@ containing a value of this type.
         public static final int loginbuttonpre=0x7f02000b;
     }
     public static final class id {
-        public static final int action_settings=0x7f090012;
-        public static final int cs_main_dialog_text=0x7f090010;
+        public static final int action_settings=0x7f090013;
+        public static final int callbutton=0x7f09000f;
+        public static final int cs_main_dialog_text=0x7f090011;
         public static final int editText1=0x7f090001;
         public static final int editText2=0x7f090002;
         public static final int faceimg=0x7f090005;
@@ -107,9 +108,9 @@ containing a value of this type.
         public static final int index_item_dialog_name=0x7f09000e;
         public static final int index_item_dialog_phone=0x7f09000d;
         public static final int index_item_dialog_text=0x7f09000b;
-        public static final int index_item_dialog_text2=0x7f09000f;
+        public static final int index_item_dialog_text2=0x7f090010;
         public static final int logbutton=0x7f090003;
-        public static final int progressBar1=0x7f090011;
+        public static final int progressBar1=0x7f090012;
         public static final int textView1=0x7f090000;
         public static final int top=0x7f090009;
         public static final int top_menu=0x7f090008;
