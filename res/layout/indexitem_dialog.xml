@@ -31,7 +31,7 @@
 		     android:background="@color/tran"
 		     android:gravity="center">
 		     
-		    <com.example.util.RoundImageView 
+		    <com.hello008.util.RoundImageView 
 				android:id="@+id/index_item_dialog_faceimg"
 				android:layout_width="156dip"
 				android:layout_height="156dip"
