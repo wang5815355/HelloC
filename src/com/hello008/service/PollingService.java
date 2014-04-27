@@ -16,6 +16,8 @@ import com.hello008.util.AppClient;
 import com.hello008.util.HttpUtil;
 import com.hello008.util.JsonParser;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +27,9 @@ import android.util.Log;
 
 public class PollingService extends Service {
 	 
-    public static final String ACTION = "com.exzample.service.PollingService";
+    public static final String ACTION = "com.hello008.service.PollingService";
+    NotificationManager mManager;
+    Notification mNotification;
      
 //    private Notification mNotification;
 //    private NotificationManager mManager;
@@ -46,22 +50,26 @@ public class PollingService extends Service {
         new PollingThread().start();
     }
  
-    //初始化通知栏配置
+//    //初始化通知栏配置
 //    private void initNotifiManager() {
 //        mManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 //        int icon = R.drawable.ic_launcher;
 //        mNotification = new Notification();
 //        mNotification.icon = icon;
 //        mNotification.tickerText = "New Message";
-//        mNotification.defaults |= Notification.DEFAULT_SOUND;
-//        mNotification.flags = Notification.FLAG_AUTO_CANCEL;
+//        mNotification.defaults = Notification.DEFAULT_LIGHTS;
+//        mNotification.ledARGB = 0xff00ff00;
+//        mNotification.ledOnMS = 300;
+//        mNotification.ledOffMS = 1000;
+//        mNotification.flags = Notification.FLAG_SHOW_LIGHTS;
 //    }
- 
-    //弹出Notification
-//    private void showNotification() {
+// 
+//    //弹出Notification
+//    @SuppressWarnings("deprecation")
+//	private void showNotification() {
 //        mNotification.when = System.currentTimeMillis();
 //        //Navigator to the new activity when click the notification title
-//        Intent i = new Intent(this, MessageActivity.class);
+//        Intent i = new Intent(this, IndexActivity.class);
 //        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i,
 //                Intent.FLAG_ACTIVITY_NEW_TASK);
 //        mNotification.setLatestEventInfo(this,
@@ -80,7 +88,7 @@ public class PollingService extends Service {
     	Friend friendO = null;
     	AppClient client = new AppClient("/Index/queryMyFriend");//客户端初始化
     	HashMap<String, String> map = new HashMap<String, String>();
-	    map.put("pagenum","1");
+	    map.put("phone","1");
 	    FriendSqlite friendSqlite = new FriendSqlite(getApplicationContext());
 	    
     	//判断网络连接状态
@@ -93,7 +101,8 @@ public class PollingService extends Service {
    				//JSON 解析
    				friends = JsonParser.parseJsonList(friendResult);
    				
-   				if(friends.size() == 0){//重新登录
+   				if(friends == null || friends.size() == 0){//重新登录
+   					Log.w("polling", "ceshi4");
    					JSONObject jo;
    					client = new AppClient("/Public/register");//客户端初始化
    					//获取当前用户登录账号以及密码
@@ -143,7 +152,9 @@ public class PollingService extends Service {
    	   					friendSqlite.updateFriend(friendO);
    					}
    				}
-   				
+   				Log.w("polling","ceshi4");
+//   				initNotifiManager();
+//   				showNotification();
    				//发送广播
    				Intent intent=new Intent();
    				intent.setAction("ACTION_MY");

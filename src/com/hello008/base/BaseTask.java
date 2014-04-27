@@ -9,6 +9,7 @@ public class BaseTask {
 	public static final int SHOW_TOAST = 4;
 	public static final int LOAD_IMAGE = 5;
 	public static final int UPDATE_INDEXT = 6;
+	public static final int UPDATE_APP = 7;
 	
 	private int id = 0;
 	private String name = "";

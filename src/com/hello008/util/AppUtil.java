@@ -23,13 +23,45 @@ import org.json.JSONObject;
 import android.app.Service;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ParseException;
 
 import com.hello008.base.BaseMessage;
 import com.hello008.base.BaseModel;
+import com.hello008.hello.R;
 import com.hello008.model.Customer;
 
 public class AppUtil {
+	
+	/**
+	 * 获取版本号
+	 * @author 王凯
+	 */
+	public static int getVerCode(Context context) {
+        int verCode = -1;
+        try {
+            verCode = context.getPackageManager().getPackageInfo(
+                    context.getPackageName(), 0).versionCode;
+        } catch (NameNotFoundException e) {
+        }
+        return verCode;
+    }
+   
+    public static String getVerName(Context context) {
+        String verName = "";
+        try {
+            verName = context.getPackageManager().getPackageInfo(
+            		context.getPackageName(), 0).versionName;
+        } catch (NameNotFoundException e) {
+        }
+        return verName;   
+    }
+    
+    public static String getAppName(Context context) {
+        String verName = context.getResources()
+        .getText(R.string.app_name).toString();
+        return verName;
+    }
 	
 	/* md5 加密 */
 	static public String md5 (String str) {

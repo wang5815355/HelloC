@@ -19,22 +19,29 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.NoTitleBar" >
+        android:theme="@android:style/Theme.NoTitleBar">
         <activity
-            android:name="com.hello008.hello.MainActivity"
-            android:label="@string/app_name" >
+            android:name="com.hello008.hello.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.hello008.hello.IndexActivity">
+        <activity android:name="com.hello008.hello.IndexActivity"
+          >
         </activity>
         
         <service android:name="com.hello008.service.PollingService"
             	 android:exported="false"> 
         	<intent-filter> 
-                <action android:name="com.exzample.service.PollingService" />  
+                <action android:name="com.hello008.service.PollingService" />  
+                <category android:name="android.intent.category.default" /> 
+       	 	</intent-filter> 
+		</service>
+		<service android:name="com.hello008.service.UpdatePollingService"
+            	 android:exported="false"> 
+        	<intent-filter> 
+                <action android:name="com.hello008.service.UpdatePollingService" />  
                 <category android:name="android.intent.category.default" /> 
        	 	</intent-filter> 
 		</service>

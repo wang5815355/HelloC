@@ -7,9 +7,13 @@ import java.util.Map;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -42,6 +46,7 @@ import com.hello008.hello.R;
 import com.hello008.list.FriendList;
 import com.hello008.model.Friend;
 import com.hello008.service.PollingService;
+import com.hello008.service.UpdatePollingService;
 import com.hello008.sqlite.FriendSqlite;
 import com.hello008.util.AppCache;
 import com.hello008.util.AppClient;
@@ -54,6 +59,7 @@ public class IndexActivity extends BaseUi{
 //	private SimpleAdapter sadapter;
 	private FriendList friendList = null;
 	private FriendSqlite friendSqlite = null;
+	Dialog dialogLoad = null;
 	
 	//接收广播 当用户数据更新时
 	private BroadcastReceiver br = new BroadcastReceiver() {
@@ -72,30 +78,25 @@ public class IndexActivity extends BaseUi{
 	
 	 @Override
 	 protected void onCreate(Bundle savedInstanceState) {
-	      super.onCreate(savedInstanceState);
+		  super.onCreate(savedInstanceState);
 	      setContentView(R.layout.index);
 	      
 	      //创建加载dialog
-		  Dialog dialogLoad  = new Dialog(IndexActivity.this, R.style.mydialog);
+	      dialogLoad  = new Dialog(IndexActivity.this, R.style.mydialog);
 		  dialogLoad.setContentView(R.layout.index_load);
 		  LayoutParams layLoad = dialogLoad.getWindow().getAttributes();  
 		  setParams(layLoad);//设置遮罩参数  
 		  dialogLoad.show();
 	    	  
 	      HashMap<String, String> map = new HashMap<String, String>();
-		  map.put("pagenum","1");
+		  map.put("phone","1");//手机客户端 请求全部好友
 		  AnsyTry anys=new AnsyTry(map,dialogLoad);
 		  anys.execute();
 		  
-		  //接收器的动态注册，Action必须与Service中的Action一致
+		  //广播接收器的动态注册，Action必须与Service中的Action一致
 	      registerReceiver(br, new IntentFilter("ACTION_MY"));
-		  new Handler().postDelayed(new Runnable(){  
-			     public void run() {  
-			    	 //启动轮询service
-				      PollingUtils.startPollingService(IndexActivity.this, 6, PollingService.class, PollingService.ACTION);
-			     }  
-			}, 500);
-		 
+	      //启动检测版本更新service轮询
+	      PollingUtils.startPollingService(IndexActivity.this,60*60*24*2, UpdatePollingService.class, UpdatePollingService.ACTION_UPDATE);
 	  }
 	 
 	/**
@@ -139,9 +140,8 @@ public class IndexActivity extends BaseUi{
 			}
 			});
 	}
-	 
-	 	
-	 
+	
+	
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -154,8 +154,19 @@ public class IndexActivity extends BaseUi{
 	@Override
 	protected void onResume() {
 		super.onResume();
+				 
+//		HashMap<String, String> map = new HashMap<String, String>();
+//		map.put("pagenum","1");
+//		AnsyTry anys=new AnsyTry(map,dialogLoad);
+//		anys.execute();		
+		
 		//启动轮询service
-	    PollingUtils.startPollingService(this, 6, PollingService.class, PollingService.ACTION);
+		 new Handler().postDelayed(new Runnable(){  
+		     public void run() {  
+		    	 //启动轮询service
+			      PollingUtils.startPollingService(IndexActivity.this, 6, PollingService.class, PollingService.ACTION);
+		     }  
+		}, 500);
 	}
 
 
@@ -175,6 +186,7 @@ public class IndexActivity extends BaseUi{
 	    return super.onKeyDown(keyCode, event);
 	}
 	
+	
 	/**
      * 设置遮罩dialog样式
      * @author wangkai
@@ -183,10 +195,10 @@ public class IndexActivity extends BaseUi{
     	 DisplayMetrics dm = new DisplayMetrics();  
     	 getWindowManager().getDefaultDisplay().getMetrics(dm);  
     	 Rect rect = new Rect();  
-    	 lay.height = dm.heightPixels - rect.top;  
-    	 lay.width = dm.widthPixels;  
     	 View view = getWindow().getDecorView();  
     	 view.getWindowVisibleDisplayFrame(rect);  
+    	 lay.height = dm.heightPixels - rect.top;  
+    	 lay.width = dm.widthPixels;  
      }  
 	    
 	    class AnsyTry extends AsyncTask<String, HashMap<String, String>, List<Map<String, Object>>>{
@@ -195,13 +207,16 @@ public class IndexActivity extends BaseUi{
 	      	  SharedPreferences setting;
 	      	  HashMap<String, String> map;
 	      	  Dialog dialogLoad;
+	      	  int newVerCode ;
+	      	  String newVerName ;
+	      	  ProgressDialog pBar = null;
 	         
 	          public AnsyTry(HashMap<String, String> map,Dialog dialogLoad) {
 	              super();
 	              this.map = map;
 	              this.dialogLoad = dialogLoad;
 	          }
-	          
+	      	
 	          @Override
 	          /**
 	           * 网络耗时操作
@@ -215,6 +230,9 @@ public class IndexActivity extends BaseUi{
 		          	//判断网络连接状态
 		          	Integer netType = HttpUtil.getNetType(IndexActivity.this);
 					if(netType != HttpUtil.NONET_INT){//网络连接正常
+						Log.w("polling", "版本更新");
+//						updateApp(); 检测是否有版本更新
+						
 						try {
 								friends = friendSqlite.getAllFriends();
 				   				
@@ -336,7 +354,7 @@ public class IndexActivity extends BaseUi{
 	  private class IndexHandler extends BaseHandler {
 //		  	SimpleAdapter sadapter;
 		  	private FriendList friendList;
-		  	
+		  	private ProgressDialog pBar;
 			public IndexHandler(BaseUi ui,FriendList friendList) {
 				super(ui);
 				this.friendList = friendList;
@@ -348,6 +366,32 @@ public class IndexActivity extends BaseUi{
 					switch (msg.what) {
 						case BaseTask.LOAD_IMAGE:
 							friendList.notifyDataSetChanged();
+							break;
+						case BaseTask.UPDATE_APP:
+							AlertDialog alert = null;
+							AlertDialog.Builder builder = new AlertDialog.Builder(IndexActivity.this);
+				    		builder.setMessage("软件更新")
+				    		.setCancelable(false)
+				    		.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+				    		public void onClick(DialogInterface dialog, int id) {
+//				    			pBar = new ProgressDialog(IndexActivity.this);
+//								pBar.setTitle("正在下载");
+//								pBar.setMessage("请稍候...");
+//								pBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//								pBar.show();
+//								downApp("http://www.hello008.com/Public/App/Hello.apk",pBar);
+//				    			Uri uri = Uri.parse("http://www.hello008.com/Public/App/Hello.apk");  
+//				    			Intent it = new Intent(Intent.ACTION_VIEW, uri);  
+//				    			startActivity(it);
+				    		}
+				    		})
+				    		.setNegativeButton("No", new DialogInterface.OnClickListener() {
+					    		public void onClick(DialogInterface dialog, int id) {
+					    			dialog.cancel();
+					    		}
+				    		});
+					    	alert = builder.create();
+					    	alert.show();
 							break;
 					}
 				} catch (Exception e) {
