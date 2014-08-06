@@ -34,6 +34,8 @@ public class MainActivity extends BaseUi {
 	private EditText editText;//登录账号
 	private EditText editPass;//登录密码
 	private Button logButton;//登录按钮
+	private Button regButton;//注册按钮
+	
 	private String logResult;//登录验证返回字符串
 	BaseMessage str;
 	
@@ -54,7 +56,8 @@ public class MainActivity extends BaseUi {
         //控件对象初始化，及记住密码
         editText = (EditText) this.findViewById(R.id.editText1);//登陆账号
         editPass = (EditText) this.findViewById(R.id.editText2);//登录密码
-        logButton = (Button) this.findViewById(R.id.logbutton);
+        logButton = (Button) this.findViewById(R.id.logbutton);//登陆按钮
+        regButton = (Button) this.findViewById(R.id.regButton);//注册按钮
         
         //判断当前用户是否登录
         setting = getPreferences(Context.MODE_APPEND);
@@ -74,6 +77,30 @@ public class MainActivity extends BaseUi {
         editText.setSelection(setting.getString("username","").length());
         editPass.setSelection(setting.getString("password","").length());
         
+        /**
+		 * 注册按钮regButton点击响应事件
+		 * @author wangkai
+		 */
+		regButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				//判断网络连接状态
+				Integer netType = HttpUtil.getNetType(MainActivity.this);
+				if(netType == HttpUtil.NONET_INT){//网络未连接
+					Toast.makeText(MainActivity.this,"网络未连接,请查看",Toast.LENGTH_SHORT).show();
+					return;
+				}
+				
+				//跳转到注册activity
+				MainActivity.this.forwardunfinish(RegisterActivity.class);
+			}
+		});
+        
+		/**
+		 * 登录按钮点击事件处理
+		 * @author wangkai
+		 */
         logButton.setOnClickListener(new OnClickListener() {
 			
 			@Override

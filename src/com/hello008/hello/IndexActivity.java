@@ -69,6 +69,10 @@ public class IndexActivity extends BaseUi{
 					Log.w("polling", "接收广播");
 					friendSqlite = new FriendSqlite(IndexActivity.this);
 					friends = friendSqlite.getAllFriends();
+					//加载好友头像
+					for (Map<String, Object> friend : friends) {
+						loadImage("http://www.hello008.com/Public/Uploads/"+(String)friend.get("faceimgurl"));
+   					}
 					if(friendList!=null){
 						friendList.setFriendList(friends);
 						friendList.notifyDataSetChanged();
@@ -147,6 +151,7 @@ public class IndexActivity extends BaseUi{
 		super.onPause();
 		//关闭service轮询
 		PollingUtils.stopPollingService(this,PollingService.class, PollingService.ACTION);
+		
 	}
 
 
@@ -164,7 +169,7 @@ public class IndexActivity extends BaseUi{
 		 new Handler().postDelayed(new Runnable(){  
 		     public void run() {  
 		    	 //启动轮询service
-			      PollingUtils.startPollingService(IndexActivity.this, 6, PollingService.class, PollingService.ACTION);
+			      PollingUtils.startPollingService(IndexActivity.this, 15, PollingService.class, PollingService.ACTION);
 		     }  
 		}, 500);
 	}
@@ -253,6 +258,10 @@ public class IndexActivity extends BaseUi{
 					   					Log.w("friends", friendO.toString());
 										loadImage("http://www.hello008.com/Public/Uploads/"+(String)friend.get("faceimgurl"));
 									}
+				   				}else{
+				   					for (Map<String, Object> friend : friends) {
+										loadImage("http://www.hello008.com/Public/Uploads/"+(String)friend.get("faceimgurl"));
+				   					}
 				   				}
 				   				
 			   			} catch (Exception e) {

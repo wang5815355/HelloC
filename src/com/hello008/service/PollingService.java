@@ -8,10 +8,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import com.hello008.base.BaseTask;
+import com.hello008.base.BaseTaskPool;
 import com.hello008.base.BaseUi;
 import com.hello008.model.Customer;
 import com.hello008.model.Friend;
 import com.hello008.sqlite.FriendSqlite;
+import com.hello008.util.AppCache;
 import com.hello008.util.AppClient;
 import com.hello008.util.HttpUtil;
 import com.hello008.util.JsonParser;
@@ -23,6 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.os.Message;
 import android.util.Log;
 
 public class PollingService extends Service {
@@ -30,6 +34,7 @@ public class PollingService extends Service {
     public static final String ACTION = "com.hello008.service.PollingService";
     NotificationManager mManager;
     Notification mNotification;
+    protected BaseTaskPool taskPool;
      
 //    private Notification mNotification;
 //    private NotificationManager mManager;
@@ -140,6 +145,7 @@ public class PollingService extends Service {
 	   					}
 	   		    	}
    				}else{
+   					friendSqlite.delete();
 //   					BaseUi baseUi = new BaseUi();
    					for (Map<String, Object> friend : friends) {
    	   					friendO = new Friend();
@@ -167,6 +173,11 @@ public class PollingService extends Service {
     		
     	}
     }
+    
+    
+    public Context getContext () {
+		return this;
+	}
     
  
     /**

@@ -51,6 +51,12 @@ public class FriendSqlite extends BaseSqlite {
 		return "DROP TABLE IF EXISTS " + tableName();
 	}
 
+	public void delete(){
+		String whereSql = Friend.COL_ID + "<>?";
+		String[] whereParams = new String[]{"-1"};
+		this.delete(whereSql,whereParams);
+	}
+	
 	public boolean updateFriend(Friend friend) {
 		// prepare Friend   data
 		ContentValues values = new ContentValues();

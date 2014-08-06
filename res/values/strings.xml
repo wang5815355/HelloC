@@ -4,11 +4,18 @@
     <string name="app_name">Hello</string>
     <string name="action_settings">Settings</string>
     <string name="title">Hello</string>
+    <string name="titlearea">选择国家或地区</string>
     <string name="loginbutton">登 录</string>
+    <string name="regbutton">注册</string>
+    <string name="submit">提 交</string>
     <string name="account">邮箱账号</string>
     <string name="password">登录密码</string>
+    <string name="phonenumber">手机号码</string>
+    <string name="creataccount">创建账户</string>
     <string name="faceDescription">好友头像</string>
     <string name="loadDescription">加载进度条</string>
+    <string name="country">+86 中国（国家，地区）</string>
+    <string name="normalarea">86</string>
     <string name="call">呼 叫</string>
     <string name="back">背景图片</string>
 

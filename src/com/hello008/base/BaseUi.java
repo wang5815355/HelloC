@@ -63,6 +63,32 @@ public class BaseUi extends Activity{
 		this.finish();
 	}
 	
+	/**
+	 * activity 带参数跳转
+	 * @param class
+	 * @param params
+	 * @author wangkai
+	 */
+	public void forward (Class<?> classObj, Bundle params) {
+		Intent intent = new Intent();
+		intent.setClass(this, classObj);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.putExtras(params);
+		this.startActivity(intent);
+		this.finish();
+	}
+	
+	/**
+	 * 跳转activity不关闭上层activity
+	 * @author wangkai
+	 */
+	public void forwardunfinish(Class<?> classobj){
+		Intent intent = new Intent();
+		intent.setClass(this, classobj);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		this.startActivity(intent);
+	}
+	
 	public BaseTaskPool getTaskPool () {
 		return this.taskPool;
 	}
