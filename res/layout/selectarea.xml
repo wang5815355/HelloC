@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"  
+    android:orientation="vertical"
+    android:background="@color/gray" >
+    
+    <RelativeLayout
+        android:id="@+id/top_menu" 
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content" >  
+		
+		<TextView android:id="@+id/top"  
+			android:layout_width="fill_parent"  
+			android:layout_height="50dip" 
+			android:gravity="center"
+			android:background="@color/blue2"  
+			android:text="@string/titlearea"
+			android:textSize="22sp"
+			android:textStyle="bold"
+			android:textColor="@color/wight" /> 
+	</RelativeLayout>
+	
+	<ListView
+	    android:id="@id/arealist"  
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:divider="@drawable/divider"
+		android:dividerHeight="0.5dip"
+		android:cacheColorHint="@android:color/transparent"
+		android:headerDividersEnabled = "true"
+		android:footerDividersEnabled = "true"/>
+	
+	
+</LinearLayout>

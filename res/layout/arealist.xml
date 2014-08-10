@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 选择显示国家和地区列表 -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="horizontal"
+	android:id="@+id/arealist"
+	android:background="@drawable/frienditemselect" >
+	
+		    <TextView android:id="@+id/areaname"
+		        android:layout_width="wrap_content"
+		        android:layout_height="match_parent"
+		        android:gravity="center_vertical"
+		        android:typeface="normal"
+		        android:textSize="16sp"
+		        android:textColor="#555566"
+		        android:textStyle="bold"
+		        android:layout_margin="5dip"
+		        android:padding="7sp"/>
+		    
+		     <TextView android:id="@+id/areanamegone"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:gravity="center_vertical"
+		        android:visibility="gone"/>
+</LinearLayout>
