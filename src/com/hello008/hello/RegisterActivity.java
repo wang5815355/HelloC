@@ -10,10 +10,13 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,12 +25,17 @@ import com.hello008.base.BaseAuth;
 import com.hello008.base.BaseUi;
 import com.hello008.model.Customer;
 import com.hello008.util.AppClient;
+import com.hello008.util.HttpUtil;
 
 public class RegisterActivity extends BaseUi {
 	private Button subButton;//提交注册按钮
 	private Button selectButton;//选择国家地区按钮
 	private EditText editereagone;//国家或地区值隐藏编辑框
-	private String logResult;//登录验证返回字符串
+	private EditText editemail;//注册邮箱
+	private EditText editpassword;//注册密码
+	private EditText editphone;//注册手机号
+	
+	private String regResult;//登录验证返回字符串
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +46,9 @@ public class RegisterActivity extends BaseUi {
 		subButton = (Button) this.findViewById(R.id.submitbutton);//提交注册资料按钮
 		selectButton = (Button) this.findViewById(R.id.selectarea);//选择国家
 		editereagone = (EditText) this.findViewById(R.id.editereagone);//国家或地区值隐藏编辑框
+		editemail = (EditText) this.findViewById(R.id.email);
+		editpassword = (EditText) this.findViewById(R.id.password);
+		editphone = (EditText) this.findViewById(R.id.phone);
 		
 		//点击国家地区选择按钮
 		selectButton.setOnClickListener(new OnClickListener() {
@@ -53,9 +64,50 @@ public class RegisterActivity extends BaseUi {
 			
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
+				//判断网络连接状态
+				Integer netType = HttpUtil.getNetType(RegisterActivity.this);
+				if(netType == HttpUtil.NONET_INT){//网络未连接
+					Toast.makeText(RegisterActivity.this,"网络未连接,请查看",Toast.LENGTH_SHORT).show();
+					return;
+				}
+				
+				//获取当前用户注册信息 
+				String email = editemail.getText().toString();//注册邮箱账号
+				String password = editpassword.getText().toString();//注册密码
+				String AreaCode = editereagone.getText().toString();//手机区号
+				String phone = editphone.getText().toString();//注册手机号
+				
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("Email",email);
+				map.put("Password",password);
+				map.put("AreaCode",AreaCode);
+				map.put("Phone",phone);
+				
+				//创建遮罩dialog
+				Dialog dialog  = new Dialog(RegisterActivity.this, R.style.mydialog);
+				dialog.setContentView(R.layout.main_dialog);  
+				LayoutParams lay = dialog.getWindow().getAttributes();  
+				setParams(lay);//设置遮罩参数  
+				dialog.show();
+				
+				AnsyTry anys=new AnsyTry(map,dialog);
+				anys.execute();
 				
 			}
+			
+			/**
+		     * 设置遮罩dialog样式
+		     * @author wangkai
+		     * */
+		    private void setParams(LayoutParams lay) {  
+		    	 DisplayMetrics dm = new DisplayMetrics();  
+		    	 getWindowManager().getDefaultDisplay().getMetrics(dm);  
+		    	 Rect rect = new Rect();  
+		    	 View view = getWindow().getDecorView();  
+		    	 view.getWindowVisibleDisplayFrame(rect);  
+		    	 lay.height = dm.heightPixels - rect.top;  
+		    	 lay.width = dm.widthPixels;  
+		     }  
 		});
 		
 		//接受跳转回的国家选择结果
@@ -91,12 +143,12 @@ public class RegisterActivity extends BaseUi {
 	       
 	       @Override
 	       protected Dialog doInBackground(String... params) {
-	       	AppClient client = new AppClient("/Public/register");//客户端初始化
+	       	AppClient client = new AppClient("/Public/registerIn_phone_1");//客户端初始化
 				try {
-					logResult = client.post(hmap);
-					if(!(logResult.equals("网络错误") || logResult == null)){
+					regResult = client.post(hmap);
+					if(!(regResult.equals("网络错误") || regResult == null)){
 						//json解析
-						jsonParser = new JSONTokener(logResult);  
+						jsonParser = new JSONTokener(regResult);  
 						jo = (JSONObject) jsonParser.nextValue();
 					}else{
 						jo = new JSONObject().put("status","-1");
@@ -135,8 +187,8 @@ public class RegisterActivity extends BaseUi {
 	    	}
 			
 			
-			if(status.equals("3")){//当登录成功
-				dialog.dismiss();
+			if(status.equals("5")){//当注册成功
+				//dialog.dismiss();
 				BaseAuth.setLogin(true);
 				setting = getPreferences(Context.MODE_PRIVATE);
 				SharedPreferences.Editor editor = setting.edit();
@@ -149,7 +201,7 @@ public class RegisterActivity extends BaseUi {
 				customer.setSid(sid);//设置sessionid
 				RegisterActivity.this.forward(IndexActivity.class);
 //				Toast.makeText(MainActivity.this,status,Toast.LENGTH_SHORT).show();
-			}else{//登录不成功
+			}else{//注册不成功
 				BaseAuth.setLogin(true);
 //				progress.dismiss();
 				dialog.cancel();
