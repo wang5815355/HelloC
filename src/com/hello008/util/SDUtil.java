@@ -37,6 +37,24 @@ public class SDUtil {
 		return BitmapFactory.decodeFile(realFileName, options);
 	}
 	
+	/**
+	 * 获取本地存储图片
+	 * @param fileUrl
+	 * @return
+	 */
+	public static Bitmap getImageUri(String fileUri) {
+		// check image file exists
+		String realFileUri= fileUri;
+		File file = new File(realFileUri);
+		if (!file.exists()) {
+			return null;
+		}
+		// get original image
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = false;
+		return BitmapFactory.decodeFile(realFileUri, options);
+	}
+	
 	public static Bitmap getSample(String fileName) {
 		// check image file exists
 		String realFileName = C.dir.faces + "/" + fileName;

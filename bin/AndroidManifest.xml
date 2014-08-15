@@ -22,16 +22,21 @@
         android:theme="@android:style/Theme.NoTitleBar">
         <activity
             android:name="com.hello008.hello.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+         
         </activity>
         <activity android:name="com.hello008.hello.IndexActivity">
         </activity>
         <activity android:name="com.hello008.hello.RegisterActivity">
         </activity>
         <activity android:name="com.hello008.hello.SelectAreaActivity">
+        </activity>
+        <activity android:name="com.hello008.hello.SelectPicActivity">
+        </activity>
+        <activity android:name="com.hello008.hello.RegisterTwoActivity">
+               <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         
         <service android:name="com.hello008.service.PollingService"

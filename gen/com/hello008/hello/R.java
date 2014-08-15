@@ -89,30 +89,33 @@ containing a value of this type.
         public static final int areabtnselect=0x7f020000;
         public static final int areabutton=0x7f020001;
         public static final int areabuttonpre=0x7f020002;
-        public static final int divider=0x7f020003;
-        public static final int edittextstyle=0x7f020004;
-        public static final int edittextstyle2=0x7f020005;
-        public static final int edittextstyle3=0x7f020006;
-        public static final int friend_list_bg_focus=0x7f020007;
-        public static final int friend_list_bg_normal=0x7f020008;
-        public static final int frienditemselect=0x7f020009;
-        public static final int ic_launcher=0x7f02000a;
-        public static final int imageborder=0x7f02000b;
-        public static final int indexload=0x7f02000c;
-        public static final int logbtnselect=0x7f02000d;
-        public static final int loginbutton=0x7f02000e;
-        public static final int loginbuttonpre=0x7f02000f;
-        public static final int regbtnselect=0x7f020010;
-        public static final int regbutton=0x7f020011;
-        public static final int regbuttonpre=0x7f020012;
+        public static final int clickhead=0x7f020003;
+        public static final int divider=0x7f020004;
+        public static final int edittextstyle=0x7f020005;
+        public static final int edittextstyle2=0x7f020006;
+        public static final int edittextstyle3=0x7f020007;
+        public static final int friend_list_bg_focus=0x7f020008;
+        public static final int friend_list_bg_normal=0x7f020009;
+        public static final int frienditemselect=0x7f02000a;
+        public static final int ic_launcher=0x7f02000b;
+        public static final int imageborder=0x7f02000c;
+        public static final int indexload=0x7f02000d;
+        public static final int logbtnselect=0x7f02000e;
+        public static final int loginbutton=0x7f02000f;
+        public static final int loginbuttonpre=0x7f020010;
+        public static final int regbtnselect=0x7f020011;
+        public static final int regbutton=0x7f020012;
+        public static final int regbuttonpre=0x7f020013;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a001f;
+        public static final int action_settings=0x7f0a0021;
         public static final int arealist=0x7f0a0005;
         public static final int areaname=0x7f0a0006;
         public static final int areanamegone=0x7f0a0007;
+        public static final int btn_take_photo=0x7f0a001e;
         public static final int callbutton=0x7f0a0013;
         public static final int cs_main_dialog_text=0x7f0a0015;
+        public static final int dialog_layout=0x7f0a001d;
         public static final int editText1=0x7f0a0001;
         public static final int editText2=0x7f0a0002;
         public static final int editereagone=0x7f0a001b;
@@ -136,8 +139,8 @@ containing a value of this type.
         public static final int top=0x7f0a000d;
         public static final int top_menu=0x7f0a000c;
         public static final int uname=0x7f0a000a;
-        public static final int upbutton=0x7f0a001d;
-        public static final int upcancel=0x7f0a001e;
+        public static final int upbutton=0x7f0a001f;
+        public static final int upcancel=0x7f0a0020;
         public static final int uphone=0x7f0a000b;
     }
     public static final class layout {
@@ -149,8 +152,10 @@ containing a value of this type.
         public static final int indexitem_dialog=0x7f030005;
         public static final int main_dialog=0x7f030006;
         public static final int register=0x7f030007;
-        public static final int selectarea=0x7f030008;
-        public static final int update_dialog=0x7f030009;
+        public static final int register_two=0x7f030008;
+        public static final int select_pic_layout=0x7f030009;
+        public static final int selectarea=0x7f03000a;
+        public static final int update_dialog=0x7f03000b;
     }
     public static final class menu {
         public static final int main=0x7f090000;
@@ -159,14 +164,15 @@ containing a value of this type.
         public static final int account=0x7f070007;
         public static final int action_settings=0x7f070001;
         public static final int app_name=0x7f070000;
-        public static final int back=0x7f070010;
-        public static final int call=0x7f07000f;
-        public static final int country=0x7f07000d;
+        public static final int back=0x7f070011;
+        public static final int call=0x7f070010;
+        public static final int country=0x7f07000e;
         public static final int creataccount=0x7f07000a;
-        public static final int faceDescription=0x7f07000b;
-        public static final int loadDescription=0x7f07000c;
+        public static final int creataccount_two=0x7f07000b;
+        public static final int faceDescription=0x7f07000c;
+        public static final int loadDescription=0x7f07000d;
         public static final int loginbutton=0x7f070004;
-        public static final int normalarea=0x7f07000e;
+        public static final int normalarea=0x7f07000f;
         public static final int password=0x7f070008;
         public static final int phonenumber=0x7f070009;
         public static final int regbutton=0x7f070005;

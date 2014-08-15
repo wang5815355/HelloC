@@ -284,7 +284,7 @@ public class IndexActivity extends BaseUi{
 	           * 执行ui变更操作
 	           */
 	          protected void onPostExecute(final List<Map<String, Object>> friends) {
-	        	  Log.w("friends",friends.toString());
+	        	  //Log.w("friends",friends.toString());
 	        	  
 	        	    //自定义adapter
 	        	  	friendList = new FriendList(IndexActivity.this, friends);

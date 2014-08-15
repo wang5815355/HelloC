@@ -14,6 +14,7 @@ import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -188,7 +189,7 @@ public class RegisterActivity extends BaseUi {
 			
 			
 			if(status.equals("5")){//当注册成功
-				//dialog.dismiss();
+				dialog.dismiss();
 				BaseAuth.setLogin(true);
 				setting = getPreferences(Context.MODE_PRIVATE);
 				SharedPreferences.Editor editor = setting.edit();

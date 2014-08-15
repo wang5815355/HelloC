@@ -23,6 +23,7 @@ import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -166,6 +167,7 @@ public class MainActivity extends BaseUi {
        @Override
        protected Dialog doInBackground(String... params) {
        	AppClient client = new AppClient("/Public/register");//客户端初始化
+      
 			try {
 				logResult = client.post(hmap);
 				if(!(logResult.equals("网络错误") || logResult == null)){

@@ -12,6 +12,7 @@
     <string name="password">登录密码</string>
     <string name="phonenumber">手机号码</string>
     <string name="creataccount">创建账户</string>
+    <string name="creataccount_two">资料填写</string>
     <string name="faceDescription">好友头像</string>
     <string name="loadDescription">加载进度条</string>
     <string name="country">+86 中国（国家，地区）</string>
