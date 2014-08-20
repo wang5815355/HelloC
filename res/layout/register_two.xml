@@ -31,16 +31,16 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:background="@drawable/edittextstyle"
+        android:background="@drawable/edittextstyle_nomal"
         android:layout_weight="1"
         android:paddingLeft="15sp"
         android:singleLine="true"
-        android:hint="@string/account"
+        android:hint="@string/realname"
         android:textSize="17sp"
         android:textStyle="bold"
         android:textColorHint="#bbffffff"
-        android:textColor="#99eff7">
-
+        android:textColor="#99eff7"
+        android:layout_marginTop="30sp">
         <requestFocus />
     </EditText>
 
@@ -49,13 +49,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/loginbutton"
+        android:text="@string/regfinish"
         android:background="@drawable/logbtnselect"
         android:textColor="#77cff5"
         android:textStyle="bold"
         android:textSize="17sp"
-        android:layout_marginTop="15sp"/>
+        android:layout_marginTop="15sp"
+        />
     
- 
+      <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#e0ffffff"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_weight="8" />
+    
 
 </LinearLayout>

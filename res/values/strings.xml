@@ -19,5 +19,7 @@
     <string name="normalarea">86</string>
     <string name="call">呼 叫</string>
     <string name="back">背景图片</string>
+    <string name="realname">你的真实姓名</string>
+    <string name="regfinish">️完成注册</string>
 
 </resources>

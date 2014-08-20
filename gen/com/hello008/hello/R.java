@@ -94,18 +94,19 @@ containing a value of this type.
         public static final int edittextstyle=0x7f020005;
         public static final int edittextstyle2=0x7f020006;
         public static final int edittextstyle3=0x7f020007;
-        public static final int friend_list_bg_focus=0x7f020008;
-        public static final int friend_list_bg_normal=0x7f020009;
-        public static final int frienditemselect=0x7f02000a;
-        public static final int ic_launcher=0x7f02000b;
-        public static final int imageborder=0x7f02000c;
-        public static final int indexload=0x7f02000d;
-        public static final int logbtnselect=0x7f02000e;
-        public static final int loginbutton=0x7f02000f;
-        public static final int loginbuttonpre=0x7f020010;
-        public static final int regbtnselect=0x7f020011;
-        public static final int regbutton=0x7f020012;
-        public static final int regbuttonpre=0x7f020013;
+        public static final int edittextstyle_nomal=0x7f020008;
+        public static final int friend_list_bg_focus=0x7f020009;
+        public static final int friend_list_bg_normal=0x7f02000a;
+        public static final int frienditemselect=0x7f02000b;
+        public static final int ic_launcher=0x7f02000c;
+        public static final int imageborder=0x7f02000d;
+        public static final int indexload=0x7f02000e;
+        public static final int logbtnselect=0x7f02000f;
+        public static final int loginbutton=0x7f020010;
+        public static final int loginbuttonpre=0x7f020011;
+        public static final int regbtnselect=0x7f020012;
+        public static final int regbutton=0x7f020013;
+        public static final int regbuttonpre=0x7f020014;
     }
     public static final class id {
         public static final int action_settings=0x7f0a0021;
@@ -175,7 +176,9 @@ containing a value of this type.
         public static final int normalarea=0x7f07000f;
         public static final int password=0x7f070008;
         public static final int phonenumber=0x7f070009;
+        public static final int realname=0x7f070012;
         public static final int regbutton=0x7f070005;
+        public static final int regfinish=0x7f070013;
         public static final int submit=0x7f070006;
         public static final int title=0x7f070002;
         public static final int titlearea=0x7f070003;
