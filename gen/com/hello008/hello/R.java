@@ -102,17 +102,21 @@ containing a value of this type.
         public static final int imageborder=0x7f02000d;
         public static final int indexload=0x7f02000e;
         public static final int logbtnselect=0x7f02000f;
-        public static final int loginbutton=0x7f020010;
-        public static final int loginbuttonpre=0x7f020011;
-        public static final int regbtnselect=0x7f020012;
-        public static final int regbutton=0x7f020013;
-        public static final int regbuttonpre=0x7f020014;
+        public static final int logbtnselect_green=0x7f020010;
+        public static final int loginbutton=0x7f020011;
+        public static final int loginbutton_green=0x7f020012;
+        public static final int loginbuttonpre=0x7f020013;
+        public static final int loginbuttonpre_green=0x7f020014;
+        public static final int regbtnselect=0x7f020015;
+        public static final int regbutton=0x7f020016;
+        public static final int regbuttonpre=0x7f020017;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0021;
+        public static final int action_settings=0x7f0a0022;
         public static final int arealist=0x7f0a0005;
         public static final int areaname=0x7f0a0006;
         public static final int areanamegone=0x7f0a0007;
+        public static final int btn_pick_photo=0x7f0a001f;
         public static final int btn_take_photo=0x7f0a001e;
         public static final int callbutton=0x7f0a0013;
         public static final int cs_main_dialog_text=0x7f0a0015;
@@ -140,8 +144,8 @@ containing a value of this type.
         public static final int top=0x7f0a000d;
         public static final int top_menu=0x7f0a000c;
         public static final int uname=0x7f0a000a;
-        public static final int upbutton=0x7f0a001f;
-        public static final int upcancel=0x7f0a0020;
+        public static final int upbutton=0x7f0a0020;
+        public static final int upcancel=0x7f0a0021;
         public static final int uphone=0x7f0a000b;
     }
     public static final class layout {
@@ -179,7 +183,9 @@ containing a value of this type.
         public static final int realname=0x7f070012;
         public static final int regbutton=0x7f070005;
         public static final int regfinish=0x7f070013;
+        public static final int selectpic=0x7f070015;
         public static final int submit=0x7f070006;
+        public static final int takephoto=0x7f070014;
         public static final int title=0x7f070002;
         public static final int titlearea=0x7f070003;
     }

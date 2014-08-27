@@ -17,10 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 /**
- * @author spring sky<br>
- *         Email :vipa1888@163.com<br>
- *         QQ: 840950105<br>
- * @version 创建时间：2012-11-22 上午9:20:03 说明：主要用于选择文件操作
+ * @author wangkai
+ * @version  说明：主要用于选择文件操作
  */
 
 public class SelectPicActivity extends Activity implements OnClickListener {
@@ -66,8 +64,8 @@ public class SelectPicActivity extends Activity implements OnClickListener {
 		dialogLayout.setOnClickListener(this);
 		takePhotoBtn = (Button) findViewById(R.id.btn_take_photo);
 		takePhotoBtn.setOnClickListener(this);
-		// pickPhotoBtn = (Button) findViewById(R.id.btn_pick_photo);
-		// pickPhotoBtn.setOnClickListener(this);
+		pickPhotoBtn = (Button) findViewById(R.id.btn_pick_photo);
+		pickPhotoBtn.setOnClickListener(this);
 		// cancelBtn = (Button) findViewById(R.id.btn_cancel);
 		// cancelBtn.setOnClickListener(this);
 
@@ -83,9 +81,9 @@ public class SelectPicActivity extends Activity implements OnClickListener {
 		case R.id.btn_take_photo:
 			takePhoto();
 			break;
-		// case R.id.btn_pick_photo:
-		// pickPhoto();
-		// break;
+		 case R.id.btn_pick_photo:
+		 pickPhoto();
+		 break;
 		default:
 			finish();
 			break;
