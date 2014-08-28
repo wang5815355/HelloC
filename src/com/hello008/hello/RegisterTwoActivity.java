@@ -12,6 +12,8 @@ import android.widget.ImageView;
 
 public class RegisterTwoActivity extends Activity {
 	private ImageView photo;
+	String fileName = "test";
+	String url = "http://192.168.123.7:8900/upload.aspx";
 	
 	/***
 	 * 从Intent获取图片路径的KEY
