@@ -1,10 +1,11 @@
 package com.hello008.base;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.concurrent.ExecutorService;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -15,25 +16,21 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.hello008.base.BaseApp;
-import com.hello008.base.BaseHandler;
-import com.hello008.base.BaseTask;
-import com.hello008.base.BaseTaskPool;
-import com.hello008.hello.R;
-import com.hello008.util.AppCache;
-import com.hello008.util.AppClient;
-import com.hello008.util.AppUtil;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Message;
 import android.util.Log;
-import android.widget.ProgressBar;
+
+import com.hello008.util.AppCache;
+import com.hello008.util.AppClient;
+import com.hello008.util.AppUtil;
 
 public class BaseUi extends Activity{
 	protected BaseApp app;
@@ -61,6 +58,24 @@ public class BaseUi extends Activity{
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		this.startActivity(intent);
 		this.finish();
+	}
+	
+	/**
+	 * 图片质量压缩
+	 * @author wangkai
+	 */
+	public Bitmap compressImage(Bitmap image) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		image.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+		int options = 100;
+		while ( baos.toByteArray().length / 1024>100) {	//循环判断如果压缩后图片是否大于100kb,大于继续压缩		
+			baos.reset();//重置baos即清空baos
+			image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+			options -= 10;//每次都减少10
+		}
+		ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
+		Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
+		return bitmap;
 	}
 	
 	/**

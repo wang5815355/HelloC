@@ -4,7 +4,7 @@ import java.util.EventObject;
 
 //表单提交返回结果参数
 @SuppressWarnings("serial")
-class FormSubmitResultArgs extends EventObject {
+public class FormSubmitResultArgs extends EventObject {
 	private String _data;
 	private boolean _success;
 
