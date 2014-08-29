@@ -67,7 +67,7 @@ public class RegisterTwoActivity extends BaseUi {
 				bmp.compress(CompressFormat.JPEG, 30, baos);
 				
 				// 添加圖片文件
-				submit.AddFile("photo1", "1408102736210.jpg", baos.toByteArray());
+				submit.AddFile("photo1", "1408102736210.jpeg", baos.toByteArray());
 				
 				submit.addSubmitListener(new FormSubmitResultListener(){
 					 // 取得表單數據
