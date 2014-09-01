@@ -91,7 +91,7 @@ public class PollingService extends Service {
     	List<Map<String, Object>> friends = null;
     	String friendResult = null;
     	Friend friendO = null;
-    	AppClient client = new AppClient("/Index/queryMyFriend");//客户端初始化
+    	AppClient client = new AppClient("/Index/queryMyFriend2");//客户端初始化
     	HashMap<String, String> map = new HashMap<String, String>();
 	    map.put("phone","1");
 	    FriendSqlite friendSqlite = new FriendSqlite(getApplicationContext());

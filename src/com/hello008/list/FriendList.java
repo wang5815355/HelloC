@@ -1,5 +1,7 @@
 package com.hello008.list;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -74,6 +76,7 @@ public class FriendList extends BaseAdapter{
 		friendItem.uphone.setText(friends.get(p).get("uphone").toString());
 		String faceimgurl = friends.get(p).get("faceimgurl").toString();
 		Bitmap faceimg = AppCache.getImage("http://www.hello008.com/Public/Uploads/"+faceimgurl);
+		
 		if(faceimg != null){
 			friendItem.faceimg.setImageBitmap(faceimg);
 		}

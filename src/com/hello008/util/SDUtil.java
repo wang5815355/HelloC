@@ -96,7 +96,7 @@ public class SDUtil {
 			File file = new File(realFileName);
 			file.createNewFile();
 			OutputStream outStream = new FileOutputStream(file);
-			bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 30, outStream);
 			outStream.flush();
 			outStream.close();
 			Log.i(TAG, "Image saved tosd");

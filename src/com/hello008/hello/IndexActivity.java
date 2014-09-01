@@ -169,7 +169,7 @@ public class IndexActivity extends BaseUi{
 		 new Handler().postDelayed(new Runnable(){  
 		     public void run() {  
 		    	 //启动轮询service
-			      PollingUtils.startPollingService(IndexActivity.this, 15, PollingService.class, PollingService.ACTION);
+			     // PollingUtils.startPollingService(IndexActivity.this, 15, PollingService.class, PollingService.ACTION);
 		     }  
 		}, 500);
 	}
@@ -229,7 +229,7 @@ public class IndexActivity extends BaseUi{
 	          protected List<Map<String, Object>> doInBackground(String... params) {
 		        	List<Map<String, Object>> friends = null;
 		        	Friend friendO = null;
-		          	AppClient client = new AppClient("/Index/queryMyFriend");//客户端初始化
+		          	AppClient client = new AppClient("/Index/queryMyFriend2");//客户端初始化
 		          	friendSqlite = new FriendSqlite(IndexActivity.this);
 		          	
 		          	//判断网络连接状态

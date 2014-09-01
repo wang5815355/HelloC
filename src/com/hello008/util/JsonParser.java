@@ -30,10 +30,10 @@ public class JsonParser extends BaseUi{
 				friends = new ArrayList<Map<String,Object>>();
 				for(int i = 0; i<jsa.length();i++){
 					JSONObject jso = (JSONObject)jsa.opt(i);
-					id = jso.getString("id");
-					uname = jso.getString("uname1");
+					id = jso.getString("uid");
+					uname = jso.getString("uname");
 					uphone = jso.getString("uphonenumber1");
-					faceimgurl = jso.getString("faceimage1");
+					faceimgurl = jso.getString("faceimage");
 					
 					//异步加载好友头像图片
 //					faceimg =  AppCache.getImage("http://www.hello008.com/Public/Uploads/"+faceimgurl);

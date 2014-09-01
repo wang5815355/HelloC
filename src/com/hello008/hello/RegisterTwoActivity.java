@@ -61,8 +61,6 @@ public class RegisterTwoActivity extends BaseUi {
 		dialog = new Dialog(RegisterTwoActivity.this, R.style.mydialog);
 		uname = (EditText)this.findViewById(R.id.uname);
 		
-		unameString = uname.getText().toString();
-		
 		// 把文字控件添加监听，点击弹出自定义窗口
 		photo.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -82,6 +80,8 @@ public class RegisterTwoActivity extends BaseUi {
 		// 添加注册按钮响应事件监听
 		logbutton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				unameString = uname.getText().toString();
+				
 				if(bmp == null){
 					Toast.makeText(RegisterTwoActivity.this,"请点击图片选择真实头像上传",Toast.LENGTH_LONG).show();
 					return;
@@ -93,6 +93,7 @@ public class RegisterTwoActivity extends BaseUi {
 				// 創建表單提交對象
 				FormSubmit submit = new FormSubmit(RegisterTwoActivity.this, url);
 				// 添加表單參數
+				Log.w("uname=====================","123123");
 				submit.AddParams("uname",unameString);
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				bmp.compress(CompressFormat.JPEG, 30, baos);
