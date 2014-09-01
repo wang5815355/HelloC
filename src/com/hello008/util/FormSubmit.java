@@ -86,8 +86,12 @@ public class FormSubmit {
 		conn.setDoOutput(true); // 允许输出
 		conn.setUseCaches(false); // 不使用Cache
 		conn.setRequestMethod("POST"); // 请求方式
+		
+		String PHPSESSID = AppUtil.getSessionId();//发送SessionId
+		Log.w("sessionid-http-post", PHPSESSID);
+		conn.addRequestProperty("Cookie","PHPSESSID=" + PHPSESSID);//加入sessionid
 		conn.setRequestProperty("Connection", "Connection"); // http头信息 -
-																// 保持一段时间的连线
+															// 保持一段时间的连线
 		conn.setRequestProperty("Charset", Encoding); // http头信息 - 编码
 		conn.setRequestProperty("Content-Type", Enctype + "; boundary="
 				+ Boundary); // http头信息 - 表单类型及数据分界线
@@ -163,7 +167,7 @@ public class FormSubmit {
 			super.onPreExecute();
 			this._dialog = new android.app.ProgressDialog(_context);
 			this._dialog.setTitle("与服务器连线中");
-			this._dialog.show();
+			//this._dialog.show();
 		}
 
 		// 执行中[第二个执行方法]
@@ -205,7 +209,7 @@ public class FormSubmit {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			this._dialog.cancel();
+			//this._dialog.cancel();
 			getSubmitResult(_success, result);
 		}
 

@@ -196,12 +196,13 @@ public class RegisterActivity extends BaseUi {
 				editor.putBoolean("islogin", true);
 				editor.putString("username",hmap.get("username"));
 				editor.putString("password",hmap.get("password"));
+				editor.putString("regstep","1");//注册步骤 1，提交资料，2 提交头像姓名
 				editor.commit(); 
 				
 				Customer customer = Customer.getInstance();
 				customer.setSid(sid);//设置sessionid
-				RegisterActivity.this.forward(IndexActivity.class);
-//				Toast.makeText(MainActivity.this,status,Toast.LENGTH_SHORT).show();
+				RegisterActivity.this.forward(RegisterTwoActivity.class);
+				Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
 			}else{//注册不成功
 				BaseAuth.setLogin(true);
 //				progress.dismiss();

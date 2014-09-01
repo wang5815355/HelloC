@@ -15,7 +15,7 @@
 
 <item android:top="1dp" android:right="1dp" android:left="1dp"> 
      <shape xmlns:android="http://schemas.android.com/apk/res/android"> 
-           <solid android:color="#40555555" />
+           <solid android:color="#a000BA65" />
            
            <corners    
 	          android:topLeftRadius="5dp"  

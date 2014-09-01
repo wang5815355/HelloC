@@ -69,8 +69,16 @@ public class MainActivity extends BaseUi {
         
         BaseAuth.setLogin(false);
         Boolean islogin = setting.getBoolean("islogin",false);
+        String regstep = setting.getString("regstep","");
+        Log.w("regstepIn======","123123");
         if(BaseAuth.isLogin() != false || islogin != false){//若登录则跳转
-        	this.forward(IndexActivity.class);
+        	Log.w("regstepIn======",regstep);
+        	//判断注册资料是否完整
+        	if(regstep.equalsIgnoreCase("1")){
+        		this.forward(RegisterTwoActivity.class);
+        	}else if(regstep.equalsIgnoreCase("2")){
+        		this.forward(IndexActivity.class);
+        	}
         }
         
         editText.setText(setting.getString("username",""));
@@ -191,12 +199,13 @@ public class MainActivity extends BaseUi {
     	String info = null;
     	String status = null;
     	String sid = null;
-    	
+    	String complete = null;
     	if(jo != null){
     		try {
     			info = jo.getString("info");
     			status = jo.getString("status");
     			sid = jo.getString("sid");
+    			complete = jo.getString("complete");
     		} catch (JSONException e) {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
@@ -219,11 +228,21 @@ public class MainActivity extends BaseUi {
 			editor.putBoolean("islogin", true);
 			editor.putString("username",hmap.get("username"));
 			editor.putString("password",hmap.get("password"));
-			editor.commit(); 
 			
 			Customer customer = Customer.getInstance();
 			customer.setSid(sid);//设置sessionid
-			MainActivity.this.forward(IndexActivity.class);
+			
+//			Log.w("complete=======",complete);
+			if(complete.equalsIgnoreCase("0")){
+				editor.putString("regstep","1");
+				editor.commit(); 
+				MainActivity.this.forward(RegisterTwoActivity.class);
+			}else{
+				editor.putString("regstep","2");
+				editor.commit(); 
+				MainActivity.this.forward(IndexActivity.class);
+			}
+			
 //			Toast.makeText(MainActivity.this,status,Toast.LENGTH_SHORT).show();
 		}else{//登录不成功
 			BaseAuth.setLogin(true);

@@ -6,7 +6,7 @@
     <string name="title">Hello</string>
     <string name="titlearea">选择国家或地区</string>
     <string name="loginbutton">登 录</string>
-    <string name="regbutton">注册</string>
+    <string name="regbutton">创建账户</string>
     <string name="submit">提 交</string>
     <string name="account">邮箱账号</string>
     <string name="password">登录密码</string>
@@ -19,8 +19,8 @@
     <string name="normalarea">86</string>
     <string name="call">呼 叫</string>
     <string name="back">背景图片</string>
-    <string name="realname">你的真实姓名</string>
-    <string name="regfinish">️完成注册</string>
+    <string name="realname">你的真实中文姓名</string>
+    <string name="regfinish">提交</string>
     <string name="takephoto">拍摄照片</string>
     <string name="selectpic">从相册中选择图片</string>
 

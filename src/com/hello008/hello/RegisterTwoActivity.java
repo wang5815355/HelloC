@@ -9,17 +9,27 @@ import org.json.JSONTokener;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.hello008.base.BaseUi;
+import com.hello008.base.C.action.edittext;
+import com.hello008.model.Customer;
 import com.hello008.util.FormSubmit;
 import com.hello008.util.FormSubmitResultArgs;
 import com.hello008.util.FormSubmitResultListener;
@@ -28,10 +38,14 @@ import com.hello008.util.SDUtil;
 public class RegisterTwoActivity extends BaseUi {
 	private ImageView photo;
 	private Button logbutton;
+	private EditText uname;
 	String fileName = "test";
+	String unameString ;
 	String url = "http://www.hello008.com/Public/registerIn_phone_2";
 	String imguri;
 	Bitmap bmp; 
+	//创建遮罩dialog
+	Dialog dialog;
 
 	/**
 	 * 从Intent获取图片路径的KEY
@@ -44,6 +58,10 @@ public class RegisterTwoActivity extends BaseUi {
 		setContentView(R.layout.register_two);
 		photo = (ImageView) this.findViewById(R.id.faceimg);
 		logbutton = (Button) this.findViewById(R.id.logbutton);
+		dialog = new Dialog(RegisterTwoActivity.this, R.style.mydialog);
+		uname = (EditText)this.findViewById(R.id.uname);
+		
+		unameString = uname.getText().toString();
 		
 		// 把文字控件添加监听，点击弹出自定义窗口
 		photo.setOnClickListener(new OnClickListener() {
@@ -54,15 +72,28 @@ public class RegisterTwoActivity extends BaseUi {
 			}
 		});
 		
+		//当session为空时
+		Customer customer = Customer.getInstance();
+		String sid = customer.getSid();
+		if(sid == null){
+			RegisterTwoActivity.this.forward(MainActivity.class);
+		}
+		
 		// 添加注册按钮响应事件监听
 		logbutton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Log.w("imguri",imguri);
+				if(bmp == null){
+					Toast.makeText(RegisterTwoActivity.this,"请点击图片选择真实头像上传",Toast.LENGTH_LONG).show();
+					return;
+				}else if(unameString == null){
+					Toast.makeText(RegisterTwoActivity.this,"请填写真实中文姓名",Toast.LENGTH_LONG).show();
+					return;
+				}
 				
 				// 創建表單提交對象
 				FormSubmit submit = new FormSubmit(RegisterTwoActivity.this, url);
 				// 添加表單參數
-				submit.AddParams("name", fileName);
+				submit.AddParams("uname",unameString);
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				bmp.compress(CompressFormat.JPEG, 30, baos);
 				
@@ -84,33 +115,52 @@ public class RegisterTwoActivity extends BaseUi {
 						}
 						 
 						  // 是否成功取得請求數據
-						  if(e.getSuccess()) { 
-						   try {
-								new AlertDialog.Builder(RegisterTwoActivity.this)
-								   .setTitle("请求成功")
-								   .setMessage(jo.getString("status"))
-								   .setNegativeButton("确定", null)
-								   .show();
-							} catch (JSONException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-						  } else {
-						   new AlertDialog.Builder(RegisterTwoActivity.this)
-						   .setTitle("请求失败")
-						   .setMessage(e.getData())
-						   .setNegativeButton("确定", null)
-						   .show();
-						  }
+						  try {
+							if(jo.getString("status").equals("1")) { 
+								dialog.cancel();
+								
+								SharedPreferences setting = getPreferences(Context.MODE_PRIVATE);
+								SharedPreferences.Editor editor = setting.edit();
+								editor.putString("regstep","2");//注册步骤 1，提交资料，2 提交头像姓名
+								editor.commit();
+								
+								RegisterTwoActivity.this.forward(IndexActivity.class);//跳转到提交头像姓名资料页面
+							 } else {
+								dialog.cancel();
+								Toast.makeText(RegisterTwoActivity.this,jo.getString("info"),Toast.LENGTH_SHORT).show();
+							 }
+						} catch (JSONException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					 }
 				
 				});
+				
+				dialog.setContentView(R.layout.main_dialog);  
+				LayoutParams lay = dialog.getWindow().getAttributes();  
+				setParams(lay);//设置遮罩参数  
+				dialog.show();
 				
 				// 提交表單
 				submit.submit();
 		}
 	 });
 	}
+	
+	/**
+     * 设置遮罩dialog样式
+     * @author wangkai
+     * */
+    private void setParams(LayoutParams lay) {  
+    	 DisplayMetrics dm = new DisplayMetrics();  
+    	 getWindowManager().getDefaultDisplay().getMetrics(dm);  
+    	 Rect rect = new Rect();  
+    	 View view = getWindow().getDecorView();  
+    	 view.getWindowVisibleDisplayFrame(rect);  
+    	 lay.height = dm.heightPixels - rect.top;  
+    	 lay.width = dm.widthPixels;  
+     }  
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
