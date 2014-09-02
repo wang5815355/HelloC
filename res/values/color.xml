@@ -6,7 +6,8 @@
     <color name="main_back_ground_color">#ffffff00</color> 
     <color name="trancelucent">#88000000</color> 
     <color name="wight">#ffffffff</color>
-    <color name="gray">#eeeeee</color>  
+    <color name="gray">#eeeeee</color>
+    <color name="gray_bottom">#eeeedd</color>   
     <color name="blue2">#ff4497df</color>
     <color name="blue_tran">#ce4497df</color>
     <color name="tran">#00000000</color>

@@ -51,6 +51,7 @@ import com.hello008.service.UpdatePollingService;
 import com.hello008.sqlite.FriendSqlite;
 import com.hello008.util.AppCache;
 import com.hello008.util.AppClient;
+import com.hello008.util.BounceListView;
 import com.hello008.util.HttpUtil;
 import com.hello008.util.JsonParser;
 import com.hello008.util.PollingUtils;
@@ -290,6 +291,7 @@ public class IndexActivity extends BaseUi{
 	        	    //自定义adapter
 	        	  	friendList = new FriendList(IndexActivity.this, friends);
 	   				ListView list = (ListView) findViewById(R.id.friendlist);
+//	        	  	BounceListView list = new BounceListView(IndexActivity.this); 
 	   				list.setAdapter(friendList);
 //		   		    Toast.makeText(IndexActivity.this,friendResult,Toast.LENGTH_LONG).show();
 	   				IndexActivity.this.setHandler(new IndexHandler(IndexActivity.this, friendList));
