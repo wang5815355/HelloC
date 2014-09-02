@@ -10,8 +10,12 @@ import java.util.Comparator;
 
 import com.hello008.base.C;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.os.StatFs;
 import android.util.Log;
@@ -27,6 +31,19 @@ public class SDUtil {
 	public static Bitmap getImage(String fileName) {
 		// check image file exists
 		String realFileName = C.dir.faces + "/" + fileName;
+		File file = new File(realFileName);
+		if (!file.exists()) {
+			return null;
+		}
+		// get original image
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = false;
+		return BitmapFactory.decodeFile(realFileName, options);
+	}
+	
+	public static Bitmap getImageByDir(String fileName,String dir) {
+		// check image file exists
+		String realFileName = dir + "/" + fileName;
 		File file = new File(realFileName);
 		if (!file.exists()) {
 			return null;
@@ -75,7 +92,34 @@ public class SDUtil {
 		return bitmap;
 	}
 	
-	public static void saveImage(Bitmap bitmap, String fileName) {
+	//使用Bitmap加Matrix来缩放  w，h单位为像素
+    public static Bitmap resizeImage(Bitmap bitmap, int w, int h)   
+    {    
+        Bitmap BitmapOrg = bitmap;    
+        int width = BitmapOrg.getWidth();    
+        int height = BitmapOrg.getHeight();    
+        int newWidth = w;    
+        int newHeight = h;    
+  
+        float scaleWidth = ((float) newWidth) / width;    
+        float scaleHeight = ((float) newHeight) / height;    
+  
+        Matrix matrix = new Matrix();    
+        matrix.postScale(scaleWidth, scaleHeight);    
+        // if you want to rotate the Bitmap     
+        // matrix.postRotate(45);     
+        Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0, width,    
+                        height, matrix, true);    
+        return resizedBitmap;    
+    }
+    
+    //dip转换成px
+    public static int dip2px(Context context, float dipValue) {
+    	final float scale = context.getResources().getDisplayMetrics().density;
+    	return (int) (dipValue * scale + 0.5f);
+    }
+	
+	public static void saveImage(Bitmap bitmap, String fileName,Context context) {
 		if (bitmap == null) {
 			Log.w(TAG, " trying to save null bitmap");
 			return;
@@ -90,15 +134,38 @@ public class SDUtil {
 		if (!dir.exists()) {
 			dir.mkdirs();
 		}
+		
+		// 不存在则创建目录
+		File dir2 = new File(C.dir.facesoriginal);
+		if (!dir2.exists()) {
+			dir2.mkdirs();
+		}
+		
 		// 保存图片
 		try {
+			
+			//保存头像原图
+			String realFileName2 = C.dir.facesoriginal + "/" + fileName;
+			File file2 = new File(realFileName2);
+			file2.createNewFile();
+			OutputStream outStream2 = new FileOutputStream(file2);
+			bitmap.compress(Bitmap.CompressFormat.PNG,100,outStream2);
+//			bitmap.compress(Bitmap.CompressFormat.PNG, 30, outStream);
+			outStream2.flush();
+			outStream2.close();
+			
 			String realFileName = C.dir.faces + "/" + fileName;
 			File file = new File(realFileName);
 			file.createNewFile();
 			OutputStream outStream = new FileOutputStream(file);
-			bitmap.compress(Bitmap.CompressFormat.PNG, 30, outStream);
+			float dipF = C.constants.facedip; 
+			int pxI = SDUtil.dip2px(context, dipF);//像素
+			bitmap = SDUtil.resizeImage(bitmap, pxI, pxI);//缩小成固定像素
+			bitmap.compress(CompressFormat.JPEG,50,outStream);
+//			bitmap.compress(Bitmap.CompressFormat.PNG, 30, outStream);
 			outStream.flush();
 			outStream.close();
+			
 			Log.i(TAG, "Image saved tosd");
 		} catch (FileNotFoundException e) {
 			Log.w(TAG, "FileNotFoundException");

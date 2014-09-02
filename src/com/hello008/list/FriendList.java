@@ -1,7 +1,5 @@
 package com.hello008.list;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +8,9 @@ import com.hello008.hello.R;
 import com.hello008.util.AppCache;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ public class FriendList extends BaseAdapter{
 	private LayoutInflater inflater;
 	private List<Map<String, Object>> friends = null;
 	
-	public final class FriendListItem {
+	public static class FriendListItem {
 		public ImageView faceimg;
 		public TextView uname;
 		public TextView uphone;
@@ -61,13 +62,19 @@ public class FriendList extends BaseAdapter{
 	@Override
 	public View getView(int p, View v, ViewGroup vg) {
 		FriendListItem friendItem = null;
+		
 		if (v == null) {
 			v = inflater.inflate(R.layout.friendlist, null);
+			friendItem = new FriendListItem();
+			friendItem.faceimg = (ImageView) v.findViewById(R.id.faceimg);
+			friendItem.uname = (TextView) v.findViewById(R.id.uname);
+			friendItem.uphone = (TextView) v.findViewById(R.id.uphone);
+			v.setTag(friendItem);
 		}else {
 			friendItem = (FriendListItem) v.getTag();
 		}
 		
-		friendItem = new FriendListItem();
+//		friendItem = new FriendListItem();
 		friendItem.faceimg = (ImageView) v.findViewById(R.id.faceimg);
 		friendItem.uname = (TextView) v.findViewById(R.id.uname);
 		friendItem.uphone = (TextView) v.findViewById(R.id.uphone);
@@ -78,8 +85,15 @@ public class FriendList extends BaseAdapter{
 		Bitmap faceimg = AppCache.getImage("http://www.hello008.com/Public/Uploads/"+faceimgurl);
 		
 		if(faceimg != null){
+//			Drawable bd = new BitmapDrawable(faceimg);
 			friendItem.faceimg.setImageBitmap(faceimg);
+//			friendItem.faceimg.setImageDrawable(bd);
 		}
+		
+//		if(!faceimg.isRecycled() ){ 
+//			faceimg.recycle();   //回收图片所占的内存 
+//	         System.gc();
+//		} 
 		
 		return v;
 	}

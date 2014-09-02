@@ -17,7 +17,7 @@ public class AppCache {
 			return cachedImage;
 		} else {
 			Bitmap newImage = IOUtil.getBitmapRemote(ctx, url);
-			SDUtil.saveImage(newImage, cacheKey);
+			SDUtil.saveImage(newImage, cacheKey,ctx);
 			return newImage;
 		}
 	}
@@ -25,5 +25,10 @@ public class AppCache {
 	public static Bitmap getImage (String url) {
 		String cacheKey = AppUtil.md5(url);
 		return SDUtil.getImage(cacheKey);
+	}
+	
+	public static Bitmap getImageBydir (String url,String dir) {
+		String cacheKey = AppUtil.md5(url);
+		return SDUtil.getImageByDir(cacheKey,dir);
 	}
 }

@@ -42,6 +42,7 @@ import android.widget.Toast;
 import com.hello008.base.BaseHandler;
 import com.hello008.base.BaseTask;
 import com.hello008.base.BaseUi;
+import com.hello008.base.C;
 import com.hello008.hello.R;
 import com.hello008.list.FriendList;
 import com.hello008.model.Friend;
@@ -316,7 +317,7 @@ public class IndexActivity extends BaseUi{
 							indexDiaPhone.setText((String)friends.get((int)arg3).get("uphone"));
 							indexDiaName.setText((String)friends.get((int)arg3).get("uname"));
 							String faceimgurl = (String)friends.get((int)arg3).get("faceimgurl");
-							Bitmap faceimgbit = AppCache.getImage("http://www.hello008.com/Public/Uploads/"+faceimgurl);
+							Bitmap faceimgbit = AppCache.getImageBydir("http://www.hello008.com/Public/Uploads/"+faceimgurl,C.dir.facesoriginal);
 							faceImgView.setImageBitmap(faceimgbit);
 							
 							//设置拨号按钮事件

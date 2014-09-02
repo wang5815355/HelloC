@@ -21,7 +21,6 @@
 			android:textStyle="bold"
 			android:textColor="@color/wight" /> 
 	</RelativeLayout>
-	
 	<ListView
 	    android:id="@id/friendlist"  
 		android:layout_width="match_parent"
