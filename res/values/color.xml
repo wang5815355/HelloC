@@ -7,7 +7,8 @@
     <color name="trancelucent">#88000000</color> 
     <color name="wight">#ffffffff</color>
     <color name="gray">#eeeeee</color>
-    <color name="gray_bottom">#eeeedd</color>   
+    <color name="gray_de">#ee333333</color>
+    <color name="gray_bottom">#666666</color>   
     <color name="blue2">#ff4497df</color>
     <color name="blue_tran">#ce4497df</color>
     <color name="tran">#00000000</color>

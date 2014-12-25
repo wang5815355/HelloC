@@ -33,11 +33,13 @@ public class SDUtil {
 		String realFileName = C.dir.faces + "/" + fileName;
 		File file = new File(realFileName);
 		if (!file.exists()) {
+			Log.w("~``````````````1111", "1111");
 			return null;
 		}
 		// get original image
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = false;
+		Log.w("~``````````````2222", "2222");
 		return BitmapFactory.decodeFile(realFileName, options);
 	}
 	

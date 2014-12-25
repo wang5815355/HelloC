@@ -51,7 +51,6 @@ import com.hello008.service.UpdatePollingService;
 import com.hello008.sqlite.FriendSqlite;
 import com.hello008.util.AppCache;
 import com.hello008.util.AppClient;
-import com.hello008.util.BounceListView;
 import com.hello008.util.HttpUtil;
 import com.hello008.util.JsonParser;
 import com.hello008.util.PollingUtils;

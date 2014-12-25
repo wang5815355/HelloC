@@ -77,7 +77,7 @@ public class MainActivity extends BaseUi {
         	if(regstep.equalsIgnoreCase("1")){
         		this.forward(RegisterTwoActivity.class);
         	}else if(regstep.equalsIgnoreCase("2")){
-        		this.forward(IndexActivity.class);
+        		this.forward(testActivity.class);
         	}
         }
         
@@ -240,7 +240,7 @@ public class MainActivity extends BaseUi {
 			}else{
 				editor.putString("regstep","2");
 				editor.commit(); 
-				MainActivity.this.forward(IndexActivity.class);
+				MainActivity.this.forward(testActivity.class);
 			}
 			
 //			Toast.makeText(MainActivity.this,status,Toast.LENGTH_SHORT).show();

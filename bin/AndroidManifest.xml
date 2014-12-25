@@ -27,6 +27,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+         <activity
+            android:name="com.hello008.hello.testActivity">
+         	 
+        </activity>
         <activity android:name="com.hello008.hello.IndexActivity">
         </activity>
         <activity android:name="com.hello008.hello.RegisterActivity">
