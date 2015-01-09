@@ -54,7 +54,7 @@
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
        	android:background="@color/blue2"
-	    android:padding="14dip"
+	    android:padding="15dip"
         android:src="@drawable/main" />
 
         <ImageButton
@@ -64,8 +64,8 @@
 	    android:layout_gravity="center_vertical"
         android:scaleType="fitCenter"
         android:layout_weight="1"
-        android:background="@drawable/tap_btn"
-	     android:padding="14dip"
+        android:background="@color/gray_tap"
+	    android:padding="14dip"
         android:src="@drawable/circle_blue" />
 
         <ImageButton
@@ -75,7 +75,7 @@
 	        android:scaleType="fitCenter"
 	        android:layout_gravity="center_vertical"
 	        android:layout_weight="1"
-	        android:background="@drawable/tap_btn"
+	        android:background="@color/gray_tap"
 	        android:padding="14dip"
 	        android:src="@drawable/user_blue" />
     </LinearLayout>

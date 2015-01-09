@@ -201,7 +201,6 @@ public class testActivity extends BaseFragmentUi {
 		super.onPause();
 		//关闭service轮询
 		PollingUtils.stopPollingService(this,PollingService.class, PollingService.ACTION);
-		
 	}
 
 
@@ -487,27 +486,27 @@ public class testActivity extends BaseFragmentUi {
             	img1.setBackgroundResource(R.color.blue2);
                 img1.setImageResource(R.drawable.main);
                 
-                img2.setBackgroundResource(R.color.gray);
+                img2.setBackgroundResource(R.color.gray_tap);
                 img2.setImageResource(R.drawable.circle_blue);
                 
-                img3.setBackgroundResource(R.color.gray);
+                img3.setBackgroundResource(R.color.gray_tap);
                 img3.setImageResource(R.drawable.user_blue);
                 break;
             case 1:
-            	img1.setBackgroundResource(R.color.gray);
+            	img1.setBackgroundResource(R.color.gray_tap);
             	img1.setImageResource(R.drawable.main_blue);
                 
                 img2.setBackgroundResource(R.color.blue2);
                 img2.setImageResource(R.drawable.circle);
                 
-                img3.setBackgroundResource(R.color.gray);
+                img3.setBackgroundResource(R.color.gray_tap);
                 img3.setImageResource(R.drawable.user_blue);
                 break;
             case 2:
-            	img1.setBackgroundResource(R.color.gray);
+            	img1.setBackgroundResource(R.color.gray_tap);
             	img1.setImageResource(R.drawable.main_blue);
                 
-                img2.setBackgroundResource(R.color.gray);
+                img2.setBackgroundResource(R.color.gray_tap);
                 img2.setImageResource(R.drawable.circle_blue);
                 
                 img3.setBackgroundResource(R.color.blue2);

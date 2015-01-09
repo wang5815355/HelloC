@@ -2,6 +2,21 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="#157774"
-    android:id="@+id/frag2" >
+    android:background="@color/gray"
+    android:gravity="center_horizontal" >
+    
+    <Button
+	android:id="@+id/angry_btn"
+	android:text="好友圈"
+	android:layout_width="320dp"
+	android:layout_height="40dp"
+	android:layout_marginTop="10dp"
+	android:background="@drawable/logbtnselect"
+ 	android:typeface="normal"
+	android:textSize="16sp"
+	android:textColor="#555566"
+	android:textStyle="bold"
+	android:layout_margin="5dip"	
+	/>
+    
 </LinearLayout>
