@@ -39,7 +39,6 @@
         <requestFocus />
     </EditText>
 
-
     <EditText
         android:id="@+id/password"
         android:layout_width="match_parent"
@@ -56,7 +55,6 @@
         android:textColorHint="#bbffffff"
         android:textColor="#99eff7"/>
     
-     
      <Button
         android:id="@+id/selectarea"
         android:layout_width="match_parent"
@@ -97,7 +95,6 @@
         android:text="@string/normalarea"
         android:visibility="gone"/>
       
-
     <Button
         android:id="@+id/submitbutton"
         android:layout_width="match_parent"
@@ -117,5 +114,4 @@
         android:gravity="center"
         android:layout_weight="11" />
      
-
 </LinearLayout>
