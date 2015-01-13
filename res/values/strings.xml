@@ -23,5 +23,7 @@
     <string name="regfinish">提交</string>
     <string name="takephoto">拍摄照片</string>
     <string name="selectpic">从相册中选择图片</string>
+    <string name="friendcircle">通讯圈</string>
+    <string name="serchcircle">请输入通讯圈名称或ID 搜索想加入的通讯圈</string>
 
 </resources>

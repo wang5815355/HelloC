@@ -3,20 +3,24 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="@color/gray"
+    android:focusable="true"
+    android:focusableInTouchMode="true"   
     android:gravity="center_horizontal" >
     
-    <Button
-	android:id="@+id/angry_btn"
-	android:text="好友圈"
-	android:layout_width="320dp"
-	android:layout_height="40dp"
-	android:layout_marginTop="10dp"
-	android:background="@drawable/logbtnselect"
- 	android:typeface="normal"
-	android:textSize="16sp"
-	android:textColor="#555566"
-	android:textStyle="bold"
-	android:layout_margin="5dip"	
-	/>
+   <EditText
+        android:id="@+id/serchcircle"
+      	android:layout_width="match_parent"
+		android:layout_height="35dp"
+		android:layout_margin="8dp"
+        android:ems="8"
+        android:inputType="text"
+        android:background="@drawable/logbtnselect"
+        android:paddingLeft="15sp"
+        android:singleLine="true"
+        android:hint="@string/serchcircle"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:textColorHint="#e0aaaaaa"
+        android:textColor="#e0555555"/>
     
 </LinearLayout>

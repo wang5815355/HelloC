@@ -124,7 +124,6 @@ containing a value of this type.
     }
     public static final class id {
         public static final int action_settings=0x7f0a002c;
-        public static final int angry_btn=0x7f0a0010;
         public static final int arealist=0x7f0a000d;
         public static final int areaname=0x7f0a000e;
         public static final int areanamegone=0x7f0a000f;
@@ -158,6 +157,7 @@ containing a value of this type.
         public static final int progressBar1=0x7f0a0020;
         public static final int regButton=0x7f0a0004;
         public static final int selectarea=0x7f0a0023;
+        public static final int serchcircle=0x7f0a0010;
         public static final int submitbutton=0x7f0a0026;
         public static final int textView1=0x7f0a0000;
         public static final int top=0x7f0a0007;
@@ -200,6 +200,7 @@ containing a value of this type.
         public static final int creataccount=0x7f07000a;
         public static final int creataccount_two=0x7f07000b;
         public static final int faceDescription=0x7f07000c;
+        public static final int friendcircle=0x7f070016;
         public static final int loadDescription=0x7f07000d;
         public static final int loginbutton=0x7f070004;
         public static final int normalarea=0x7f07000f;
@@ -209,6 +210,7 @@ containing a value of this type.
         public static final int regbutton=0x7f070005;
         public static final int regfinish=0x7f070013;
         public static final int selectpic=0x7f070015;
+        public static final int serchcircle=0x7f070017;
         public static final int submit=0x7f070006;
         public static final int takephoto=0x7f070014;
         public static final int title=0x7f070002;
