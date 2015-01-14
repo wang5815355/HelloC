@@ -32,5 +32,4 @@
 		android:headerDividersEnabled = "true"
 		android:footerDividersEnabled = "true"/>
 	
-	
 </LinearLayout>

@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
@@ -13,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +21,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hello008.base.C;
-import com.hello008.hello.IndexActivity;
 import com.hello008.hello.R;
 import com.hello008.util.AppCache;
 
@@ -57,7 +53,6 @@ public class fragment1 extends ListFragment{
       
     @Override  
     public void onListItemClick(ListView l, View v, final int position, long id) {  
-        System.out.println(id+"Click On List Item!!!"+position);  
         super.onListItemClick(l, v, position, id);  
         
     	TextView indexDiaPhone = null;
@@ -71,8 +66,6 @@ public class fragment1 extends ListFragment{
 		indexDiaName = (TextView) dialog.findViewById(R.id.index_item_dialog_name);
 		faceImgView = (ImageView) dialog.findViewById(R.id.index_item_dialog_faceimg);
 		Button callBtn = (Button)dialog.findViewById(R.id.callbutton);
-		
-		Log.w("friends",friends.toString());
 		
 		indexDiaPhone.setText((String)friends.get((int)position).get("uphone"));
 		indexDiaName.setText((String)friends.get((int)position).get("uname"));
@@ -100,7 +93,7 @@ public class fragment1 extends ListFragment{
     /**
      * 设置遮罩dialog样式
      * @author wangkai
-     * */
+     **/
     private void setParams(LayoutParams lay) {  
     	 DisplayMetrics dm = new DisplayMetrics();  
     	 getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);  

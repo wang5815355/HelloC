@@ -20,7 +20,17 @@
         android:hint="@string/serchcircle"
         android:textSize="13sp"
         android:textStyle="bold"
-        android:textColorHint="#e0aaaaaa"
-        android:textColor="#e0555555"/>
+        android:textColorHint="#cccccc"
+        android:textColor="#555555"/>
+   
+   	<ListView
+	    android:id="@id/arealist"  
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:divider="@drawable/divider"
+		android:dividerHeight="0.5dip"
+		android:cacheColorHint="@android:color/transparent"
+		android:headerDividersEnabled = "true"
+		android:footerDividersEnabled = "true"/>
     
 </LinearLayout>

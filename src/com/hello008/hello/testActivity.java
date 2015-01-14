@@ -66,6 +66,8 @@ import com.hello008.util.JsonParser;
 import com.hello008.util.PollingUtils;
 
 public class testActivity extends BaseFragmentUi {
+	public static testActivity ts = null;
+	
 	private ViewPager m_vp;
 	private fragment1 mfragment1;
 	private fragment2 mfragment2;
@@ -100,12 +102,15 @@ public class testActivity extends BaseFragmentUi {
 							friendList.notifyDataSetChanged();
 						}
 					}
-			};
+		};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main2);
+		
+		ts= this;
+		
 		img1 = (ImageButton)findViewById(R.id.cursor1);
 		img2 = (ImageButton)findViewById(R.id.cursor2);
 		img3 = (ImageButton)findViewById(R.id.cursor3);
@@ -291,7 +296,6 @@ public class testActivity extends BaseFragmentUi {
 						
 						try {
 								friends = friendSqlite.getAllFriends();
-				   				
 				   				if(friends.size() == 0){
 				   					//网络请求
 					   				friendResult = client.post(map);
@@ -327,7 +331,7 @@ public class testActivity extends BaseFragmentUi {
 						 }
 					}
 		          	
-		              return friends;
+		            return friends;
 	          }
 
 	          @Override
@@ -335,8 +339,6 @@ public class testActivity extends BaseFragmentUi {
 	           * 执行ui变更操作
 	           */
 	          protected void onPostExecute(final List<Map<String, Object>> friends) {
-	        	  //Log.w("friends",friends.toString());
-	        	  
 	        	    //自定义adapter
 	        	  	friendList = new FriendList(testActivity.this, friends);
 //	   				ListView list = (ListView) findViewById(R.id.friendlist);
@@ -346,49 +348,6 @@ public class testActivity extends BaseFragmentUi {
 //		   		    Toast.makeText(testActivity.this,friendResult,Toast.LENGTH_LONG).show();
 	   				testActivity.this.setHandler(new IndexHandler(testActivity.this, friendList));
 	   				testActivity.this.friendList = friendList;
-	   				
-//	   				//设置listviewitem监听器
-//	   				list.setOnItemClickListener(new OnItemClickListener() {
-//						@Override
-//						public void onItemClick(AdapterView<?> arg0, View arg1,
-//								int arg2, final long arg3) {
-//							TextView indexDiaPhone = null;
-//							TextView indexDiaName = null;
-//							ImageView faceImgView = null;
-//							
-//							//创建遮罩dialog
-//							Dialog dialog  = new Dialog(testActivity.this, R.style.mydialog);
-//							dialog.setContentView(R.layout.indexitem_dialog);  
-//							indexDiaPhone = (TextView) dialog.findViewById(R.id.index_item_dialog_phone); 
-//							indexDiaName = (TextView) dialog.findViewById(R.id.index_item_dialog_name);
-//							faceImgView = (ImageView) dialog.findViewById(R.id.index_item_dialog_faceimg);
-//							Button callBtn = (Button)dialog.findViewById(R.id.callbutton);
-//							
-//							Log.w("friends",friends.toString());
-//							
-//							indexDiaPhone.setText((String)friends.get((int)arg3).get("uphone"));
-//							indexDiaName.setText((String)friends.get((int)arg3).get("uname"));
-//							String faceimgurl = (String)friends.get((int)arg3).get("faceimgurl");
-//							Bitmap faceimgbit = AppCache.getImageBydir("http://www.hello008.com/Public/Uploads/"+faceimgurl,C.dir.facesoriginal);
-//							faceImgView.setImageBitmap(faceimgbit);
-//							
-//							//设置拨号按钮事件
-//							callBtn.setOnClickListener(new OnClickListener() {
-//								@Override
-//								public void onClick(View arg0) {
-//									//调用系统的拨号服务实现电话拨打功能
-//						            //封装一个拨打电话的intent，并且将电话号码包装成一个Uri对象传入
-//						            Intent intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+(String)friends.get((int)arg3).get("uphone")));
-//						            testActivity.this.startActivity(intent);//内部类
-//						            dialogLoad.dismiss(); 
-//								}
-//							});
-//							
-//							LayoutParams lay = dialog.getWindow().getAttributes();  
-//							setParams(lay);//设置遮罩参数  
-//							dialog.show();
-//						}
-//	   				});
 	   				
 	   			  new Handler().postDelayed(new Runnable(){  
 	   			     public void run() {  
@@ -400,7 +359,6 @@ public class testActivity extends BaseFragmentUi {
 	
 		          @Override
 		          protected void onPreExecute() {
-		              System.out.println("pretExecute------");
 		              super.onPreExecute();
 		          }
 	
@@ -455,7 +413,7 @@ public class testActivity extends BaseFragmentUi {
 				    		});
 					    	alert = builder.create();
 					    	alert.show();
-							break;
+					    	break;
 					}
 				} catch (Exception e) {
 					Toast.makeText(testActivity.this,e.toString(),Toast.LENGTH_LONG).show();
