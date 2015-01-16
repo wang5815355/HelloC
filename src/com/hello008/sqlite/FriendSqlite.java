@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hello008.base.BaseSqlite;
+import com.hello008.model.Customer;
 import com.hello008.model.Friend;
 
 import android.content.ContentValues;
@@ -20,7 +21,10 @@ public class FriendSqlite extends BaseSqlite {
 
 	@Override
 	protected String tableName() {
-		return "friends";
+		//获取当前登录用户等登录名称
+		Customer customer = Customer.getInstance();
+		String uname = customer.getName();
+		return "friends"+uname;
 	}
 
 	@Override

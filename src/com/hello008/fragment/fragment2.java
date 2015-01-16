@@ -15,9 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hello008.hello.R;
-import com.hello008.hello.SelectAreaActivity;
 import com.hello008.hello.testActivity;
-import com.hello008.list.AreaList;
 import com.hello008.list.CircleList;
 
 
@@ -62,7 +60,7 @@ public class fragment2 extends Fragment{
 		
 		return mMainView;
 	}
-
+	
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub

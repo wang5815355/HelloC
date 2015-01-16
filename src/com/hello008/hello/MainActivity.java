@@ -70,9 +70,7 @@ public class MainActivity extends BaseUi {
         BaseAuth.setLogin(false);
         Boolean islogin = setting.getBoolean("islogin",false);
         String regstep = setting.getString("regstep","");
-        Log.w("regstepIn======","123123");
         if(BaseAuth.isLogin() != false || islogin != false){//若登录则跳转
-        	Log.w("regstepIn======",regstep);
         	//判断注册资料是否完整
         	if(regstep.equalsIgnoreCase("1")){
         		this.forward(RegisterTwoActivity.class);
@@ -231,6 +229,7 @@ public class MainActivity extends BaseUi {
 			
 			Customer customer = Customer.getInstance();
 			customer.setSid(sid);//设置sessionid
+			customer.setName(hmap.get("username"));//保存当前登录用户的登录名称
 			
 //			Log.w("complete=======",complete);
 			if(complete.equalsIgnoreCase("0")){

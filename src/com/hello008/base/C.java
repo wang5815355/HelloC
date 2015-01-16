@@ -4,7 +4,10 @@ public final class C {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// core settings (important)
-	
+	public static final class loginMsg{
+		public static final String uname = "";
+	}
+ 	
 	public static final class dir {
 		public static final String base				= "/sdcard/Hello";
 		public static final String faces			= base + "/faces";
