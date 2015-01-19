@@ -22,8 +22,8 @@ public class CircleList extends BaseAdapter{
 	private List<Map<String, Object>> areas = null;
 	
 	public final class AreaListItem {
-		public TextView areaname;
-		public TextView areanamegone;
+		public TextView circlename;
+		public TextView circleid;
 	}
 	
 	public CircleList(testActivity ts, List<Map<String, Object>> areas) {
@@ -51,7 +51,7 @@ public class CircleList extends BaseAdapter{
 		return arg0;
 	}
 	
-	public void setFriendList(List<Map<String, Object>> areas){
+	public void setCircleList(List<Map<String, Object>> areas){
 		this.areas = null;
 		this.areas = areas;
 	}
@@ -66,11 +66,11 @@ public class CircleList extends BaseAdapter{
 		}
 		
 		AreaItem = new AreaListItem();
-		AreaItem.areaname = (TextView) v.findViewById(R.id.areaname);
-		AreaItem.areanamegone = (TextView) v.findViewById(R.id.areanamegone);
+		AreaItem.circlename = (TextView) v.findViewById(R.id.circlename);
+		AreaItem.circleid = (TextView) v.findViewById(R.id.areanamegone);
 		
-		AreaItem.areaname.setText(areas.get(p).get("areaname").toString());
-		AreaItem.areanamegone.setText(areas.get(p).get("areanamegone").toString());
+		AreaItem.circleid.setText(areas.get(p).get("circleid").toString());
+		AreaItem.circlename.setText(areas.get(p).get("circlename").toString());
 		
 		return v;
 	}

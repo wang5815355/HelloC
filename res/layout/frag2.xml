@@ -24,7 +24,7 @@
         android:textColor="#555555"/>
    
    	<ListView
-	    android:id="@id/arealist"  
+	    android:id="@id/circlelist"  
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:divider="@drawable/divider"

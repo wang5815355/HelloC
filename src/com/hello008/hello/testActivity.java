@@ -19,7 +19,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,13 +33,10 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AnalogClock;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -49,9 +45,7 @@ import android.widget.Toast;
 
 import com.hello008.base.BaseFragmentHandler;
 import com.hello008.base.BaseFragmentUi;
-import com.hello008.base.BaseHandler;
 import com.hello008.base.BaseTask;
-import com.hello008.base.C;
 import com.hello008.fragment.fragment1;
 import com.hello008.fragment.fragment2;
 import com.hello008.fragment.fragment3;
@@ -159,7 +153,8 @@ public class testActivity extends BaseFragmentUi {
 		AnsyTry anysFragment1 = new AnsyTry(map, dialogLoad, mfragment1,1);
 		anysFragment1.execute();
 		
-		AnsyTry anysFragment2 = new AnsyTry(map, dialogLoad, mfragment1,2);
+		HashMap<String, String> map2 = new HashMap<String, String>();
+		AnsyTry anysFragment2 = new AnsyTry(map2, dialogLoad, mfragment1,2);
 		anysFragment2.execute();
 		
 		// 广播接收器的动态注册，Action必须与Service中的Action一致
@@ -313,17 +308,19 @@ public class testActivity extends BaseFragmentUi {
 				// 判断网络连接状态
 				Integer netType = HttpUtil.getNetType(testActivity.this);
 				if (netType != HttpUtil.NONET_INT) {// 网络连接正常
-					Log.w("polling", "版本更新");
+					Log.w("test1===", "版本更新1");
 					// updateApp(); 检测是否有版本更新
 
 					try {
 						friends = friendSqlite.getAllFriends();
+						
 						if (friends.size() == 0) {
 							// 网络请求
 							friendResult = client.post(map);
+							Log.w("test1===",map.toString()+friendResult.toString());
 							// JSON 解析
 							friends = JsonParser.parseJsonList(friendResult);
-
+							
 							for (Map<String, Object> friend : friends) {
 								friendO = new Friend();
 								friendO.setFaceimage((String) friend
@@ -337,17 +334,21 @@ public class testActivity extends BaseFragmentUi {
 								loadImage("http://www.hello008.com/Public/Uploads/"
 										+ (String) friend.get("faceimgurl"));
 							}
+							
+							Log.w("test1===","版本更新3");
 						} else {
 							for (Map<String, Object> friend : friends) {
 								loadImage("http://www.hello008.com/Public/Uploads/"
 										+ (String) friend.get("faceimgurl"));
 							}
 						}
+						
+						Log.w("test1===", "版本更新2");
 
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-
+					
 				} else {
 					// 网络连接断开时从sqllite中取出信息
 					friends = friendSqlite.getAllFriends();
@@ -355,8 +356,10 @@ public class testActivity extends BaseFragmentUi {
 						loadImage("http://www.hello008.com/Public/Uploads/"
 								+ (String) friend.get("faceimgurl"));
 					}
+					
+					Log.w("test1===","55555555555555");
 				}
-
+			
 				return friends;
 			}else if(tag == 2){//fragment2
 				List<Map<String, Object>> circles = null;
@@ -373,22 +376,38 @@ public class testActivity extends BaseFragmentUi {
 							// 网络请求
 							circleResult = client.post(map);
 							// JSON 解析
-							circles = JsonParser.parseJsonList(friendResult);
+							circles = JsonParser.parseJsonListCircle(circleResult);
 
-							for (Map<String, Object> friend : circles) {
+							for (Map<String, Object> circle : circles) {
 								circleO = new Circle();
+								//将数据存储入sqlight
+								circleO.setCircleid((String) circle.get("circleid"));
+								circleO.setCircleid((String) circle.get("circlename"));
+								circleO.setCircleid((String) circle.get("count"));
+								circleO.setCircleid((String) circle.get("faceimg"));
+								circleO.setCircleid((String) circle.get("id"));
+								circleO.setCircleid((String) circle.get("isCreater"));
+								circleO.setCircleid((String) circle.get("phonenumber"));
+								circleO.setCircleid((String) circle.get("status"));
+								circleO.setCircleid((String) circle.get("time"));
+								circleO.setCircleid((String) circle.get("uemail"));
+								circleO.setCircleid((String) circle.get("uname"));
 								
+								circlesqlite.updateCricle(circleO);
 							}
 						} else {
-							// 网络连接断开时从sqllite中取出信息
+							
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}else{
-					
-					
+					// 网络连接断开时从sqllite中取出信息
+					circles = circlesqlite.getAllCircles();
 				}
+				Log.w("test1===","1111111111111");
+
+				return circles;
 			}
 				
 			return null;
@@ -398,24 +417,28 @@ public class testActivity extends BaseFragmentUi {
 		/**
 		 * 执行ui变更操作
 		 */
-		protected void onPostExecute(final List<Map<String, Object>> friends) {
-			// 自定义adapter
-			friendList = new FriendList(testActivity.this, friends);
-			// ListView list = (ListView) findViewById(R.id.friendlist);
-			// BounceListView list = new BounceListView(testActivity.this);
-			mfragment1.setFriends(friends);
-			mfragment1.setListAdapter(friendList);
-			// Toast.makeText(testActivity.this,friendResult,Toast.LENGTH_LONG).show();
-			testActivity.this.setHandler(new IndexHandler(testActivity.this,
-					friendList));
-			testActivity.this.friendList = friendList;
+		protected void onPostExecute(final List<Map<String, Object>> areas) {
+			if(tag == 1){
+				// 自定义adapter
+				friendList = new FriendList(testActivity.this, areas);
+				// ListView list = (ListView) findViewById(R.id.friendlist);
+				// BounceListView list = new BounceListView(testActivity.this);
+				mfragment1.setFriends(areas);
+				mfragment1.setListAdapter(friendList);
+				// Toast.makeText(testActivity.this,friendResult,Toast.LENGTH_LONG).show();
+				testActivity.this.setHandler(new IndexHandler(testActivity.this,
+						friendList));
+				testActivity.this.friendList = friendList;
 
-			new Handler().postDelayed(new Runnable() {
-				public void run() {
-					dialogLoad.dismiss();
-				}
-			}, 1500);
-
+				new Handler().postDelayed(new Runnable() {
+					public void run() {
+						dialogLoad.dismiss();
+					}
+				}, 1500);
+				
+			}else if(tag == 2){
+				fragment2.setCircles(areas,1);
+			}
 		}
 
 		@Override

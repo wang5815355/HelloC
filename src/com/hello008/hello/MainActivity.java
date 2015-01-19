@@ -229,7 +229,7 @@ public class MainActivity extends BaseUi {
 			
 			Customer customer = Customer.getInstance();
 			customer.setSid(sid);//设置sessionid
-			customer.setName(hmap.get("username"));//保存当前登录用户的登录名称
+//			customer.setName(hmap.get("username"));//保存当前登录用户的登录名称
 			
 //			Log.w("complete=======",complete);
 			if(complete.equalsIgnoreCase("0")){

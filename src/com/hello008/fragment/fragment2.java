@@ -24,7 +24,14 @@ public class fragment2 extends Fragment{
 	private TextView tv;
 	private Button btn;
 	private CircleList areaList;
-	private List<Map<String, Object>> areas = null;
+//	private List<Map<String, Object>> areas = null;
+	public static List<Map<String, Object>> areas = null;
+	public static int tagthis = 0;//当tag
+	
+	public static void setCircles(List<Map<String, Object>> circles,int tag){
+		areas = circles;
+		tagthis =  tag;
+	} 
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -34,19 +41,20 @@ public class fragment2 extends Fragment{
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		mMainView = inflater.inflate(R.layout.frag2, (ViewGroup)getActivity().findViewById(R.id.viewpager), false);
 		
-		areas = new ArrayList<Map<String,Object>>();
-		Map<String, Object> areaO = new HashMap<String, Object>();
-		Map<String, Object> area1 = new HashMap<String, Object>();
-		areaO.put("areaname","+86 中国");
-		areaO.put("areanamegone","86");
-		area1.put("areaname","+61 Australia");
-		area1.put("areanamegone","61");
-		areas.add(areaO);
-		areas.add(area1);
-		
-		areaList = new CircleList(testActivity.ts, areas);
-		ListView list = (ListView) mMainView.findViewById(R.id.arealist);
-		list.setAdapter(areaList);
+//		areas = new ArrayList<Map<String,Object>>();
+//		Map<String, Object> areaO = new HashMap<String, Object>();
+//		Map<String, Object> area1 = new HashMap<String, Object>();
+//		areaO.put("areaname","+86 中国");
+//		areaO.put("areanamegone","86");
+//		area1.put("areaname","+61 Australia");
+//		area1.put("areanamegone","61");
+//		areas.add(areaO);
+//		areas.add(area1);
+		if(tagthis == 1){
+			areaList = new CircleList(testActivity.ts, areas);
+			ListView list = (ListView) mMainView.findViewById(R.id.arealist);
+			list.setAdapter(areaList);
+		}
 	}
 
 	@Override
