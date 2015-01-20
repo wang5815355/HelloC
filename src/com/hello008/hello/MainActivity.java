@@ -18,6 +18,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 //import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.AsyncTask;
@@ -217,7 +218,6 @@ public class MainActivity extends BaseUi {
 			}
     	}
 		
-		
 		if(status.equals("3")){//当登录成功
 			dialog.dismiss();
 			BaseAuth.setLogin(true);
@@ -229,9 +229,9 @@ public class MainActivity extends BaseUi {
 			
 			Customer customer = Customer.getInstance();
 			customer.setSid(sid);//设置sessionid
-//			customer.setName(hmap.get("username"));//保存当前登录用户的登录名称
+//			customer.setLoginname(hmap.get("username"));//保存当前登录用户的登录名称
 			
-//			Log.w("complete=======",complete);
+//			Log.w("test1===",hmap.get("username"));
 			if(complete.equalsIgnoreCase("0")){
 				editor.putString("regstep","1");
 				editor.commit(); 

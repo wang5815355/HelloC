@@ -12,6 +12,7 @@ import com.hello008.model.Friend;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.util.Log;
 
 public class CircleSqlite extends BaseSqlite {
 
@@ -22,9 +23,7 @@ public class CircleSqlite extends BaseSqlite {
 	@Override
 	protected String tableName() {
 		// 获取当前登录用户等登录名称
-		Customer customer = Customer.getInstance();
-		String uname = customer.getName();
-		return "circles"+uname;
+		return "circles";
 	}
 
 	@Override
@@ -37,11 +36,11 @@ public class CircleSqlite extends BaseSqlite {
 
 	@Override
 	protected String createSql() {
+		Log.w("test1===","12347");
 		return "CREATE TABLE " + tableName() + " (" + "tid"
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + Circle.COL_CIRCLEID
 				+ " TEXT, " + Circle.COL_CIRCLENAME + " TEXT, "
 				+ Circle.COL_COUNT + " TEXT, " + Circle.COL_FACEIMG
-				+ " TEXT, " + Circle.COL_ID
 				+ " TEXT, " + Circle.COL_ISCREATER
 				+ " TEXT, " + Circle.COL_PHONENUMBER
 				+ " TEXT, " + Circle.COL_STATUS
@@ -96,23 +95,29 @@ public class CircleSqlite extends BaseSqlite {
 
 	public List<Map<String, Object>> getAllCircles() {
 		List<Map<String, Object>> circles = null;
+		Log.w("test1===","1234");
 		try {
-			ArrayList<ArrayList<String>> rList = this.query(null, null);
+			Log.w("test1===","12345");
+			ArrayList<ArrayList<String>> rList = this.query_circle(null, null);
 			circles = new ArrayList<Map<String, Object>>();
 			int rCount = rList.size();
+			
 			for (int i = 0; i < rCount; i++) {
+				Log.w("test1===","123456");
 				ArrayList<String> rRow = rList.get(i);
 				Map<String, Object> circleO = new HashMap<String, Object>();
-				circleO.put("tid", rRow.get(0));
+				Log.w("test1===",rRow.get(2));
 				circleO.put("circleid", rRow.get(1));
-				circleO.put("faceimg", rRow.get(2));
-				circleO.put("id", rRow.get(3));
-				circleO.put("iscreater", rRow.get(3));
-				circleO.put("phonenumber", rRow.get(3));
-				circleO.put("status", rRow.get(3));
-				circleO.put("time", rRow.get(3));
-				circleO.put("uemail", rRow.get(3));
-				circleO.put("uname", rRow.get(3));
+				circleO.put("circlename", rRow.get(2));
+				circleO.put("count", rRow.get(3));
+				circleO.put("faceimg", rRow.get(4));
+				circleO.put("id", rRow.get(5));
+				circleO.put("iscreater", rRow.get(6));
+				circleO.put("phonenumber", rRow.get(7));
+				circleO.put("status", rRow.get(8));
+				circleO.put("time", rRow.get(9));
+				circleO.put("uemail", rRow.get(10));
+				circleO.put("uname", rRow.get(11));
 				circles.add(circleO);
 			}
 		} catch (Exception e) {

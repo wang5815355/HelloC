@@ -19,7 +19,7 @@ import android.widget.TextView;
 public class CircleList extends BaseAdapter{
 	private testActivity ui;
 	private LayoutInflater inflater;
-	private List<Map<String, Object>> areas = null;
+	List<Map<String, Object>> areas = null;
 	
 	public final class AreaListItem {
 		public TextView circlename;
@@ -55,12 +55,16 @@ public class CircleList extends BaseAdapter{
 		this.areas = null;
 		this.areas = areas;
 	}
+	
+	public List<Map<String, Object>> getCircleList(){
+		return this.areas;
+	}
 
 	@Override
 	public View getView(int p, View v, ViewGroup vg) {
 		AreaListItem AreaItem = null;
 		if (v == null) {
-			v = inflater.inflate(R.layout.arealist, null);
+			v = inflater.inflate(R.layout.circlelist, null);
 		}else {
 			AreaItem = (AreaListItem) v.getTag();
 		}

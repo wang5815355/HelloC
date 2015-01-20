@@ -11,6 +11,7 @@ import com.hello008.model.Friend;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.util.Log;
 
 
 public class FriendSqlite extends BaseSqlite {
@@ -41,6 +42,7 @@ public class FriendSqlite extends BaseSqlite {
 
 	@Override
 	protected String createSql() {
+		Log.w("test1===","12348");
 		return "CREATE TABLE " + tableName() + " (" +
 			"tid" + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 			Friend.COL_ID + " TEXT, " +

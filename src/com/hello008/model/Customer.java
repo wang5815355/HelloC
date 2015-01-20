@@ -26,7 +26,16 @@ public class Customer extends BaseModel {
 	private String blogcount;
 	private String fanscount;
 	private String uptime;
+	private String loginname;
 	
+	public String getLoginname() {
+		return loginname;
+	}
+
+	public void setLoginname(String loginname) {
+		this.loginname = loginname;
+	}
+
 	// default is no login
 	private boolean isLogin = false;
 	

@@ -1,5 +1,6 @@
 package com.hello008.hello;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
@@ -357,7 +359,6 @@ public class testActivity extends BaseFragmentUi {
 								+ (String) friend.get("faceimgurl"));
 					}
 					
-					Log.w("test1===","55555555555555");
 				}
 			
 				return friends;
@@ -366,15 +367,19 @@ public class testActivity extends BaseFragmentUi {
 				Circle circleO = null;
 				AppClient client = new AppClient("/Index/myCircle");// 客户端初始化
 				circlesqlite = new CircleSqlite(testActivity.this);
-				
+				Log.w("test1===","result1");
 				// 判断网络连接状态
 				Integer netType = HttpUtil.getNetType(testActivity.this);
 				if (netType != HttpUtil.NONET_INT) {// 网络连接正常
 					try {
 						circles = circlesqlite.getAllCircles();
+						Log.w("test1===","result2");
+//						Log.w("test1===",circles.get(0).toString());
 						if (circles.size() == 0) {
 							// 网络请求
+							Log.w("test1===","result");
 							circleResult = client.post(map);
+							Log.w("test1===",circleResult);
 							// JSON 解析
 							circles = JsonParser.parseJsonListCircle(circleResult);
 
@@ -406,7 +411,6 @@ public class testActivity extends BaseFragmentUi {
 					circles = circlesqlite.getAllCircles();
 				}
 				Log.w("test1===","1111111111111");
-
 				return circles;
 			}
 				
@@ -437,7 +441,12 @@ public class testActivity extends BaseFragmentUi {
 				}, 1500);
 				
 			}else if(tag == 2){
+				Log.w("test1===","ok1");
 				fragment2.setCircles(areas,1);
+				//发送广播
+				Intent intent = new Intent("ACTION_FRAGMENT2");
+				intent.putExtra("areas", (Serializable) areas);
+				LocalBroadcastManager.getInstance(testActivity.this).sendBroadcast(intent);
 			}
 		}
 

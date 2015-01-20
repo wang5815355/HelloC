@@ -2,6 +2,8 @@ package com.hello008.base;
 
 import java.util.ArrayList;
 
+import com.hello008.model.Circle;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -85,6 +87,53 @@ public abstract class BaseSqlite {
 		return rList;
 	}
 	
+	public ArrayList<ArrayList<String>> query_circle (String where, String[] params) {
+		ArrayList<ArrayList<String>> rList = new ArrayList<ArrayList<String>>();
+		Log.w("test1===","query_clecle");
+		try {
+			db = dbh.getReadableDatabase();
+			cursor = db.query(tableName(),tableColumns(),where,params,null,null,null);
+			ArrayList<String> rRow = null;
+			
+			Log.w("test1===",cursor.toString());
+			while (cursor.moveToNext()) {
+				rRow = new ArrayList<String>();
+				String circleid = cursor.getString(cursor.getColumnIndex("circleid"));
+		        String circlename = cursor.getString(cursor.getColumnIndex("circlename"));
+		        String count = cursor.getString(cursor.getColumnIndex("count"));
+		        String faceimg = cursor.getString(cursor.getColumnIndex("faceimg"));
+		        String id = cursor.getString(cursor.getColumnIndex("id"));
+		        String iscreater = cursor.getString(cursor.getColumnIndex("iscreater"));
+		        String phonenumber = cursor.getString(cursor.getColumnIndex("phonenumber"));
+		        String status = cursor.getString(cursor.getColumnIndex("status"));
+		        String time = cursor.getString(cursor.getColumnIndex("time"));
+		        String uemail = cursor.getString(cursor.getColumnIndex("uemail"));
+		        String uname = cursor.getString(cursor.getColumnIndex("uname"));
+		        
+		        rRow.add(1, circleid);
+		        rRow.add(2, circlename);
+		        rRow.add(3, count);
+		        rRow.add(4, faceimg);
+		        rRow.add(5, id);
+		        rRow.add(6, iscreater);
+		        rRow.add(7, phonenumber);
+		        rRow.add(8, status);
+		        rRow.add(9, time);
+		        rRow.add(10, uemail);
+		        rRow.add(11, uname);
+				rList.add(rRow);
+			}
+			
+		} catch (Exception e) {
+			Log.w("test1===",e.getMessage());
+			e.printStackTrace();
+		} finally {
+			cursor.close();
+			db.close();
+		}
+		return rList;
+	}
+	
 	public int count (String where, String[] params) {
 		try {
 			db = dbh.getReadableDatabase();
@@ -128,7 +177,12 @@ public abstract class BaseSqlite {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			db.execSQL(createSql());
+			 try {
+				 	db.execSQL(createSql());
+				} catch (Exception e) {
+					Log.w("test1===",e.getMessage());
+					e.printStackTrace();
+				}
 		}
 
 		@Override

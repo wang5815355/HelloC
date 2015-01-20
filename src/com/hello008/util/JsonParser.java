@@ -72,7 +72,8 @@ public class JsonParser extends BaseUi{
 		 List<Map<String, Object>> circles = null;
 		
 		try {
-				JSONArray jsa = new JSONObject(json).getJSONArray("info");
+//				JSONArray jsa = new JSONObject(json).getJSONArray("info");
+				JSONArray jsa = new JSONArray(json);
 				circles = new ArrayList<Map<String,Object>>();
 				for(int i = 0; i<jsa.length();i++){
 					JSONObject jso = (JSONObject)jsa.opt(i);
