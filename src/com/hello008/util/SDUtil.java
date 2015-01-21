@@ -10,6 +10,7 @@ import java.util.Comparator;
 
 import com.hello008.base.C;
 
+import android.R.string;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,12 +28,13 @@ public class SDUtil {
 	private static double MB = 1024;
 	private static double FREE_SD_SPACE_NEEDED_TO_CACHE = 10;
 	private static double IMAGE_EXPIRE_TIME = 10;
+	public static String dir;
 
 	public static Bitmap getImage(String fileName) {
 		// check image file exists
-		String realFileName = C.dir.faces + "/" + fileName;
+		String realFileName = getSDPath() + C.dir.faces + "/" + fileName;
 		File file = new File(realFileName);
-		if (!file.exists()) {
+		if (!file.exists()) {//如果SD卡不存在
 			Log.w("~``````````````1111", "1111");
 			return null;
 		}
@@ -43,9 +45,9 @@ public class SDUtil {
 		return BitmapFactory.decodeFile(realFileName, options);
 	}
 	
-	public static Bitmap getImageByDir(String fileName,String dir) {
+	public static Bitmap getImageByDir(String fileName,String dir2) {
 		// check image file exists
-		String realFileName = dir + "/" + fileName;
+		String realFileName = getSDPath() + dir2 + "/" + fileName;
 		File file = new File(realFileName);
 		if (!file.exists()) {
 			return null;
@@ -76,9 +78,10 @@ public class SDUtil {
 	
 	public static Bitmap getSample(String fileName) {
 		// check image file exists
-		String realFileName = C.dir.faces + "/" + fileName;
+		String realFileName =getSDPath() + C.dir.faces + "/" + fileName;
 		File file = new File(realFileName);
 		if (!file.exists()) {
+			realFileName = getSDPath() + C.dir.faces + "/" + fileName;
 			return null;
 		}
 		// get original size
@@ -122,6 +125,8 @@ public class SDUtil {
     }
 	
 	public static void saveImage(Bitmap bitmap, String fileName,Context context) {
+		dir = Environment.getExternalStorageDirectory().getPath();//获取sd卡根目录
+		
 		if (bitmap == null) {
 			Log.w(TAG, " trying to save null bitmap");
 			return;
@@ -132,13 +137,13 @@ public class SDUtil {
 			return;
 		}
 		// 不存在则创建目录
-		File dir = new File(C.dir.faces);
+		File dir = new File(getSDPath() + C.dir.faces);
 		if (!dir.exists()) {
 			dir.mkdirs();
 		}
 		
 		// 不存在则创建目录
-		File dir2 = new File(C.dir.facesoriginal);
+		File dir2 = new File(getSDPath() + C.dir.facesoriginal);
 		if (!dir2.exists()) {
 			dir2.mkdirs();
 		}
@@ -147,7 +152,7 @@ public class SDUtil {
 		try {
 			
 			//保存头像原图
-			String realFileName2 = C.dir.facesoriginal + "/" + fileName;
+			String realFileName2 = getSDPath() + C.dir.facesoriginal + "/" + fileName;
 			File file2 = new File(realFileName2);
 			file2.createNewFile();
 			OutputStream outStream2 = new FileOutputStream(file2);
@@ -156,7 +161,7 @@ public class SDUtil {
 			outStream2.flush();
 			outStream2.close();
 			
-			String realFileName = C.dir.faces + "/" + fileName;
+			String realFileName = getSDPath() + C.dir.faces + "/" + fileName;
 			File file = new File(realFileName);
 			file.createNewFile();
 			OutputStream outStream = new FileOutputStream(file);
@@ -217,6 +222,25 @@ public class SDUtil {
 
 		}
 
+	}
+	
+	/**
+	 * 获取sd卡路径 若sd卡不存在则获取手机根路径
+	 * @author 王凯
+	 */
+	public static String getSDPath(){
+		File sdDir = null;
+		boolean sdCardExist = Environment.getExternalStorageState()
+		.equals(android.os.Environment.MEDIA_MOUNTED); //判断sd卡是否存在
+		
+		if (sdCardExist)
+		{
+			sdDir = Environment.getExternalStorageDirectory();//获取跟目录
+		}else{
+			sdDir = Environment.getRootDirectory();
+		}
+		
+		return sdDir.toString();
 	}
 
 	private static class FileLastModifSort implements Comparator<File> {

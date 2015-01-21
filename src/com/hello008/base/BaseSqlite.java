@@ -41,6 +41,7 @@ public abstract class BaseSqlite {
 			db = dbh.getWritableDatabase();
 			db.update(tableName(), values, where, params);
 		} catch (Exception e) {
+			Log.w("test1===","123412341234==="+e.getMessage());
 			e.printStackTrace();
 		} finally {
 			db.close();
@@ -59,9 +60,11 @@ public abstract class BaseSqlite {
 	}
 	
 	public ArrayList<ArrayList<String>> query (String where, String[] params) {
+		Log.w("test1===","sql6");
 		ArrayList<ArrayList<String>> rList = new ArrayList<ArrayList<String>>();
 		try {
 			db = dbh.getReadableDatabase();
+			Log.w("test1===","sql7");
 			cursor = db.query(tableName(),tableColumns(),where,params,null,null,null);
 			ArrayList<String> rRow = null;
 			while (cursor.moveToNext()) {
@@ -92,35 +95,41 @@ public abstract class BaseSqlite {
 		Log.w("test1===","query_clecle");
 		try {
 			db = dbh.getReadableDatabase();
+			//判断是否已存在表
+			if(!tabIsExist(tableName())){
+				db.execSQL(createSql());
+			}
+			
+			Log.w("test1===","test9999");
 			cursor = db.query(tableName(),tableColumns(),where,params,null,null,null);
 			ArrayList<String> rRow = null;
 			
-			Log.w("test1===",cursor.toString());
 			while (cursor.moveToNext()) {
 				rRow = new ArrayList<String>();
+				Log.w("test1===","test9998");
 				String circleid = cursor.getString(cursor.getColumnIndex("circleid"));
 		        String circlename = cursor.getString(cursor.getColumnIndex("circlename"));
 		        String count = cursor.getString(cursor.getColumnIndex("count"));
 		        String faceimg = cursor.getString(cursor.getColumnIndex("faceimg"));
 		        String id = cursor.getString(cursor.getColumnIndex("id"));
-		        String iscreater = cursor.getString(cursor.getColumnIndex("iscreater"));
+		        String iscreater = cursor.getString(cursor.getColumnIndex("isCreater"));
 		        String phonenumber = cursor.getString(cursor.getColumnIndex("phonenumber"));
 		        String status = cursor.getString(cursor.getColumnIndex("status"));
 		        String time = cursor.getString(cursor.getColumnIndex("time"));
 		        String uemail = cursor.getString(cursor.getColumnIndex("uemail"));
 		        String uname = cursor.getString(cursor.getColumnIndex("uname"));
 		        
-		        rRow.add(1, circleid);
-		        rRow.add(2, circlename);
-		        rRow.add(3, count);
-		        rRow.add(4, faceimg);
-		        rRow.add(5, id);
-		        rRow.add(6, iscreater);
-		        rRow.add(7, phonenumber);
-		        rRow.add(8, status);
-		        rRow.add(9, time);
-		        rRow.add(10, uemail);
-		        rRow.add(11, uname);
+		        rRow.add(0, circleid);
+		        rRow.add(1, circlename);
+		        rRow.add(2, count);
+		        rRow.add(3, faceimg);
+		        rRow.add(4, id);
+		        rRow.add(5, iscreater);
+		        rRow.add(6, phonenumber);
+		        rRow.add(7, status);
+		        rRow.add(8, time);
+		        rRow.add(9, uemail);
+		        rRow.add(10, uname);
 				rList.add(rRow);
 			}
 			
@@ -133,6 +142,35 @@ public abstract class BaseSqlite {
 		}
 		return rList;
 	}
+	
+	/**
+	 * 判断数据库中是否存在表
+	 * @param tabName
+	 * @return
+	 */
+	public boolean tabIsExist(String tabName){
+         boolean result = false;
+         if(tabName == null){
+                 return false;
+         }
+         Cursor cursor = null;
+         try {
+                
+                 String sql = "select count(*) as c from sqlite_master where type ='table' and name ='"+tabName.trim()+"' ";
+                 db = dbh.getReadableDatabase();
+                 cursor = db.rawQuery(sql, null);
+                 if(cursor.moveToNext()){
+                         int count = cursor.getInt(0);
+                         if(count>0){
+                                 result = true;
+                         }
+                 }
+                 
+         } catch (Exception e) {
+                 // TODO: handle exception
+         }                
+         return result;
+ }
 	
 	public int count (String where, String[] params) {
 		try {
@@ -177,10 +215,9 @@ public abstract class BaseSqlite {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			 try {
+			try {
 				 	db.execSQL(createSql());
 				} catch (Exception e) {
-					Log.w("test1===",e.getMessage());
 					e.printStackTrace();
 				}
 		}

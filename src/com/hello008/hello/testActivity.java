@@ -315,7 +315,7 @@ public class testActivity extends BaseFragmentUi {
 
 					try {
 						friends = friendSqlite.getAllFriends();
-						
+						Log.w("test1===", "sql2");
 						if (friends.size() == 0) {
 							// 网络请求
 							friendResult = client.post(map);
@@ -387,16 +387,16 @@ public class testActivity extends BaseFragmentUi {
 								circleO = new Circle();
 								//将数据存储入sqlight
 								circleO.setCircleid((String) circle.get("circleid"));
-								circleO.setCircleid((String) circle.get("circlename"));
-								circleO.setCircleid((String) circle.get("count"));
-								circleO.setCircleid((String) circle.get("faceimg"));
-								circleO.setCircleid((String) circle.get("id"));
-								circleO.setCircleid((String) circle.get("isCreater"));
-								circleO.setCircleid((String) circle.get("phonenumber"));
-								circleO.setCircleid((String) circle.get("status"));
-								circleO.setCircleid((String) circle.get("time"));
-								circleO.setCircleid((String) circle.get("uemail"));
-								circleO.setCircleid((String) circle.get("uname"));
+								circleO.setCirclename((String) circle.get("circlename"));
+								circleO.setCount((String) circle.get("count"));
+								circleO.setFaceimg((String) circle.get("faceimg"));
+								circleO.setId((String) circle.get("id"));
+								circleO.setIsCreater((String) circle.get("isCreater"));
+								circleO.setPhonenumber((String) circle.get("phonenumber"));
+								circleO.setStatus((String) circle.get("status"));
+								circleO.setTime((String) circle.get("time"));
+								circleO.setUemail((String) circle.get("uemail"));
+								circleO.setUname((String) circle.get("uname"));
 								
 								circlesqlite.updateCricle(circleO);
 							}

@@ -23,9 +23,7 @@ public class FriendSqlite extends BaseSqlite {
 	@Override
 	protected String tableName() {
 		//获取当前登录用户等登录名称
-		Customer customer = Customer.getInstance();
-		String uname = customer.getName();
-		return "friends"+uname;
+		return "friends";
 	}
 
 	@Override
@@ -88,9 +86,11 @@ public class FriendSqlite extends BaseSqlite {
 	}
 
 	public List<Map<String, Object>> getAllFriends () {
+		Log.w("test1===","sql3");
 		List<Map<String, Object>> friends = null;
 		try {
 				ArrayList<ArrayList<String>> rList = this.query(null, null);
+				Log.w("test1===","sql5");
 				friends = new ArrayList<Map<String,Object>>();
 				int rCount = rList.size();
 				for (int i = 0; i < rCount; i++) {
@@ -105,6 +105,7 @@ public class FriendSqlite extends BaseSqlite {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		Log.w("test1===","sql4");
 		return friends;
 	}
 }

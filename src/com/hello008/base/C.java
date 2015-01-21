@@ -9,7 +9,7 @@ public final class C {
 	}
  	
 	public static final class dir {
-		public static final String base				= "/sdcard/Hello";
+		public static final String base				= "/Hello";
 		public static final String faces			= base + "/faces";
 		public static final String facesoriginal	= base + "/facesoriginal";
 		public static final String images			= base + "/images";
