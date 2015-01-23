@@ -14,7 +14,9 @@
 	        android:id="@+id/top_menu" 
 			android:layout_width="match_parent" 
 			android:layout_weight="0.01"
-			android:layout_height="wrap_content" >  
+			android:layout_height="wrap_content" 
+			android:background="@color/blue2"  
+			>  
 			
 			<TextView android:id="@+id/top"  
 				android:layout_width="match_parent" 
@@ -22,17 +24,20 @@
 				android:gravity="center"
 				android:background="@color/blue2"  
 				android:text="@string/title"
-				android:textSize="35sp"
+				android:textSize="33sp"
 				android:textStyle="bold"
 				android:textColor="@color/wight" />
-
-			<SearchView
-			    android:id="@+id/searchView1"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:layout_centerVertical="true" >
-
-			</SearchView>
+ 
+			 <ImageButton
+		        android:id="@+id/searchfrag1"
+		        android:layout_width="50dp"
+			    android:layout_height="50dp"
+			    android:scaleType="fitCenter"
+			    android:layout_alignParentRight="true"
+		        android:layout_gravity="center_vertical"
+		       	android:background="@drawable/logbtnselect_blue"
+			    android:padding="14dip"
+		        android:src="@drawable/search" />
 			
 		</RelativeLayout>
 		
@@ -58,7 +63,7 @@
         android:id="@+id/cursor1"
         android:layout_width="match_parent"
 	    android:layout_height="match_parent"
-        android:scaleType="fitCenter"
+     	android:scaleType="fitCenter"
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
        	android:background="@color/blue2"

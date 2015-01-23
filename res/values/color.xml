@@ -12,6 +12,7 @@
     <color name="gray_tap">#e0e0e0</color>      
     <color name="blue2">#ff4497df</color>
     <color name="blue_tran">#ce4497df</color>
+    <color name="blue_pre">#ff66a8ef</color>
     <color name="tran">#00000000</color>
     <color name="white">#ddffffff</color>
 </resources>
