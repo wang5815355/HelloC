@@ -5,10 +5,22 @@
     android:background="@color/wight"
     android:orientation="vertical" >
 
-    <ImageView
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" 
+        android:gravity="center"
+        >
+        
+        <ImageView
         android:id="@+id/qrcode"
         android:layout_width="195dp"
         android:layout_height="195dp"
+        android:layout_margin="10dp"
         android:src="@drawable/areabtnselect" />
+        
+    </LinearLayout>
 
 </LinearLayout>
