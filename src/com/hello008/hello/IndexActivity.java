@@ -359,7 +359,7 @@ public class IndexActivity extends BaseUi{
 
 	       } 
 	  
-	  /**
+	  /**-
 	   * 图片异步下砸成功后更新ui 
 	   */
 	  private class IndexHandler extends BaseHandler {
