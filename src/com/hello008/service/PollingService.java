@@ -99,7 +99,6 @@ public class PollingService extends Service {
     	//判断网络连接状态
       	Integer netType = HttpUtil.getNetType(getApplicationContext());
     	if(netType != HttpUtil.NONET_INT){//网络连接正常app
-    		Log.w("polling", "ceshi3");
     		try {
    				//网络请求
    				friendResult = client.post(map);
@@ -107,7 +106,6 @@ public class PollingService extends Service {
    				friends = JsonParser.parseJsonList(friendResult);
    				
    				if(friends == null || friends.size() == 0){//重新登录
-   					Log.w("polling", "ceshi4");
    					JSONObject jo;
    					client = new AppClient("/Public/register");//客户端初始化
    					//获取当前用户登录账号以及密码

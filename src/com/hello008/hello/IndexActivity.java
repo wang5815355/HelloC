@@ -236,7 +236,6 @@ public class IndexActivity extends BaseUi{
 		          	//判断网络连接状态
 		          	Integer netType = HttpUtil.getNetType(IndexActivity.this);
 					if(netType != HttpUtil.NONET_INT){//网络连接正常
-						Log.w("polling", "版本更新");
 //						updateApp(); 检测是否有版本更新
 						
 						try {
@@ -256,7 +255,6 @@ public class IndexActivity extends BaseUi{
 					   					friendO.setUphone((String)friend.get("uphone"));
 					   					//将数据存数sqllit中
 					   					friendSqlite.updateFriend(friendO);
-					   					Log.w("friends", friendO.toString());
 										loadImage("http://www.hello008.com/Public/Uploads/"+(String)friend.get("faceimgurl"));
 									}
 				   				}else{

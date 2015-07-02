@@ -430,11 +430,15 @@ public class testActivity extends BaseFragmentUi {
 					SharedPreferences.Editor editor = setting.edit();
 					editor.putString("phonenumber",customer.getPhonenumber());
 					editor.putString("faceimg",customer.getFace());
+					editor.putString("name",customer.getName());
+					editor.commit();
 				}else{
 					// 网络连接断开时
 					setting = getPreferences(Context.MODE_APPEND);
+					String name = setting.getString("name","");
 					String faceimg = setting.getString("faceimg","");
 					String phonenumber = setting.getString("phonenumber","");
+					customer.setName(name);
 					customer.setFace(faceimg);
 					customer.setPhonenumber(phonenumber);
 				}

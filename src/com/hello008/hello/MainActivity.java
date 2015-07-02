@@ -50,6 +50,20 @@ public class MainActivity extends BaseUi {
 		return MainActivity.main;
 	}
 	
+	/**
+     * 设置遮罩dialog样式
+     * @author wangkai
+     * */
+    private void setParams(LayoutParams lay) {  
+    	 DisplayMetrics dm = new DisplayMetrics();  
+    	 getWindowManager().getDefaultDisplay().getMetrics(dm);  
+    	 Rect rect = new Rect();  
+    	 View view = getWindow().getDecorView();  
+    	 view.getWindowVisibleDisplayFrame(rect);  
+    	 lay.height = dm.heightPixels - rect.top;  
+    	 lay.width = dm.widthPixels;  
+     } 
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +85,20 @@ public class MainActivity extends BaseUi {
         	//判断注册资料是否完整
         	if(regstep.equalsIgnoreCase("1")){
         		this.forward(RegisterTwoActivity.class);
-        	}else if(regstep.equalsIgnoreCase("2")){
+        	}else if(regstep.equalsIgnoreCase("2")){//自动登录
+        		HashMap<String, String> map = new HashMap<String, String>();
+        		map.put("username",setting.getString("username",""));
+				map.put("password",setting.getString("password",""));
+				
+				//创建遮罩dialog
+				Dialog dialog  = new Dialog(MainActivity.this, R.style.mydialog);
+				dialog.setContentView(R.layout.index_load);  
+				LayoutParams lay = dialog.getWindow().getAttributes();  
+				setParams(lay);//设置遮罩参数  
+				dialog.show();
+				
+				AnsyTry anys=new AnsyTry(map,dialog,1);//tag 0 普通登录 1，自动登录
+				anys.execute();
         		this.forward(testActivity.class);
         	}
         }
@@ -131,37 +158,26 @@ public class MainActivity extends BaseUi {
 				setParams(lay);//设置遮罩参数  
 				dialog.show();
 				
-				AnsyTry anys=new AnsyTry(map,dialog);
+				AnsyTry anys=new AnsyTry(map,dialog,0);//tag 0 普通登录 1，自动登录
 				anys.execute();
 			}
 			
-			/**
-		     * 设置遮罩dialog样式
-		     * @author wangkai
-		     * */
-		    private void setParams(LayoutParams lay) {  
-		    	 DisplayMetrics dm = new DisplayMetrics();  
-		    	 getWindowManager().getDefaultDisplay().getMetrics(dm);  
-		    	 Rect rect = new Rect();  
-		    	 View view = getWindow().getDecorView();  
-		    	 view.getWindowVisibleDisplayFrame(rect);  
-		    	 lay.height = dm.heightPixels - rect.top;  
-		    	 lay.width = dm.widthPixels;  
-		     }  
 	
 		});
         
     }
     
-    class AnsyTry extends AsyncTask<String, HashMap<String, String>, Dialog>{
+
+	class AnsyTry extends AsyncTask<String, HashMap<String, String>, Dialog>{
    	 HashMap<String, String> hmap = null;
    	 JSONObject jo;
    	 JSONTokener jsonParser;
    	 Dialog dialog;
    	 SharedPreferences setting;
+   	 int tag;
 //   	 private ProgressDialog progress;
       
-       public AnsyTry(HashMap<String, String> hmap,Dialog dialog) {
+       public AnsyTry(HashMap<String, String> hmap,Dialog dialog,int tag) {
            super();
            this.hmap = hmap;
            this.dialog = dialog;

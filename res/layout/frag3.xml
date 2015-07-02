@@ -16,8 +16,8 @@
         
         <ImageView
         android:id="@+id/myface"
-        android:layout_width="95dp"
-        android:layout_height="95dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_margin="10dp"
         android:src="@drawable/areabtnselect" />
         
@@ -35,7 +35,6 @@
 		        android:layout_height="match_parent"
 		        android:gravity="center_vertical"
 		        android:typeface="normal"
-		        android:text="王凯"
 		        android:textSize="15sp"
 		        android:textColor="#555566"
 		        android:textStyle="bold"

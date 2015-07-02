@@ -31,7 +31,8 @@ public class fragment3 extends Fragment{
 	private ImageView sweepIV;
 	private ImageView myface;
 	private static Customer customer;
-	private TextView tx;
+	private TextView uname;
+	private TextView phonenumber;
 	
 	private int QR_WIDTH = 295;
 	private int QR_HEIGHT = 295;
@@ -93,8 +94,10 @@ public class fragment3 extends Fragment{
 		Bitmap faceimgbit = AppCache.getImageBydir("http://www.hello008.com/Public/Uploads/"+customer.getFace(),C.dir.facesoriginal);
 		myface = (ImageView)mMainView.findViewById(R.id.myface);
 		myface.setImageBitmap(faceimgbit);
-		tx = (TextView)mMainView.findViewById(R.id.uname);
-		tx.setText(customer.getFace());
+		uname = (TextView)mMainView.findViewById(R.id.uname);
+		phonenumber = (TextView)mMainView.findViewById(R.id.uphone);
+		uname.setText(customer.getName());
+		phonenumber.setText(customer.getPhonenumber());
 	}
 
 	@Override
