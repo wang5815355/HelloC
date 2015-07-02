@@ -64,10 +64,6 @@ public class MainActivity extends BaseUi {
         //判断当前用户是否登录
         setting = getPreferences(Context.MODE_APPEND);
         
-//		SharedPreferences.Editor editor = setting.edit();
-//      editor.putBoolean("islogin",false);
-//      editor.commit();
-        
         BaseAuth.setLogin(false);
         Boolean islogin = setting.getBoolean("islogin",false);
         String regstep = setting.getString("regstep","");

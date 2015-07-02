@@ -8,10 +8,31 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import com.hello008.base.BaseUi;
+import com.hello008.model.Customer;
 
 public class JsonParser extends BaseUi{
+	
+	/**
+	 * 个人信息Json解析
+	 * @authoer wangkai
+	 */
+	public static Customer parseJsonCustomer(String json){
+		Customer customer = new Customer();
+		JSONTokener jsonParser = new JSONTokener(json); 
+		
+		try {
+			JSONObject jo = (JSONObject)jsonParser.nextValue();
+			customer.setFace(jo.getString("faceimage"));//头像图片名称
+			customer.setPhonenumber(jo.getString("phonenumber"));//手机号
+			customer.setName(jo.getString("uname"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return customer; 
+	}
 	
 	/**
 	 * 好友数据json解析

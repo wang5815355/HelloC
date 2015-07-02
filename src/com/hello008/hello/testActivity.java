@@ -48,11 +48,13 @@ import android.widget.Toast;
 import com.hello008.base.BaseFragmentHandler;
 import com.hello008.base.BaseFragmentUi;
 import com.hello008.base.BaseTask;
+import com.hello008.base.C;
 import com.hello008.fragment.fragment1;
 import com.hello008.fragment.fragment2;
 import com.hello008.fragment.fragment3;
 import com.hello008.list.FriendList;
 import com.hello008.model.Circle;
+import com.hello008.model.Customer;
 import com.hello008.model.Friend;
 import com.hello008.service.PollingService;
 import com.hello008.service.UpdatePollingService;
@@ -79,7 +81,8 @@ public class testActivity extends BaseFragmentUi {
 	ArrayList<String> titleList = new ArrayList<String>();
 
 	private String friendResult = null;// 返回好友信息
-	private String circleResult = null;// 返回好友信息
+	private String circleResult = null;// 返回圈子信息
+	private String customerResult = null;// 返回个人信息
 	// private SimpleAdapter sadapter;
 	private FriendList friendList = null;
 	private FriendSqlite friendSqlite = null;
@@ -158,6 +161,10 @@ public class testActivity extends BaseFragmentUi {
 		HashMap<String, String> map2 = new HashMap<String, String>();
 		AnsyTry anysFragment2 = new AnsyTry(map2, dialogLoad, mfragment1,2);
 		anysFragment2.execute();
+		
+		HashMap<String, String> map3 = new HashMap<String, String>();
+		AnsyTry anysFragment3 = new AnsyTry(map3, dialogLoad, mfragment1,3);
+		anysFragment3.execute();
 		
 		// 广播接收器的动态注册，Action必须与Service中的Action一致
 		registerReceiver(br, new IntentFilter("ACTION_MY"));
@@ -286,6 +293,7 @@ public class testActivity extends BaseFragmentUi {
 		ProgressDialog pBar = null;
 		fragment1 mfragment1;
 		int tag;
+		Customer customer;//用户个人信息
 
 		public AnsyTry(HashMap<String, String> map, Dialog dialogLoad,
 				fragment1 mfragment1,int tag) {
@@ -310,7 +318,6 @@ public class testActivity extends BaseFragmentUi {
 				// 判断网络连接状态
 				Integer netType = HttpUtil.getNetType(testActivity.this);
 				if (netType != HttpUtil.NONET_INT) {// 网络连接正常
-					Log.w("test1===", "版本更新1");
 					// updateApp(); 检测是否有版本更新
 
 					try {
@@ -337,7 +344,6 @@ public class testActivity extends BaseFragmentUi {
 										+ (String) friend.get("faceimgurl"));
 							}
 							
-							Log.w("test1===","版本更新3");
 						} else {
 							for (Map<String, Object> friend : friends) {
 								loadImage("http://www.hello008.com/Public/Uploads/"
@@ -345,7 +351,6 @@ public class testActivity extends BaseFragmentUi {
 							}
 						}
 						
-						Log.w("test1===", "版本更新2");
 
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -367,19 +372,15 @@ public class testActivity extends BaseFragmentUi {
 				Circle circleO = null;
 				AppClient client = new AppClient("/Index/myCircle");// 客户端初始化
 				circlesqlite = new CircleSqlite(testActivity.this);
-				Log.w("test1===","result1");
 				// 判断网络连接状态
 				Integer netType = HttpUtil.getNetType(testActivity.this);
 				if (netType != HttpUtil.NONET_INT) {// 网络连接正常
 					try {
 						circles = circlesqlite.getAllCircles();
-						Log.w("test1===","result2");
-//						Log.w("test1===",circles.get(0).toString());
 						if (circles.size() == 0) {
 							// 网络请求
-							Log.w("test1===","result");
 							circleResult = client.post(map);
-							Log.w("test1===",circleResult);
+							Log.w("customermsg", circleResult.toString());
 							// JSON 解析
 							circles = JsonParser.parseJsonListCircle(circleResult);
 
@@ -410,8 +411,36 @@ public class testActivity extends BaseFragmentUi {
 					// 网络连接断开时从sqllite中取出信息
 					circles = circlesqlite.getAllCircles();
 				}
-				Log.w("test1===","1111111111111");
 				return circles;
+			}else if(tag == 3){//fragment3 
+				AppClient client = new AppClient("/Index/requestMyInfoPhone");// 客户端初始化
+				// 判断网络连接状态
+				Integer netType = HttpUtil.getNetType(testActivity.this);
+				if (netType != HttpUtil.NONET_INT) {// 网络连接正常
+					try {
+						customerResult = client.post(map);
+						Log.w("customermsg", "123");
+						Log.w("customermsg", customerResult.toString());
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					customer = JsonParser.parseJsonCustomer(customerResult);
+					setting = getPreferences(Context.MODE_PRIVATE);
+					SharedPreferences.Editor editor = setting.edit();
+					editor.putString("phonenumber",customer.getPhonenumber());
+					editor.putString("faceimg",customer.getFace());
+				}else{
+					// 网络连接断开时
+					setting = getPreferences(Context.MODE_APPEND);
+					String faceimg = setting.getString("faceimg","");
+					String phonenumber = setting.getString("phonenumber","");
+					customer.setFace(faceimg);
+					customer.setPhonenumber(phonenumber);
+				}
+				loadImage("http://www.hello008.com/Public/Uploads/"
+						+ customer.getFace());
+				return null;
 			}
 				
 			return null;
@@ -441,12 +470,13 @@ public class testActivity extends BaseFragmentUi {
 				}, 1500);
 				
 			}else if(tag == 2){
-				Log.w("test1===","ok1");
 				fragment2.setCircles(areas,1);
 				//发送广播
 				Intent intent = new Intent("ACTION_FRAGMENT2");
 				intent.putExtra("areas", (Serializable) areas);
 				LocalBroadcastManager.getInstance(testActivity.this).sendBroadcast(intent);
+			}else if(tag == 3){
+				fragment3.setCustomer(customer);
 			}
 		}
 

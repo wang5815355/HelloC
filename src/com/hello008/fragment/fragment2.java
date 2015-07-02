@@ -41,9 +41,7 @@ public class fragment2 extends Fragment{
 	BroadcastReceiver mItemViewListClickReceiver = new BroadcastReceiver() {
 	            @Override
 	            public void onReceive(Context context, Intent intent){
-	                Log.w("test1===","123");
 	                areas =  (List<Map<String, Object>>)intent.getSerializableExtra("areas");
-	                Log.w("test1===",areas.get(0).toString());
 	                areaList = new CircleList(testActivity.ts, areas);
 	    			ListView list = (ListView) mMainView.findViewById(R.id.circlelist);
 	    			list.setAdapter(areaList);
@@ -67,15 +65,6 @@ public class fragment2 extends Fragment{
 		intentFilter.addAction("ACTION_FRAGMENT2");
 		broadcastManager.registerReceiver(mItemViewListClickReceiver, intentFilter);
 		
-//		areas = new ArrayList<Map<String,Object>>();
-//		Map<String, Object> areaO = new HashMap<String, Object>();
-//		Map<String, Object> area1 = new HashMap<String, Object>();
-//		areaO.put("areaname","+86 中国");
-//		areaO.put("areanamegone","86");
-//		area1.put("areaname","+61 Australia");
-//		area1.put("areanamegone","61");
-//		areas.add(areaO);
-//		areas.add(area1);
 		if(tagthis == 1){
 			
 		}

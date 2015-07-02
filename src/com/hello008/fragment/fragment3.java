@@ -18,7 +18,10 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.hello008.base.C;
 import com.hello008.hello.R;
+import com.hello008.model.Customer;
+import com.hello008.util.AppCache;
 
 
 public class fragment3 extends Fragment{
@@ -26,12 +29,18 @@ public class fragment3 extends Fragment{
 	private TextView tv;
 	private Button btn;
 	private ImageView sweepIV;
+	private ImageView myface;
+	private static Customer customer;
+	private TextView tx;
 	
-	private int QR_WIDTH = 195;
-	private int QR_HEIGHT = 195;
+	private int QR_WIDTH = 295;
+	private int QR_HEIGHT = 295;
 	
-	 public void createQRImage(String url)
-	    {
+	public static void  setCustomer(Customer cs){
+		customer = cs;
+	}
+	
+	public void createQRImage(String url){
 	        try
 	        {
 	            //判断URL合法性
@@ -66,13 +75,11 @@ public class fragment3 extends Fragment{
 	            //显示到一个ImageView上面
 	            sweepIV = (ImageView)mMainView.findViewById(R.id.qrcode);
 	            sweepIV.setImageBitmap(bitmap);
-	        }
-	        catch (WriterException e)
-	        {
+	        }catch (WriterException e){
 	            e.printStackTrace();
 	        }
-	    }
-	
+	}
+	 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -82,6 +89,12 @@ public class fragment3 extends Fragment{
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		mMainView = inflater.inflate(R.layout.frag3, (ViewGroup)getActivity().findViewById(R.id.viewpager), false);
 		this.createQRImage("http://www.baidu.com");
+		
+		Bitmap faceimgbit = AppCache.getImageBydir("http://www.hello008.com/Public/Uploads/"+customer.getFace(),C.dir.facesoriginal);
+		myface = (ImageView)mMainView.findViewById(R.id.myface);
+		myface.setImageBitmap(faceimgbit);
+		tx = (TextView)mMainView.findViewById(R.id.uname);
+		tx.setText(customer.getFace());
 	}
 
 	@Override

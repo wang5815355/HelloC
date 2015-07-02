@@ -15,6 +15,7 @@ public class Customer extends BaseModel {
 	public final static String COL_BLOGCOUNT = "blogcount";
 	public final static String COL_FANSCOUNT = "fanscount";
 	public final static String COL_UPTIME = "uptime";
+	public final static String COl_PHONENUMBER = "phonenumber";
 	
 	private String id;
 	private String sid;
@@ -27,7 +28,16 @@ public class Customer extends BaseModel {
 	private String fanscount;
 	private String uptime;
 	private String loginname;
+	private String phonenumber;
 	
+	public String getPhonenumber() {
+		return phonenumber;
+	}
+
+	public void setPhonenumber(String phonenumber) {
+		this.phonenumber = phonenumber;
+	}
+
 	public String getLoginname() {
 		return loginname;
 	}
