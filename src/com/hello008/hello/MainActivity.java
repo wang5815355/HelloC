@@ -99,7 +99,7 @@ public class MainActivity extends BaseUi {
 				
 				AnsyTry anys=new AnsyTry(map,dialog,1);//tag 0 普通登录 1，自动登录
 				anys.execute();
-        		this.forward(testActivity.class);
+//        		this.forward(testActivity.class);
         	}
         }
         

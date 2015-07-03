@@ -25,5 +25,7 @@
     <string name="selectpic">从相册中选择图片</string>
     <string name="friendcircle">通讯圈</string>
     <string name="serchcircle">请输入通讯圈名称或ID 搜索想加入的通讯圈</string>
+    <string name="title_activity_login_load">LoginLoadActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

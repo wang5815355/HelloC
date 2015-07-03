@@ -181,26 +181,28 @@ containing a value of this type.
         public static final int viewpager=0x7f0a0009;
     }
     public static final class layout {
-        public static final int activity_main=0x7f030000;
-        public static final int activity_main2=0x7f030001;
-        public static final int arealist=0x7f030002;
-        public static final int circlelist=0x7f030003;
-        public static final int frag1=0x7f030004;
-        public static final int frag2=0x7f030005;
-        public static final int frag3=0x7f030006;
-        public static final int friendlist=0x7f030007;
-        public static final int index=0x7f030008;
-        public static final int index_load=0x7f030009;
-        public static final int indexitem_dialog=0x7f03000a;
-        public static final int main_dialog=0x7f03000b;
-        public static final int register=0x7f03000c;
-        public static final int register_two=0x7f03000d;
-        public static final int select_pic_layout=0x7f03000e;
-        public static final int selectarea=0x7f03000f;
-        public static final int update_dialog=0x7f030010;
+        public static final int activity_login_load=0x7f030000;
+        public static final int activity_main=0x7f030001;
+        public static final int activity_main2=0x7f030002;
+        public static final int arealist=0x7f030003;
+        public static final int circlelist=0x7f030004;
+        public static final int frag1=0x7f030005;
+        public static final int frag2=0x7f030006;
+        public static final int frag3=0x7f030007;
+        public static final int friendlist=0x7f030008;
+        public static final int index=0x7f030009;
+        public static final int index_load=0x7f03000a;
+        public static final int indexitem_dialog=0x7f03000b;
+        public static final int main_dialog=0x7f03000c;
+        public static final int register=0x7f03000d;
+        public static final int register_two=0x7f03000e;
+        public static final int select_pic_layout=0x7f03000f;
+        public static final int selectarea=0x7f030010;
+        public static final int update_dialog=0x7f030011;
     }
     public static final class menu {
-        public static final int main=0x7f090000;
+        public static final int login_load=0x7f090000;
+        public static final int main=0x7f090001;
     }
     public static final class string {
         public static final int account=0x7f070007;
@@ -213,6 +215,7 @@ containing a value of this type.
         public static final int creataccount_two=0x7f07000b;
         public static final int faceDescription=0x7f07000c;
         public static final int friendcircle=0x7f070016;
+        public static final int hello_world=0x7f070019;
         public static final int loadDescription=0x7f07000d;
         public static final int loginbutton=0x7f070004;
         public static final int normalarea=0x7f07000f;
@@ -226,6 +229,7 @@ containing a value of this type.
         public static final int submit=0x7f070006;
         public static final int takephoto=0x7f070014;
         public static final int title=0x7f070002;
+        public static final int title_activity_login_load=0x7f070018;
         public static final int titlearea=0x7f070003;
     }
     public static final class style {

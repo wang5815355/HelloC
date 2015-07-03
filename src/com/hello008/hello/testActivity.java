@@ -151,7 +151,7 @@ public class testActivity extends BaseFragmentUi {
 		dialogLoad.setContentView(R.layout.index_load);
 		LayoutParams layLoad = dialogLoad.getWindow().getAttributes();
 		setParams(layLoad);// 设置遮罩参数
-		dialogLoad.show();
+//		dialogLoad.show();
 
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("phone", "1");// 手机客户端 请求全部好友
