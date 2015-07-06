@@ -3,7 +3,15 @@
     package="com.hello008.hello"
     android:versionCode="2"
     android:versionName="1.1" >
-
+    
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.RECEIVE_SMS" />
+	<uses-permission android:name="android.permission.GET_TASKS" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" >
     </uses-permission>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
@@ -74,6 +82,12 @@
 
         <activity android:name="com.hello008.hello.LoginLoadActivity">
         </activity>
+        
+     <activity
+		android:name="cn.smssdk.SMSSDKUIShell"
+		android:configChanges="keyboardHidden|orientation|screenSize"
+		android:theme="@android:style/Theme.Translucent.NoTitleBar"
+		android:windowSoftInputMode="stateHidden|adjustResize" />
     </application>
 
 </manifest>

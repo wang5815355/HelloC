@@ -45,6 +45,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cn.smssdk.SMSSDK;
+
 import com.hello008.base.BaseFragmentHandler;
 import com.hello008.base.BaseFragmentUi;
 import com.hello008.base.BaseTask;
@@ -65,6 +67,7 @@ import com.hello008.util.AppClient;
 import com.hello008.util.HttpUtil;
 import com.hello008.util.JsonParser;
 import com.hello008.util.PollingUtils;
+
 
 public class testActivity extends BaseFragmentUi {
 	public static testActivity ts = null;
@@ -114,7 +117,10 @@ public class testActivity extends BaseFragmentUi {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main2);
-
+		
+		//调用短信验证码 初始化
+		SMSSDK.initSDK(this, "89671958aeea", "4146df3251fbdcd5364f6ae3e7c43cef");
+		
 		ts = this;
 
 		img1 = (ImageButton) findViewById(R.id.cursor1);

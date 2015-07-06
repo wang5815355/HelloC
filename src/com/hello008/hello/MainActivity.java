@@ -76,7 +76,7 @@ public class MainActivity extends BaseUi {
         regButton = (Button) this.findViewById(R.id.regButton);//注册按钮
         
         //判断当前用户是否登录
-        setting = getPreferences(Context.MODE_APPEND);
+        setting = getSharedPreferences("login",Context.MODE_APPEND);
         
         BaseAuth.setLogin(false);
         Boolean islogin = setting.getBoolean("islogin",false);
@@ -86,20 +86,20 @@ public class MainActivity extends BaseUi {
         	if(regstep.equalsIgnoreCase("1")){
         		this.forward(RegisterTwoActivity.class);
         	}else if(regstep.equalsIgnoreCase("2")){//自动登录
-        		HashMap<String, String> map = new HashMap<String, String>();
-        		map.put("username",setting.getString("username",""));
-				map.put("password",setting.getString("password",""));
-				
-				//创建遮罩dialog
-				Dialog dialog  = new Dialog(MainActivity.this, R.style.mydialog);
-				dialog.setContentView(R.layout.index_load);  
-				LayoutParams lay = dialog.getWindow().getAttributes();  
-				setParams(lay);//设置遮罩参数  
-				dialog.show();
-				
-				AnsyTry anys=new AnsyTry(map,dialog,1);//tag 0 普通登录 1，自动登录
-				anys.execute();
-//        		this.forward(testActivity.class);
+//        		HashMap<String, String> map = new HashMap<String, String>();
+//        		map.put("username",setting.getString("username",""));
+//				map.put("password",setting.getString("password",""));
+//				
+//				//创建遮罩dialog
+//				Dialog dialog  = new Dialog(MainActivity.this, R.style.mydialog);
+//				dialog.setContentView(R.layout.index_load);  
+//				LayoutParams lay = dialog.getWindow().getAttributes();  
+//				setParams(lay);//设置遮罩参数  
+//				dialog.show();
+//				
+//				AnsyTry anys=new AnsyTry(map,dialog,1);//tag 0 普通登录 1，自动登录
+//				anys.execute();
+        		this.forward(LoginLoadActivity.class);
         	}
         }
         
@@ -233,7 +233,7 @@ public class MainActivity extends BaseUi {
 		if(status.equals("3")){//当登录成功
 			dialog.dismiss();
 			BaseAuth.setLogin(true);
-			setting = getPreferences(Context.MODE_PRIVATE);
+			setting = getSharedPreferences("login",Context.MODE_APPEND);
 			SharedPreferences.Editor editor = setting.edit();
 			editor.putBoolean("islogin", true);
 			editor.putString("username",hmap.get("username"));
