@@ -1,10 +1,14 @@
 package com.hello008.hello;
 
 import java.util.HashMap;
+import java.util.Random;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
+import cn.smssdk.EventHandler;
+import cn.smssdk.SMSSDK;
 
 import com.hello008.base.BaseAuth;
 import com.hello008.base.BaseMessage;
@@ -37,6 +41,9 @@ public class MainActivity extends BaseUi {
 	private EditText editPass;//登录密码
 	private Button logButton;//登录按钮
 	private Button regButton;//注册按钮
+//	private String appKey = "898ad083bfc8";
+//	private String appSecret = "40648a2bb373ced3e1763228c6e7907a";
+	
 	
 	private String logResult;//登录验证返回字符串
 	BaseMessage str;
@@ -51,6 +58,35 @@ public class MainActivity extends BaseUi {
 	}
 	
 	/**
+	 * 短信验证初始化
+	 * @author wangkai
+	 */
+	private void initSms(){
+		//调用短信验证码 初始化
+		SMSSDK.initSDK(this,"8993354f32b8","c8ea55c1f8ca7b67042c1f76131f2514");
+		 EventHandler eh=new EventHandler(){
+	            @Override
+	            public void afterEvent(int event, int result, Object data) {
+	               if (result == SMSSDK.RESULT_COMPLETE) {
+	                //回调完成
+	                if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
+	                //提交验证码成功
+	                }else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE){
+	                //获取验证码成功
+	                }else if (event ==SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES){
+	                //返回支持发送验证码的国家列表
+	                } 
+	              }else{                                                                 
+	                 ((Throwable)data).printStackTrace(); 
+	                 Log.w("testsms",((Throwable)data).getMessage());
+	          }
+	      } 
+	   };
+	   
+	   SMSSDK.registerEventHandler(eh); //注册短信回调
+	}
+	
+	/**
      * 设置遮罩dialog样式
      * @author wangkai
      * */
@@ -62,12 +98,17 @@ public class MainActivity extends BaseUi {
     	 view.getWindowVisibleDisplayFrame(rect);  
     	 lay.height = dm.heightPixels - rect.top;  
     	 lay.width = dm.widthPixels;  
-     } 
+     }
+    
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);//设置模板界面
+        initSms();
+        // 重新获取验证码短信
+		SMSSDK.getVerificationCode("86", "18680687476", null);
+        
         SharedPreferences setting;
         //控件对象初始化，及记住密码
         editText = (EditText) this.findViewById(R.id.editText1);//登陆账号

@@ -1,5 +1,6 @@
 package com.hello008.util;
 
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,6 +20,8 @@ public class IOUtil {
 
 	// tag for log
 	private static String TAG = IOUtil.class.getSimpleName();
+	
+	
 	
 	// Load image from local
 	public static Bitmap getBitmapLocal(String url) {

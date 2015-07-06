@@ -118,8 +118,7 @@ public class testActivity extends BaseFragmentUi {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main2);
 		
-		//调用短信验证码 初始化
-		SMSSDK.initSDK(this, "89671958aeea", "4146df3251fbdcd5364f6ae3e7c43cef");
+
 		
 		ts = this;
 
