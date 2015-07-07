@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#4497df"
+    android:padding="18dp"
+    android:gravity="center|center_horizontal|center_vertical" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#e0ffffff"
+        android:textSize="42sp"
+        android:textStyle="bold"
+        android:text="@string/title"
+        android:gravity="center"
+        android:layout_weight="2" />
+    
+    <EditText
+        android:id="@+id/phonenumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLength="11"
+        android:inputType="phone"
+        android:background="@drawable/edittextstyle_phone"
+        android:layout_weight="1"
+        android:singleLine="true"
+        android:hint="@string/phonenumber"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_margin="5dp"
+        android:textColorHint="#bbffffff"
+        android:textColor="#99eff7">
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/verifycode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittextstyle_green"
+        android:layout_weight="1"
+        android:singleLine="true"
+        android:gravity="center"
+        android:hint="@string/verifycode"
+        android:textSize="16sp"
+        android:textStyle="bold"
+		android:layout_margin="5dp"
+        android:textColorHint="#bbffffff"
+        android:textColor="#99eff7"/>
+
+    
+     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="7.5" />
+     
+
+</LinearLayout>

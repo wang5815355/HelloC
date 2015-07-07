@@ -57,34 +57,6 @@ public class MainActivity extends BaseUi {
 		return MainActivity.main;
 	}
 	
-	/**
-	 * 短信验证初始化
-	 * @author wangkai
-	 */
-	private void initSms(){
-		//调用短信验证码 初始化
-		SMSSDK.initSDK(this,"8993354f32b8","c8ea55c1f8ca7b67042c1f76131f2514");
-		 EventHandler eh=new EventHandler(){
-	            @Override
-	            public void afterEvent(int event, int result, Object data) {
-	               if (result == SMSSDK.RESULT_COMPLETE) {
-	                //回调完成
-	                if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
-	                //提交验证码成功
-	                }else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE){
-	                //获取验证码成功
-	                }else if (event ==SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES){
-	                //返回支持发送验证码的国家列表
-	                } 
-	              }else{                                                                 
-	                 ((Throwable)data).printStackTrace(); 
-	                 Log.w("testsms",((Throwable)data).getMessage());
-	          }
-	      } 
-	   };
-	   
-	   SMSSDK.registerEventHandler(eh); //注册短信回调
-	}
 	
 	/**
      * 设置遮罩dialog样式
@@ -105,9 +77,6 @@ public class MainActivity extends BaseUi {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);//设置模板界面
-        initSms();
-        // 重新获取验证码短信
-		SMSSDK.getVerificationCode("86", "18680687476", null);
         
         SharedPreferences setting;
         //控件对象初始化，及记住密码
