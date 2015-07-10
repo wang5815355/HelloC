@@ -20,9 +20,10 @@
     <string name="normalarea">86</string>
     <string name="call">呼 叫</string>
     <string name="back">背景图片</string>
-    <string name="realname">你的真实中文姓名</string>
+    <string name="realname">您的真实中文姓名</string>
     <string name="regfinish">提交</string>
     <string name="takephoto">拍摄照片</string>
+    <string name="reload">重新验证</string>
     <string name="selectpic">从相册中选择图片</string>
     <string name="friendcircle">通讯圈</string>
     <string name="serchcircle">请输入通讯圈名称或ID 搜索想加入的通讯圈</string>

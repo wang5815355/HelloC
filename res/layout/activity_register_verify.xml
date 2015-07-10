@@ -53,13 +53,24 @@
 		android:layout_margin="5dp"
         android:textColorHint="#bbffffff"
         android:textColor="#99eff7"/>
-
+    
+     <Button
+        android:id="@+id/btn_reload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/reload"
+        android:layout_weight="1"
+        android:background="@drawable/logbtnselect_green"
+        android:textColor="#bbffffff"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:layout_margin="5dp"/>
     
      <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_weight="7.5" />
+        android:layout_weight="8" />
      
-
 </LinearLayout>
