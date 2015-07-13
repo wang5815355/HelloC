@@ -82,7 +82,28 @@ public class RegisterVerifyActivity extends BaseUi {
 		phonenumberv = (EditText) findViewById(R.id.phonenumber);
 		verifyv = (TextView) findViewById(R.id.verifycode);
 		reload = (Button) findViewById(R.id.btn_reload);
-		time = new TimeCount(3000, 1000);//计时器初始化
+		time = new TimeCount(60000, 1000);//计时器初始化
+		smsReceiver = new SMSReceiver(new SMSSDK.VerifyCodeReadListener() {
+			@Override
+			public void onReadVerifyCode(final String verifyCode) {
+				//启动轮询service
+				 new Handler().postDelayed(new Runnable(){  
+
+					public void run() {  
+//				    	 time.cancel();
+				    	 verifycode_s = verifyCode;
+				    	 HashMap<String, String> map = new HashMap<String, String>();
+				    	 // 获取验证码短信
+				 	     Log.w("testsms","+1"+ phonenumber);
+				 	     map.put("phonenumber",phonenumber);
+				 	     map.put("verifycode",verifyCode);
+							
+				 	     AnsyTry anys=new AnsyTry(map);//tag 0 普通登录 1，自动登录
+				 	     anys.execute();
+				     }  
+				}, 0);
+			}
+		});
 		
 		reload.setOnClickListener(new OnClickListener() {
 			@Override
@@ -90,6 +111,8 @@ public class RegisterVerifyActivity extends BaseUi {
 				phonenumber = phonenumberv.getText().toString();
 				initSms();
 				SMSSDK.getVerificationCode("86",phonenumber, null);
+				RegisterVerifyActivity.this.registerReceiver(smsReceiver, new IntentFilter(
+						"android.provider.Telephony.SMS_RECEIVED"));
 				time.start();
 				reload.setVisibility(8);
 				verifyv.setVisibility(0);
@@ -114,28 +137,6 @@ public class RegisterVerifyActivity extends BaseUi {
 	    Log.w("testsms", phonenumber);
 	
 	    
-		smsReceiver = new SMSReceiver(new SMSSDK.VerifyCodeReadListener() {
-			@Override
-			public void onReadVerifyCode(final String verifyCode) {
-				//启动轮询service
-				 new Handler().postDelayed(new Runnable(){  
-
-					public void run() {  
-//				    	 time.cancel();
-				    	 verifycode_s = verifyCode;
-				    	 HashMap<String, String> map = new HashMap<String, String>();
-				    	 // 获取验证码短信
-				 	     Log.w("testsms","+1"+ phonenumber);
-				 	     map.put("phonenumber",phonenumber);
-				 	     map.put("verifycode",verifyCode);
-							
-				 	     AnsyTry anys=new AnsyTry(map);//tag 0 普通登录 1，自动登录
-				 	     anys.execute();
-				     }  
-				}, 0);
-			}
-		});
-		
 		this.registerReceiver(smsReceiver, new IntentFilter(
 				"android.provider.Telephony.SMS_RECEIVED"));
 		
@@ -154,6 +155,7 @@ public class RegisterVerifyActivity extends BaseUi {
 			verifyv.setVisibility(8);
 			reload.setText("未收到验证短信 点击重新验证");
 			SMSSDK.unregisterEventHandler(eh);
+			RegisterVerifyActivity.this.unregisterReceiver(smsReceiver);
 		}
 		@Override
 		public void onTick(long millisUntilFinished){//计时过程显示
@@ -209,7 +211,7 @@ public class RegisterVerifyActivity extends BaseUi {
 	    		try {
 	    			info = jo.getString("info");
 	    			status = jo.getString("status");
-	    			if(status.equalsIgnoreCase("1")){
+	    			if(status.equals("1")){
 	    				sid = jo.getString("sid");
 	    			}
 	    			

@@ -41,7 +41,7 @@ public class RegisterTwoActivity extends BaseUi {
 	private EditText uname;
 	String fileName = "test";
 	String unameString ;
-	String url = "http://www.hello008.com/Public/registerIn_phone_2";
+	String url = "http://www.hello008.com/Public/registerIn_phone_info";
 	String imguri;
 	Bitmap bmp; 
 	//创建遮罩dialog
