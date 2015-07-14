@@ -242,6 +242,7 @@ public class RegisterVerifyActivity extends BaseUi {
 				customer.setSid(sid);//设置sessionid
 				verifyv.setText("验证码:"+verifycode_s);
 				SMSSDK.unregisterEventHandler(eh);
+				RegisterVerifyActivity.this.unregisterReceiver(smsReceiver);
 				RegisterVerifyActivity.this.forward(RegisterTwoActivity.class);
 				Toast.makeText(RegisterVerifyActivity.this,"验证成功",Toast.LENGTH_SHORT).show();
 			}else{//注册不成功  

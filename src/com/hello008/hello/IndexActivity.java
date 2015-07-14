@@ -230,7 +230,7 @@ public class IndexActivity extends BaseUi{
 	          protected List<Map<String, Object>> doInBackground(String... params) {
 		        	List<Map<String, Object>> friends = null;
 		        	Friend friendO = null;
-		          	AppClient client = new AppClient("/Index/queryMyFriend2");//客户端初始化
+		          	AppClient client = new AppClient("/Index/queryMyFriend_phone");//客户端初始化
 		          	friendSqlite = new FriendSqlite(IndexActivity.this);
 		          	
 		          	//判断网络连接状态
