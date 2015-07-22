@@ -125,7 +125,7 @@ public class RegisterTwoActivity extends BaseUi {
 								editor.putString("regstep","2");//注册步骤 1，提交资料，2 提交头像姓名
 								editor.commit();
 								
-								RegisterTwoActivity.this.forward(IndexActivity.class);//跳转到提交头像姓名资料页面
+								RegisterTwoActivity.this.forward(testActivity.class);//跳转到提交头像姓名资料页面
 							 } else {
 								dialog.cancel();
 								Toast.makeText(RegisterTwoActivity.this,jo.getString("info"),Toast.LENGTH_SHORT).show();
